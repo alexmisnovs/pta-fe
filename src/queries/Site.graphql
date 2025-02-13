@@ -49,3 +49,35 @@ query Header {
     }
   }
 }
+
+# // all events
+query EventList {
+  events {
+    heading
+    isPast
+    featuredImage {
+      url
+    }
+    dateTime
+    slug
+    description
+  }
+}
+# single event
+query Event($slug: String) {
+  events(filters: { slug: { eq: $slug } }) {
+    heading
+    dateTime
+    blocks {
+      ... on ComponentPtaRichTextMarkdown {
+        content
+      }
+    }
+    isPast
+    featuredImage {
+      url
+    }
+    donationReceived
+    description
+  }
+}
