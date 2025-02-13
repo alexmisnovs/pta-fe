@@ -1,0 +1,51 @@
+query Articles {
+  articles {
+    title
+    slug
+    description
+    cover {
+      url
+    }
+  }
+}
+
+query HomePage {
+  homePageContent {
+    blocks {
+      ... on ComponentPtaHeroSection {
+        title
+        content
+        backgroundImage {
+          url
+        }
+      }
+      ... on ComponentPtaTotalDonations {
+        id
+        text
+        total
+      }
+      ... on ComponentPtaHomePageSlider {
+        slides {
+          url
+        }
+      }
+    }
+  }
+}
+
+query Header {
+  header {
+    logoText
+    donateButtonLink {
+      link
+    }
+    menuLink {
+      buttonText
+      link
+    }
+    logoImage {
+      url
+      formats
+    }
+  }
+}

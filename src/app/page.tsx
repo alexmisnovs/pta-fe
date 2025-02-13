@@ -1,101 +1,150 @@
-import Image from "next/image";
+// "use client";
+// app/page.tsx
 
-export default function Home() {
+import apolloClient from "@/lib/apollo-client";
+import { HomePageDocument } from "@/gql/graphql";
+
+import Articles from "@/components/Articles";
+import Hero from "@/components/Hero";
+import ImageSlider from "@/components/ImageSlider";
+const events = [
+  {
+    title: "Community Cleanup Day",
+    description: "Join us for a city-wide cleanup event to make our community sparkle!",
+    image: "https://picsum.photos/200/300",
+  },
+  {
+    title: "Charity Marathon",
+    description: "Annual charity run to support local homeless shelters",
+    image: "https://picsum.photos/200/300",
+  },
+  {
+    title: "Food Drive",
+    description: "Help us collect non-perishable food items for families in need",
+    image: "https://picsum.photos/200/300",
+  },
+];
+
+interface SlideType {
+  // Define the properties of a slide according to your slide structure
+  // For example:
+  image: string;
+  title: string;
+  description: string;
+}
+
+interface ImageSliderType {
+  slides: SlideType[];
+}
+
+export default async function Home() {
+  // we need to get component data from api
+  const { data = {} } = await apolloClient.query({
+    query: HomePageDocument,
+  });
+
+  // console.log(data);
+  const blocks = data?.homePageContent?.blocks || [];
+  let heroBlock = { title: "", content: "", backgroundImage: { url: "" } };
+  let totalDonationsBlock = {};
+  let imageSlider: ImageSliderType = {
+    slides: [],
+  };
+
+  blocks.forEach(block => {
+    if (block) {
+      switch (block.__typename) {
+        case "ComponentPtaHeroSection":
+          heroBlock = {
+            ...block,
+          };
+
+        case "ComponentPtaTotalDonations":
+          totalDonationsBlock = {
+            ...block,
+          };
+          return <h1>I am total donaitons</h1>;
+        //  return <CardCarousel {...block} key={index} />;
+        case "ComponentPtaHomePageSlider":
+          imageSlider = {
+            slides: block.slides,
+          };
+          break;
+        default:
+          return <h1>didnt find anything</h1>;
+      }
+    }
+  });
+  // console.log(imageSlider);
+
   return (
-    <div className="grid grid-rows-[20px_1fr_20px] items-center justify-items-center min-h-screen p-8 pb-20 gap-16 sm:p-20 font-[family-name:var(--font-geist-sans)]">
-      <main className="flex flex-col gap-8 row-start-2 items-center sm:items-start">
-        <Image
-          className="dark:invert"
-          src="/next.svg"
-          alt="Next.js logo"
-          width={180}
-          height={38}
-          priority
-        />
-        <ol className="list-inside list-decimal text-sm text-center sm:text-left font-[family-name:var(--font-geist-mono)]">
-          <li className="mb-2">
-            Get started by editing{" "}
-            <code className="bg-black/[.05] dark:bg-white/[.06] px-1 py-0.5 rounded font-semibold">
-              src/app/page.tsx
-            </code>
-            .
-          </li>
-          <li>Save and see your changes instantly.</li>
-        </ol>
+    <div className="min-h-screen">
+      {/* Hero Carousel */}
 
-        <div className="flex gap-4 items-center flex-col sm:flex-row">
-          <a
-            className="rounded-full border border-solid border-transparent transition-colors flex items-center justify-center bg-foreground text-background gap-2 hover:bg-[#383838] dark:hover:bg-[#ccc] text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Image
-              className="dark:invert"
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={20}
-              height={20}
-            />
-            Deploy now
-          </a>
-          <a
-            className="rounded-full border border-solid border-black/[.08] dark:border-white/[.145] transition-colors flex items-center justify-center hover:bg-[#f2f2f2] dark:hover:bg-[#1a1a1a] hover:border-transparent text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5 sm:min-w-44"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Read our docs
-          </a>
+      <Hero
+        title={heroBlock.title}
+        content={heroBlock.content}
+        url={heroBlock.backgroundImage.url}
+      />
+
+      {/* NEWS */}
+      <section className="py-20 px-4">
+        <div className="max-w-4xl mx-auto">
+          <Articles />
         </div>
-      </main>
-      <footer className="row-start-3 flex gap-6 flex-wrap items-center justify-center">
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/file.svg"
-            alt="File icon"
-            width={16}
-            height={16}
-          />
-          Learn
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/window.svg"
-            alt="Window icon"
-            width={16}
-            height={16}
-          />
-          Examples
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/globe.svg"
-            alt="Globe icon"
-            width={16}
-            height={16}
-          />
-          Go to nextjs.org →
-        </a>
-      </footer>
+      </section>
+
+      {/* Carousel */}
+      <ImageSlider slides={imageSlider.slides} />
+      {/* About Section */}
+      <section className="py-20 px-4">
+        <div className="max-w-4xl mx-auto">
+          <h2 className="text-3xl font-bold text-center mb-8">About Us</h2>
+          <p className="text-lg text-center">
+            We are a non-profit organization dedicated to improving our community through various
+            initiatives and volunteer programs. Join us in making a positive impact!
+          </p>
+        </div>
+      </section>
+
+      {/* Volunteer Form */}
+      <section className="py-20 bg-base-200">
+        <div className="max-w-md mx-auto card bg-base-100 shadow-xl">
+          <div className="card-body">
+            <h2 className="card-title text-2xl mb-4">Become a Volunteer</h2>
+            <form className="space-y-4">
+              <input type="text" placeholder="Your Name" className="input input-bordered w-full" />
+              <input
+                type="email"
+                placeholder="Email Address"
+                className="input input-bordered w-full"
+              />
+              <button className="btn btn-primary w-full">Join Now</button>
+            </form>
+          </div>
+        </div>
+      </section>
+
+      {/* Events Section */}
+      <section className="py-20 px-4">
+        <h2 className="text-3xl font-bold text-center mb-12">Upcoming Events</h2>
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-6xl mx-auto">
+          {events.map((event, index) => (
+            <div key={index} className="card bg-base-100 shadow-xl">
+              <figure>
+                <img src={event.image} alt={event.title} className="h-48 w-full object-cover" />
+              </figure>
+              <div className="card-body">
+                <h3 className="card-title">{event.title}</h3>
+                <p>{event.description}</p>
+                <div className="card-actions justify-end">
+                  <button className="btn btn-primary">Read More</button>
+                </div>
+              </div>
+            </div>
+          ))}
+        </div>
+      </section>
     </div>
   );
 }
