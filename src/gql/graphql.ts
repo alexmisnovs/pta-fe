@@ -281,6 +281,12 @@ export type ComponentPtaHomePageSliderSlides_ConnectionArgs = {
   sort?: InputMaybe<Array<InputMaybe<Scalars['String']['input']>>>;
 };
 
+export type ComponentPtaRichTextMarkdown = {
+  __typename?: 'ComponentPtaRichTextMarkdown';
+  content?: Maybe<Scalars['String']['output']>;
+  id: Scalars['ID']['output'];
+};
+
 export type ComponentPtaTotalDonations = {
   __typename?: 'ComponentPtaTotalDonations';
   id: Scalars['ID']['output'];
@@ -405,6 +411,7 @@ export type Event = {
   blocks?: Maybe<Array<Maybe<EventBlocksDynamicZone>>>;
   createdAt?: Maybe<Scalars['DateTime']['output']>;
   dateTime?: Maybe<Scalars['DateTime']['output']>;
+  description?: Maybe<Scalars['String']['output']>;
   documentId: Scalars['ID']['output'];
   donationGoal?: Maybe<Scalars['Int']['output']>;
   donationReceived?: Maybe<Scalars['Int']['output']>;
@@ -416,7 +423,7 @@ export type Event = {
   updatedAt?: Maybe<Scalars['DateTime']['output']>;
 };
 
-export type EventBlocksDynamicZone = ComponentSharedMedia | ComponentSharedQuote | ComponentSharedRichText | Error;
+export type EventBlocksDynamicZone = ComponentPtaRichTextMarkdown | ComponentSharedMedia | ComponentSharedQuote | ComponentSharedSlider | Error;
 
 export type EventEntityResponseCollection = {
   __typename?: 'EventEntityResponseCollection';
@@ -428,6 +435,7 @@ export type EventFiltersInput = {
   and?: InputMaybe<Array<InputMaybe<EventFiltersInput>>>;
   createdAt?: InputMaybe<DateTimeFilterInput>;
   dateTime?: InputMaybe<DateTimeFilterInput>;
+  description?: InputMaybe<StringFilterInput>;
   documentId?: InputMaybe<IdFilterInput>;
   donationGoal?: InputMaybe<IntFilterInput>;
   donationReceived?: InputMaybe<IntFilterInput>;
@@ -443,6 +451,7 @@ export type EventFiltersInput = {
 export type EventInput = {
   blocks?: InputMaybe<Array<Scalars['EventBlocksDynamicZoneInput']['input']>>;
   dateTime?: InputMaybe<Scalars['DateTime']['input']>;
+  description?: InputMaybe<Scalars['String']['input']>;
   donationGoal?: InputMaybe<Scalars['Int']['input']>;
   donationReceived?: InputMaybe<Scalars['Int']['input']>;
   featuredImage?: InputMaybe<Scalars['ID']['input']>;
@@ -512,7 +521,7 @@ export type FloatFilterInput = {
   startsWith?: InputMaybe<Scalars['Float']['input']>;
 };
 
-export type GenericMorph = Article | Author | Category | ComponentPtaDonateButton | ComponentPtaHeroSection | ComponentPtaHomePageAbout | ComponentPtaHomePageSlider | ComponentPtaTotalDonations | ComponentSharedButtonLink | ComponentSharedMedia | ComponentSharedQuote | ComponentSharedRichText | ComponentSharedSeo | ComponentSharedSlider | Event | FeaturedProjectDonation | Global | Header | HomePageContent | I18NLocale | NewsletterSignup | ReviewWorkflowsWorkflow | ReviewWorkflowsWorkflowStage | UploadFile | UsersPermissionsPermission | UsersPermissionsRole | UsersPermissionsUser | Volunteer;
+export type GenericMorph = Article | Author | Category | ComponentPtaDonateButton | ComponentPtaHeroSection | ComponentPtaHomePageAbout | ComponentPtaHomePageSlider | ComponentPtaRichTextMarkdown | ComponentPtaTotalDonations | ComponentSharedButtonLink | ComponentSharedMedia | ComponentSharedQuote | ComponentSharedRichText | ComponentSharedSeo | ComponentSharedSlider | Event | FeaturedProjectDonation | Global | Header | HomePageContent | I18NLocale | NewsletterSignup | ReviewWorkflowsWorkflow | ReviewWorkflowsWorkflowStage | UploadFile | UsersPermissionsPermission | UsersPermissionsRole | UsersPermissionsUser | Volunteer;
 
 export type Global = {
   __typename?: 'Global';
@@ -1837,7 +1846,21 @@ export type HeaderQueryVariables = Exact<{ [key: string]: never; }>;
 
 export type HeaderQuery = { __typename?: 'Query', header?: { __typename?: 'Header', logoText?: string | null, donateButtonLink?: { __typename?: 'ComponentPtaDonateButton', link?: string | null } | null, menuLink?: Array<{ __typename?: 'ComponentSharedButtonLink', buttonText?: string | null, link?: string | null } | null> | null, logoImage?: { __typename?: 'UploadFile', url: string, formats?: any | null } | null } | null };
 
+export type EventListQueryVariables = Exact<{ [key: string]: never; }>;
+
+
+export type EventListQuery = { __typename?: 'Query', events: Array<{ __typename?: 'Event', heading?: string | null, isPast?: boolean | null, dateTime?: any | null, slug?: string | null, description?: string | null, featuredImage?: { __typename?: 'UploadFile', url: string } | null } | null> };
+
+export type EventQueryVariables = Exact<{
+  slug?: InputMaybe<Scalars['String']['input']>;
+}>;
+
+
+export type EventQuery = { __typename?: 'Query', events: Array<{ __typename?: 'Event', heading?: string | null, dateTime?: any | null, isPast?: boolean | null, donationReceived?: number | null, description?: string | null, blocks?: Array<{ __typename?: 'ComponentPtaRichTextMarkdown', content?: string | null } | { __typename?: 'ComponentSharedMedia' } | { __typename?: 'ComponentSharedQuote' } | { __typename?: 'ComponentSharedSlider' } | { __typename?: 'Error' } | null> | null, featuredImage?: { __typename?: 'UploadFile', url: string } | null } | null> };
+
 
 export const ArticlesDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"Articles"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"articles"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"title"}},{"kind":"Field","name":{"kind":"Name","value":"slug"}},{"kind":"Field","name":{"kind":"Name","value":"description"}},{"kind":"Field","name":{"kind":"Name","value":"cover"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"url"}}]}}]}}]}}]} as unknown as DocumentNode<ArticlesQuery, ArticlesQueryVariables>;
 export const HomePageDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"HomePage"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"homePageContent"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"blocks"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"InlineFragment","typeCondition":{"kind":"NamedType","name":{"kind":"Name","value":"ComponentPtaHeroSection"}},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"title"}},{"kind":"Field","name":{"kind":"Name","value":"content"}},{"kind":"Field","name":{"kind":"Name","value":"backgroundImage"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"url"}}]}}]}},{"kind":"InlineFragment","typeCondition":{"kind":"NamedType","name":{"kind":"Name","value":"ComponentPtaTotalDonations"}},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"text"}},{"kind":"Field","name":{"kind":"Name","value":"total"}}]}},{"kind":"InlineFragment","typeCondition":{"kind":"NamedType","name":{"kind":"Name","value":"ComponentPtaHomePageSlider"}},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"slides"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"url"}}]}}]}}]}}]}}]}}]} as unknown as DocumentNode<HomePageQuery, HomePageQueryVariables>;
 export const HeaderDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"Header"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"header"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"logoText"}},{"kind":"Field","name":{"kind":"Name","value":"donateButtonLink"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"link"}}]}},{"kind":"Field","name":{"kind":"Name","value":"menuLink"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"buttonText"}},{"kind":"Field","name":{"kind":"Name","value":"link"}}]}},{"kind":"Field","name":{"kind":"Name","value":"logoImage"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"url"}},{"kind":"Field","name":{"kind":"Name","value":"formats"}}]}}]}}]}}]} as unknown as DocumentNode<HeaderQuery, HeaderQueryVariables>;
+export const EventListDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"EventList"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"events"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"heading"}},{"kind":"Field","name":{"kind":"Name","value":"isPast"}},{"kind":"Field","name":{"kind":"Name","value":"featuredImage"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"url"}}]}},{"kind":"Field","name":{"kind":"Name","value":"dateTime"}},{"kind":"Field","name":{"kind":"Name","value":"slug"}},{"kind":"Field","name":{"kind":"Name","value":"description"}}]}}]}}]} as unknown as DocumentNode<EventListQuery, EventListQueryVariables>;
+export const EventDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"Event"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"slug"}},"type":{"kind":"NamedType","name":{"kind":"Name","value":"String"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"events"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"filters"},"value":{"kind":"ObjectValue","fields":[{"kind":"ObjectField","name":{"kind":"Name","value":"slug"},"value":{"kind":"ObjectValue","fields":[{"kind":"ObjectField","name":{"kind":"Name","value":"eq"},"value":{"kind":"Variable","name":{"kind":"Name","value":"slug"}}}]}}]}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"heading"}},{"kind":"Field","name":{"kind":"Name","value":"dateTime"}},{"kind":"Field","name":{"kind":"Name","value":"blocks"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"InlineFragment","typeCondition":{"kind":"NamedType","name":{"kind":"Name","value":"ComponentPtaRichTextMarkdown"}},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"content"}}]}}]}},{"kind":"Field","name":{"kind":"Name","value":"isPast"}},{"kind":"Field","name":{"kind":"Name","value":"featuredImage"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"url"}}]}},{"kind":"Field","name":{"kind":"Name","value":"donationReceived"}},{"kind":"Field","name":{"kind":"Name","value":"description"}}]}}]}}]} as unknown as DocumentNode<EventQuery, EventQueryVariables>;

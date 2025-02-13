@@ -1,6 +1,5 @@
 // "use client";
 // app/page.tsx
-
 import apolloClient from "@/lib/apollo-client";
 import { HomePageDocument } from "@/gql/graphql";
 
