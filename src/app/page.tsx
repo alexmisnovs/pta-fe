@@ -25,18 +25,6 @@ const events = [
   },
 ];
 
-interface SlideType {
-  // Define the properties of a slide according to your slide structure
-  // For example:
-  image: string;
-  title: string;
-  description: string;
-}
-
-interface ImageSliderType {
-  slides: SlideType[];
-}
-
 export default async function Home() {
   // we need to get component data from api
   const { data = {} } = await apolloClient.query({
@@ -45,11 +33,10 @@ export default async function Home() {
 
   // console.log(data);
   const blocks = data?.homePageContent?.blocks || [];
-  let heroBlock = { title: "", content: "", backgroundImage: { url: "" } };
-  let totalDonationsBlock = {};
-  let imageSlider: ImageSliderType = {
-    slides: [],
-  };
+  // let heroBlock = { title: "", content: "", backgroundImage: { url: "" } };
+  let heroBlock = {};
+  // let totalDonationsBlock = {};
+  let imageSlider = {};
 
   blocks.forEach(block => {
     if (block) {
@@ -60,14 +47,14 @@ export default async function Home() {
           };
 
         case "ComponentPtaTotalDonations":
-          totalDonationsBlock = {
-            ...block,
-          };
+          // totalDonationsBlock = {
+          //   ...block,
+          // };
           return <h1>I am total donaitons</h1>;
         //  return <CardCarousel {...block} key={index} />;
         case "ComponentPtaHomePageSlider":
           imageSlider = {
-            slides: block.slides,
+            ...block,
           };
           break;
         default:
@@ -79,13 +66,9 @@ export default async function Home() {
 
   return (
     <div className="min-h-screen">
-      {/* Hero Carousel */}
+      {/* Hero section */}
 
-      <Hero
-        title={heroBlock.title}
-        content={heroBlock.content}
-        url={heroBlock.backgroundImage.url}
-      />
+      <Hero {...heroBlock} />
 
       {/* NEWS */}
       <section className="py-20 px-4">
@@ -95,7 +78,7 @@ export default async function Home() {
       </section>
 
       {/* Carousel */}
-      <ImageSlider slides={imageSlider.slides} />
+      <ImageSlider {...imageSlider} />
       {/* About Section */}
       <section className="py-20 px-4">
         <div className="max-w-4xl mx-auto">
