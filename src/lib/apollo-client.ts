@@ -1,7 +1,7 @@
 import { ApolloClient, InMemoryCache } from "@apollo/client";
 
 const apolloClient = new ApolloClient({
-  uri: "YOUR_GRAPHQL_ENDPOINT",
+  uri: process.env.NEXT_PUBLIC_STRAPI_GRAPHQL_URL,
   cache: new InMemoryCache(),
   ssrMode: typeof window === "undefined",
 });
