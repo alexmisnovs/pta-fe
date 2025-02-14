@@ -14,17 +14,20 @@ import ReactMarkdown from "react-markdown";
 //   });
 // }
 
-type EventParams = {
-  params: {
-    slug: string;
-  };
-};
+// type EventParams = {
+//   params: {
+//     slug: string;
+//   };
+// };
+type Params = Promise<{ slug: string }>;
 
-export default async function Page({ params }: EventParams) {
+export default async function Page({ params }: { params: Params }) {
+  const { slug } = await params;
+
   const { data } = await apolloClient.query({
     query: EventDocument,
     variables: {
-      slug: params.slug,
+      slug: slug,
     },
   });
 
