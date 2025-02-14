@@ -15,13 +15,15 @@ export default async function Page() {
 
   return (
     <div>
-      <h1 className="text-4xl mb-6 font-bold text-gray-700">Our Team</h1>
+      <h1 className="text-4xl mb-6 font-bold text-gray-700">Our Events</h1>
       <div className="grid grid-cols-2 gap-6">
         {events.map(event => {
+          if (!event) return null;
+          if (!event?.featuredImage) return null;
           return (
             <Link
               className="group grid grid-cols-[140px_1fr] bg-white shadow rounded-lg overflow-hidden relative hover:bg-gradient-to-r from-white to-amber-50"
-              key={event.id}
+              key={event.slug}
               href={`/events/${event.slug}`}
             >
               <div className="relative overflow-hidden">
@@ -33,7 +35,7 @@ export default async function Page() {
 
               <div className="p-4">
                 <p className="text-xl text-gray-600 font-bold group-hover:text-gray-700">
-                  {event.title}
+                  {event.heading}
                 </p>
                 <p className="text-sm text-gray-500 leading-6">{event.description}</p>
               </div>
