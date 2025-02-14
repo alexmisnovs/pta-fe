@@ -49,9 +49,8 @@ export const Navigation = (data: NavProps) => {
                 />
               </svg>
             </div>
-            <div className="navbar-center hidden lg:flex">
-              <MobileMenuLinks links={data?.data?.header?.menuLink as MenuLink[]} />
-            </div>
+
+            <MobileMenuLinks links={data?.data?.header?.menuLink as MenuLink[]} />
           </div>
           <Link href="/" className="btn btn-ghost text-xl">
             <Image
@@ -68,7 +67,10 @@ export const Navigation = (data: NavProps) => {
           <MenuLinks links={data?.data?.header?.menuLink as MenuLink[]} />
         </div>
         <div className="navbar-end">
-          <Link href={data?.data?.header?.donateButtonLink?.link ?? ""} className="btn btn-primary">
+          <Link
+            href={data?.data?.header?.donateButtonLink?.link ?? ""}
+            className="btn bg-custom-red hover:bg-custom-blue text-white font-bold py-2 px-4 rounded"
+          >
             Donate
           </Link>
         </div>

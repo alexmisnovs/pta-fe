@@ -68,16 +68,24 @@ query Event($slug: String) {
   events(filters: { slug: { eq: $slug } }) {
     heading
     dateTime
+
+    isPast
+    featuredImage {
+      url
+      alternativeText
+    }
+    donationReceived
     blocks {
       ... on ComponentPtaRichTextMarkdown {
         content
       }
+      ... on ComponentSharedMedia {
+        file {
+          url
+          alternativeText
+        }
+      }
     }
-    isPast
-    featuredImage {
-      url
-    }
-    donationReceived
     description
   }
 }
