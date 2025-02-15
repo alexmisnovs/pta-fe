@@ -5,6 +5,11 @@ import { EventListDocument } from "@/gql/graphql";
 export default async function Page() {
   const { data } = await apolloClient.query({
     query: EventListDocument,
+    context: {
+      fetchOptions: {
+        next: { revalidate: 600 },
+      },
+    },
     // variables: {
     //   slug: "pta-school-disco",
     // },

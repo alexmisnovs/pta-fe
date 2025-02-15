@@ -14,7 +14,7 @@ const Hero = async ({ backgroundImage, title, content }: HeroProps) => {
   console.log(content);
   return (
     <div
-      className="hero min-h-screen"
+      className="hero"
       style={{
         backgroundImage: "url(" + (backgroundImage?.url as string) + ")",
       }}

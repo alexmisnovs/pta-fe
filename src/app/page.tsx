@@ -28,6 +28,11 @@ export default async function Home() {
   // we need to get component data from api
   const { data = {} } = await apolloClient.query({
     query: HomePageDocument,
+    context: {
+      fetchOptions: {
+        next: { revalidate: 600 },
+      },
+    },
   });
 
   // console.log(data);

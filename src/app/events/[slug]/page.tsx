@@ -1,18 +1,22 @@
 import apolloClient from "@/lib/apollo-client";
-import { EventDocument } from "@/gql/graphql";
+import { EventDocument, EventListDocument } from "@/gql/graphql";
 
 import Link from "next/link";
 import ReactMarkdown from "react-markdown";
 
-// export async function generateStaticParams() {
-//   const membersPromise = await fetch("http://localhost:1337/api/team-members?populate=*");
-//   const members = await membersPromise.json();
-//   return members.data.map(member => {
-//     return {
-//       slug: member.slug,
-//     };
-//   });
-// }
+export async function generateStaticParams() {
+  const { data } = await apolloClient.query({
+    query: EventListDocument,
+    
+  });
+
+  const events = data.events;
+  return events.map(event => {
+    return {
+      slug: event?.slug,
+    };
+  });
+}
 
 // type EventParams = {
 //   params: {
@@ -28,6 +32,11 @@ export default async function Page({ params }: { params: Params }) {
     query: EventDocument,
     variables: {
       slug: slug,
+    },
+    context: {
+      fetchOptions: {
+        next: { revalidate: 600 },
+      },
     },
   });
 

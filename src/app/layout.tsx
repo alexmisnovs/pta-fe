@@ -40,7 +40,7 @@ export default async function RootLayout({
     <html lang="en">
       <ApolloWrapper>
         <body
-          className={`${geistSans.variable} ${geistMono.variable} antialiased bg-gray-200 min-h-[100dvh] grid grid-rows-[auto_1fr_auto]`}
+          className={`${geistSans.variable} ${geistMono.variable} antialiased bg-gray-200 min-h-[100dvh] grid grid-rows-[auto_1fr_auto] w-screen`}
         >
           <Navigation data={data} />
           <main className="backdrop-blur z-10 max-w-6xl mx-auto bg-white/50 rounded-xl py-7 px-8 m-6 overflow-hidden">
