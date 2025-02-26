@@ -32,7 +32,7 @@ export default async function RootLayout({
   });
 
   // console.log("Data from strapi");
-  console.log(data);
+  // console.log(data);
   // if (loading) return <p>Loading...</p>;
   if (error) return <p>Error: {error.message}</p>;
 
