@@ -11,7 +11,7 @@ type HeroProps = {
 };
 
 const Hero = async ({ backgroundImage, title, content }: HeroProps) => {
-  console.log(content);
+  // console.log(content);
   return (
     <div className="container">
       <div
