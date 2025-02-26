@@ -42,7 +42,7 @@ export default async function Page({ params }: { params: Params }) {
   const event = data.events[0];
 
   if (!event) return <h1>Event not found</h1>;
-  console.log(event.blocks);
+  // console.log(event.blocks);
 
   // return <h1>Single Event Details going here</h1>;
   // lets build content now
