@@ -22,11 +22,11 @@ const ImageSlider = ({ slides }: ImageSliderProps) => {
   if (!slides) return <h1>No slides yet</h1>;
   return (
     <section className="py-20 px-4">
-      <div className="max-w-4xl mx-auto">
+      <div className="max-w-6xl mx-auto">
         <Fade>
           {slides.map(slide => (
             <div className="each-fade" key={slide?.url}>
-              <img src={slide?.url} />
+              <img className="h-auto" src={slide?.url} />
             </div>
           ))}
         </Fade>

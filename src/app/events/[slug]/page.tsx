@@ -7,7 +7,6 @@ import ReactMarkdown from "react-markdown";
 export async function generateStaticParams() {
   const { data } = await apolloClient.query({
     query: EventListDocument,
-    
   });
 
   const events = data.events;
@@ -78,7 +77,7 @@ export default async function Page({ params }: { params: Params }) {
     }
   });
   return (
-    <div>
+    <div className="container">
       <div className="text-white relative bg-custom-blue px-14 py-16 -mx-8 -mt-7">
         <h2 className="text-6xl font-bold relative z-30">{event.heading}</h2>
 

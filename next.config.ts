@@ -11,6 +11,13 @@ const nextConfig: NextConfig = {
         // port: '',
         // pathname: 'arifscloud/image/upload/**',
       },
+      {
+        protocol: "https",
+        hostname: "placeimg.com",
+        // You can add these as well
+        // port: '',
+        // pathname: 'arifscloud/image/upload/**',
+      },
     ],
   },
 };
