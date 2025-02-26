@@ -7,7 +7,7 @@ type FooterProps = {
 
 const Footer = ({ url }: FooterProps) => {
   return (
-    <footer className="footer bg-neutral text-neutral-content items-center p-4">
+    <footer className="footer bg-custom-blue text-neutral-content items-center p-4">
       <aside className="grid-flow-col items-center">
         <Link href="/" className="btn btn-ghost text-xl">
           <Image src={url as string} alt="Logo" width={50} height={50} />

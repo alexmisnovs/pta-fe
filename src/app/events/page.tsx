@@ -5,16 +5,21 @@ import { EventListDocument } from "@/gql/graphql";
 export default async function Page() {
   const { data } = await apolloClient.query({
     query: EventListDocument,
+    context: {
+      fetchOptions: {
+        next: { revalidate: 600 },
+      },
+    },
     // variables: {
     //   slug: "pta-school-disco",
     // },
   });
   const events = data.events;
-  console.log(data.events);
+  // console.log(data.events);
   // return <h1>Events will go here</h1>;
 
   return (
-    <div>
+    <div className="container">
       <h1 className="text-4xl mb-6 font-bold text-gray-700">Our Events</h1>
       <div className="grid grid-cols-2 gap-6">
         {events.map(event => {
