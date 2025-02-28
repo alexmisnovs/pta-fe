@@ -9,6 +9,25 @@ query Articles {
   }
 }
 
+query HomePageArticles($sort: [String], $pagination: PaginationArg) {
+  articles(sort: $sort, pagination: $pagination) {
+    title
+    description
+    slug
+    cover {
+      url
+      alternativeText
+    }
+    publishedAt
+    author {
+      name
+      avatar {
+        url
+      }
+    }
+  }
+}
+
 query HomePage {
   homePageContent {
     blocks {
@@ -63,6 +82,20 @@ query EventList {
     description
   }
 }
+
+query HomePageEvents($sort: [String], $pagination: PaginationArg) {
+  events(sort: $sort, pagination: $pagination) {
+    heading
+    isPast
+    featuredImage {
+      url
+    }
+    dateTime
+    slug
+    description
+  }
+}
+
 # single event
 query Event($slug: String) {
   events(filters: { slug: { eq: $slug } }) {
@@ -87,5 +120,41 @@ query Event($slug: String) {
       }
     }
     description
+  }
+}
+
+query Article($slug: String) {
+  articles(filters: { slug: { eq: $slug } }) {
+    cover {
+      alternativeText
+      url
+    }
+    title
+    description
+    blocks {
+      ... on ComponentSharedQuote {
+        body
+        title
+      }
+      ... on ComponentSharedRichText {
+        body
+      }
+      ... on ComponentSharedRichText {
+        body
+      }
+      ... on ComponentSharedSlider {
+        files {
+          alternativeText
+          url
+        }
+      }
+    }
+  }
+}
+
+mutation CreateVolunteer($data: VolunteerInput!) {
+  createVolunteer(data: $data) {
+    name
+    email
   }
 }

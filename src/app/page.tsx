@@ -7,7 +7,7 @@ import Articles from "@/components/Articles";
 import Hero from "@/components/Hero";
 import ImageSlider from "@/components/ImageSlider";
 import Events from "@/components/Events";
-
+import VolunteerForm from "@/components/VolunteerForm";
 export default async function Home() {
   // we need to get component data from api
   const { data = {} } = await apolloClient.query({
@@ -82,20 +82,7 @@ export default async function Home() {
 
       {/* Volunteer Form */}
       <section className="py-20 bg-base-200">
-        <div className="max-w-md mx-auto card bg-base-100 shadow-xl">
-          <div className="card-body">
-            <h2 className="card-title text-2xl mb-4">Become a Volunteer</h2>
-            <form className="space-y-4">
-              <input type="text" placeholder="Your Name" className="input input-bordered w-full" />
-              <input
-                type="email"
-                placeholder="Email Address"
-                className="input input-bordered w-full"
-              />
-              <button className="btn btn-primary w-full">Join Now</button>
-            </form>
-          </div>
-        </div>
+        <VolunteerForm />
       </section>
 
       {/* Events Section */}
