@@ -1,14 +1,24 @@
-"use client";
-
-import { useQuery } from "@apollo/client";
-import { EventListDocument } from "@/gql/graphql";
+import apolloClient from "@/lib/apollo-client";
+import { HomePageEventsDocument } from "@/gql/graphql";
 import Link from "next/link";
 
-const Events = () => {
-  const { data, loading, error } = useQuery(EventListDocument);
-
-  if (loading) return <p>Loading...</p>;
-  if (error) return <p>Error: {error.message}</p>;
+export default async function Events() {
+  const { data } = await apolloClient.query({
+    query: HomePageEventsDocument,
+    context: {
+      fetchOptions: {
+        next: { revalidate: 600 },
+      },
+    },
+    variables: {
+      sort: "publishedAt:desc",
+      pagination: {
+        limit: 3,
+      },
+    },
+  });
+  const events = data.events;
+  console.log(events);
 
   // console.log("EVENT component");
   // console.log(data);
@@ -42,6 +52,5 @@ const Events = () => {
       </div>
     </section>
   );
-};
+}
 
-export default Events;

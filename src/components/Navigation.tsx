@@ -52,15 +52,19 @@ export const Navigation = (data: NavProps) => {
 
             <MobileMenuLinks links={data?.data?.header?.menuLink as MenuLink[]} />
           </div>
-          <Link href="/" className="btn btn-ghost text-xl">
-            <Image
-              src={data?.data?.header?.logoImage?.url as string}
-              alt="Logo"
-              width={50}
-              height={50}
-            />
-            {data?.data?.header?.logoText}
-          </Link>
+          <div className="flex w-full max-lg:justify-start max-sm:justify-center">
+            <Link href="/" className="btn btn-ghost text-xl ">
+              <Image
+                src={data?.data?.header?.logoImage?.url as string}
+                alt="Logo"
+                width={50}
+                height={50}
+              />
+              <div className="hidden sm:block text-xs sm:text-xl ">
+                {data?.data?.header?.logoText}
+              </div>
+            </Link>
+          </div>
         </div>
         {/* Menu Links here */}
         <div className="navbar-center hidden lg:flex">
