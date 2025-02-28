@@ -151,3 +151,10 @@ query Article($slug: String) {
     }
   }
 }
+
+mutation CreateVolunteer($data: VolunteerInput!) {
+  createVolunteer(data: $data) {
+    name
+    email
+  }
+}
