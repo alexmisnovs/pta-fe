@@ -17,8 +17,8 @@ export default async function Events() {
       },
     },
   });
-  const events = data.events;
-  console.log(events);
+  // const events = data.events;
+  // console.log(events);
 
   // console.log("EVENT component");
   // console.log(data);
@@ -53,4 +53,3 @@ export default async function Events() {
     </section>
   );
 }
-

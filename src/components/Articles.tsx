@@ -16,8 +16,8 @@ export default async function Articles() {
       },
     },
   });
-  const articles = data.articles;
-  console.log(articles);
+  // const articles = data.articles;
+  // console.log(articles);
   // return <h1>Articles will go here</h1>;
 
   // if (loading) return <p>Loading...</p>;

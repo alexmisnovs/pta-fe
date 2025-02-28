@@ -29,7 +29,7 @@ export default async function Page() {
             <Link
               className="group grid grid-cols-[140px_1fr] bg-white shadow rounded-lg overflow-hidden relative hover:bg-gradient-to-r from-white to-amber-50"
               key={article.slug}
-              href={`/articles/${article.slug}`}
+              href={`/news/${article.slug}`}
             >
               <div className="relative overflow-hidden">
                 <img

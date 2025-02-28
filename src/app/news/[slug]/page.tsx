@@ -1,18 +1,18 @@
 import apolloClient from "@/lib/apollo-client";
-import { EventDocument, EventListDocument } from "@/gql/graphql";
+import { ArticleDocument, ArticlesDocument } from "@/gql/graphql";
 
 import Link from "next/link";
 import ReactMarkdown from "react-markdown";
 
 export async function generateStaticParams() {
   const { data } = await apolloClient.query({
-    query: EventListDocument,
+    query: ArticlesDocument,
   });
 
-  const events = data.events;
-  return events.map(event => {
+  const article = data.articles;
+  return article.map(article => {
     return {
-      slug: event?.slug,
+      slug: article?.slug,
     };
   });
 }
@@ -28,7 +28,7 @@ export default async function Page({ params }: { params: Params }) {
   const { slug } = await params;
 
   const { data } = await apolloClient.query({
-    query: EventDocument,
+    query: ArticleDocument,
     variables: {
       slug: slug,
     },
@@ -39,9 +39,9 @@ export default async function Page({ params }: { params: Params }) {
     },
   });
 
-  const event = data.events[0];
+  const article = data.articles[0];
 
-  if (!event) return <h1>Event not found</h1>;
+  if (!article) return <h1>Article not found</h1>;
   // console.log(event.blocks);
 
   // return <h1>Single Event Details going here</h1>;
@@ -58,11 +58,11 @@ export default async function Page({ params }: { params: Params }) {
   }
   let imageFile: ImageFile = { file: { url: "" } };
 
-  event?.blocks?.forEach(block => {
+  article?.blocks?.forEach(block => {
     if (block) {
       switch (block.__typename) {
-        case "ComponentPtaRichTextMarkdown":
-          markdownContent = block.content;
+        case "ComponentSharedRichText":
+          markdownContent = block.body;
 
         case "ComponentSharedMedia":
           imageFile = {
@@ -79,21 +79,21 @@ export default async function Page({ params }: { params: Params }) {
   return (
     <div className="container">
       <div className="text-white relative bg-custom-blue px-14 py-16 -mx-8 -mt-7">
-        <h2 className="text-6xl font-bold relative z-30">{event.heading}</h2>
+        <h2 className="text-6xl font-bold relative z-30">{article.title}</h2>
 
         <img
           className="object-cover absolute top-0 bottom-0 left-1/2 right-0 block w-1/2 h-full opacity-50 filter grayscale"
-          src={event?.featuredImage?.url as string}
+          src={article?.cover?.url as string}
         />
         <div className="absolute z-20 w-80 bg-gradient-to-r from-custom-blue to-transparent h-full top-0 bottom-0 left-1/2"></div>
       </div>
 
       <div className="transform -translate-y-1/2">
         <Link
-          href="/events"
+          href="/news"
           className="text-sm bg-gray-600 text-gray-400 hover:bg-gray-500 hover:text-gray-300 inline-block rounded-lg py-3 px-5"
         >
-          &laquo; Back to all events
+          &laquo; Back to all news
         </Link>
       </div>
       {markdownContent && <ReactMarkdown className="markdown">{markdownContent}</ReactMarkdown>}
@@ -101,7 +101,6 @@ export default async function Page({ params }: { params: Params }) {
         <img className="" src={imageFile.file.url as string} />
         // <h2>Image will go here</h2>
       )}
-      <div>Donations received: {event?.donationReceived}</div>
     </div>
   );
 }

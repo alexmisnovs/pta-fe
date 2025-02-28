@@ -127,6 +127,7 @@ query Article($slug: String) {
   articles(filters: { slug: { eq: $slug } }) {
     cover {
       alternativeText
+      url
     }
     title
     description

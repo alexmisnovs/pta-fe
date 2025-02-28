@@ -1,4 +1,4 @@
-import React from "react";
+import Link from "next/link";
 
 type HeroProps = {
   __typename?: "ComponentPtaHeroSection";
@@ -25,7 +25,9 @@ const Hero = async ({ backgroundImage, title, content }: HeroProps) => {
           <div className="max-w-md">
             <h1 className="mb-5 text-5xl font-bold">{title}</h1>
             <p className="mb-5">{content}</p>
-            <button className="btn btn-primary">Checkout out our events</button>
+            <Link className="btn btn-primary" href="/events">
+              Checkout out our events
+            </Link>
           </div>
         </div>
       </div>
