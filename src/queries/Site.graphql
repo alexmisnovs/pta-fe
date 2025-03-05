@@ -158,3 +158,32 @@ mutation CreateVolunteer($data: VolunteerInput!) {
     email
   }
 }
+
+query Projects {
+  projects {
+    coverImage {
+      alternativeText
+      url
+    }
+    donationsGoal
+    heading
+    description
+    slug
+  }
+}
+
+query Project($slug: String) {
+  projects(filters: { slug: { eq: $slug } }) {
+    coverImage {
+      alternativeText
+      url
+    }
+    donationsGoal
+    heading
+    body
+    donationsReceived
+    donateButtonLink {
+      link
+    }
+  }
+}
