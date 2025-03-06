@@ -187,3 +187,18 @@ query Project($slug: String) {
     }
   }
 }
+
+query ContactPage {
+  contactPage {
+    heading
+    description
+    content
+  }
+}
+
+mutation CreateContactFormEntry($data: ContactFormEntryInput!) {
+  createContactFormEntry(data: $data) {
+    name
+    email
+  }
+}

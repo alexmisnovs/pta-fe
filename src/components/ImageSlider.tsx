@@ -18,7 +18,7 @@ type ImageSliderProps = {
 };
 
 const ImageSlider = ({ slides }: ImageSliderProps) => {
-  console.log(slides);
+  // console.log(slides);
   if (!slides) return <h1>No slides yet</h1>;
   return (
     <section className="py-20 px-4">
