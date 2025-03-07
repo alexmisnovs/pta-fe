@@ -15,7 +15,7 @@ const Hero = async ({ backgroundImage, title, content }: HeroProps) => {
   return (
     <div className="container">
       <div
-        className="hero h-96 md:h-[500px] rounded-box overflow-hidden"
+        className="hero h-96 md:h-[500px]  overflow-hidden"
         style={{
           backgroundImage: "url(" + (backgroundImage?.url as string) + ")",
         }}

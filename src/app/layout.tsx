@@ -1,6 +1,6 @@
 import ApolloWrapper from "@/components/ApolloWrapper";
 import apolloClient from "@/lib/apollo-client";
-import { HeaderDocument } from "@/gql/graphql";
+import { HeaderDocument, FooterDocument } from "@/gql/graphql";
 import Navigation from "@/components/Navigation";
 import Footer from "@/components/Footer";
 import type { Metadata } from "next";
@@ -30,11 +30,15 @@ export default async function RootLayout({
   const { data = {}, error } = await apolloClient.query({
     query: HeaderDocument,
   });
+  const { data: footerData = {}, error: footerError } = await apolloClient.query({
+    query: FooterDocument,
+  });
 
   // console.log("Data from strapi");
   // console.log(data);
   // if (loading) return <p>Loading...</p>;
   if (error) return <p>Error: {error.message}</p>;
+  if (footerError) return <p>Error: {footerError.message}</p>;
 
   return (
     <html lang="en">
@@ -47,7 +51,7 @@ export default async function RootLayout({
           <main className="backdrop-blur z-10 overflow-hidden bg-white/50 rounded-xl py-7">
             {children}
           </main>
-          <Footer url={data?.header?.logoImage?.url} />
+          <Footer data={footerData} />
         </body>
       </ApolloWrapper>
     </html>

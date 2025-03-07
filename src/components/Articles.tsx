@@ -6,7 +6,7 @@ export default async function Articles() {
     query: HomePageArticlesDocument,
     context: {
       fetchOptions: {
-        next: { revalidate: 600 },
+        next: { revalidate: 60 },
       },
     },
     variables: {
@@ -29,7 +29,6 @@ export default async function Articles() {
         <div className="container">
           <div className="text-center">
             <h2 className="text-3xl sm:text-5xl font-bold mb-4">PTA NEWS.</h2>
-            <p className="text-lg sm:text-2xl mb-6 md:mb-14">See whats new </p>
           </div>
 
           <div className="columns-1 sm:columns-2 lg:columns-3 gap-6 lg:gap-8">
@@ -40,7 +39,7 @@ export default async function Articles() {
                     <div key={article.slug} className="block mb-8 lg:mb-10">
                       <div className="stack">
                         {/* start of the news card */}
-                        <div className="card bg-secondary text-secondary-content">
+                        <div className="card bg-custom-blue text-secondary-content">
                           <div className="card-body gap-4">
                             <div className="flex items-center">
                               <div className="avatar flex-shrink-0">
@@ -56,12 +55,15 @@ export default async function Articles() {
                                 <small>PTA member dev</small>
                               </div>
                             </div>
+
+                            <h2>{article.title}</h2>
+                            <p>{article.description}</p>
                             <p>
-                              {article.title} {article.description} ({article.slug})
                               {new Date(article.publishedAt).toLocaleTimeString("en-GB", {
                                 hour: "2-digit",
                                 minute: "2-digit",
-                              })}
+                              })}{" "}
+                              <br />
                               {new Date(article.publishedAt).toLocaleDateString("en-GB", {
                                 year: "numeric",
                                 month: "2-digit",

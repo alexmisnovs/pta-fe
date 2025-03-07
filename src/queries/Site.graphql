@@ -68,7 +68,19 @@ query Header {
     }
   }
 }
-
+query Footer {
+  footer {
+    footerLogo {
+      alternativeText
+      url
+    }
+    copyright
+    socialLink {
+      buttonText
+      link
+    }
+  }
+}
 # // all events
 query EventList {
   events {
@@ -154,6 +166,50 @@ query Article($slug: String) {
 
 mutation CreateVolunteer($data: VolunteerInput!) {
   createVolunteer(data: $data) {
+    name
+    email
+  }
+}
+
+query Projects {
+  projects {
+    coverImage {
+      alternativeText
+      url
+    }
+    donationsGoal
+    heading
+    description
+    slug
+  }
+}
+
+query Project($slug: String) {
+  projects(filters: { slug: { eq: $slug } }) {
+    coverImage {
+      alternativeText
+      url
+    }
+    donationsGoal
+    heading
+    body
+    donationsReceived
+    donateButtonLink {
+      link
+    }
+  }
+}
+
+query ContactPage {
+  contactPage {
+    heading
+    description
+    content
+  }
+}
+
+mutation CreateContactFormEntry($data: ContactFormEntryInput!) {
+  createContactFormEntry(data: $data) {
     name
     email
   }

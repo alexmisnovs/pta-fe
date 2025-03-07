@@ -18,20 +18,18 @@ type ImageSliderProps = {
 };
 
 const ImageSlider = ({ slides }: ImageSliderProps) => {
-  console.log(slides);
+  // console.log(slides);
   if (!slides) return <h1>No slides yet</h1>;
   return (
-    <section className="py-20 px-4">
-      <div className="max-w-6xl mx-auto">
-        <Fade>
-          {slides.map(slide => (
-            <div className="each-fade" key={slide?.url}>
-              <img className="h-auto" src={slide?.url} />
-            </div>
-          ))}
-        </Fade>
-      </div>
-    </section>
+    <div className="max-w-6xl mx-auto">
+      <Fade>
+        {slides.map(slide => (
+          <div className="each-fade" key={slide?.url}>
+            <img className="h-auto" src={slide?.url} />
+          </div>
+        ))}
+      </Fade>
+    </div>
   );
 };
 
