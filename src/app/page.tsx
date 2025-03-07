@@ -14,7 +14,7 @@ export default async function Home() {
     query: HomePageDocument,
     context: {
       fetchOptions: {
-        next: { revalidate: 600 },
+        next: { revalidate: 60 },
       },
     },
   });
@@ -59,7 +59,7 @@ export default async function Home() {
       <Hero {...heroBlock} />
 
       {/* About Section */}
-      <section className="py-20 px-4">
+      <section className="py-20 px-4 bg-white">
         <div className="container">
           <h2 className="text-3xl font-bold text-center mb-8">About Us</h2>
           <p className="text-lg text-center">
@@ -78,15 +78,18 @@ export default async function Home() {
       </section>
 
       {/* Carousel */}
-      <ImageSlider {...imageSlider} />
-
+      <section className="py-20 px-4 bg-white">
+        <ImageSlider {...imageSlider} />
+      </section>
       {/* Volunteer Form */}
-      <section className="py-20 bg-base-200">
+      <section className="py-20 bg-base  ">
         <VolunteerForm />
       </section>
 
       {/* Events Section */}
-      <Events />
+      <section className="py-20 px-4 bg-white">
+        <Events />
+      </section>
     </div>
   );
 }

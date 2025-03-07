@@ -7,7 +7,7 @@ export default async function Page() {
     query: EventListDocument,
     context: {
       fetchOptions: {
-        next: { revalidate: 600 },
+        next: { revalidate: 60 },
       },
     },
     // variables: {
@@ -27,7 +27,7 @@ export default async function Page() {
           if (!event?.featuredImage) return null;
           return (
             <Link
-              className="group grid grid-cols-[140px_1fr] bg-white shadow rounded-lg overflow-hidden relative hover:bg-gradient-to-r from-white to-amber-50"
+              className="group grid grid-cols-[180px_1fr] bg-white shadow rounded-lg overflow-hidden relative hover:bg-gradient-to-r from-white to-amber-50"
               key={event.slug}
               href={`/events/${event.slug}`}
             >
@@ -43,6 +43,9 @@ export default async function Page() {
                   {event.heading}
                 </p>
                 <p className="text-sm text-gray-500 leading-6">{event.description}</p>
+                <div>
+                  <button className="btn btn-primary">Read more</button>
+                </div>
               </div>
             </Link>
           );

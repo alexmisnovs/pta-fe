@@ -8,7 +8,7 @@ export default async function Page() {
     query: ContactPageDocument,
     context: {
       fetchOptions: {
-        next: { revalidate: 600 },
+        next: { revalidate: 60 },
       },
     },
     // variables: {
@@ -22,7 +22,6 @@ export default async function Page() {
     <div className="container">
       <h1 className="text-4xl mb-6 font-bold text-gray-700"> {pageData?.heading}</h1>
       <p> {pageData?.description}</p>
-
       <ContactForm />
     </div>
   );

@@ -68,7 +68,19 @@ query Header {
     }
   }
 }
-
+query Footer {
+  footer {
+    footerLogo {
+      alternativeText
+      url
+    }
+    copyright
+    socialLink {
+      buttonText
+      link
+    }
+  }
+}
 # // all events
 query EventList {
   events {
