@@ -7,7 +7,7 @@ export default async function Events() {
     query: HomePageEventsDocument,
     context: {
       fetchOptions: {
-        next: { revalidate: 600 },
+        next: { revalidate: 120 },
       },
     },
     variables: {

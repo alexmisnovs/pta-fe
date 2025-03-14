@@ -12,10 +12,15 @@
 //   });
 // });
 
-import { ApolloClient, InMemoryCache } from "@apollo/client";
+import { ApolloClient, InMemoryCache, HttpLink } from "@apollo/client";
 
 const apolloClient = new ApolloClient({
-  uri: process.env.NEXT_PUBLIC_STRAPI_GRAPHQL_URL,
+  link: new HttpLink({
+    uri: process.env.NEXT_PUBLIC_STRAPI_GRAPHQL_URL,
+    fetchOptions: {
+      next: { revalidate: 60 },
+    },
+  }),
   cache: new InMemoryCache(),
   ssrMode: typeof window === "undefined",
 });
