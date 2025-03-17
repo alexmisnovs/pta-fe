@@ -25,6 +25,11 @@ export default async function Home() {
   let heroBlock = {};
   // let totalDonationsBlock = {};
   let imageSlider = {};
+  let aboutUsBlock: {
+    __typename?: "ComponentPtaHomePageAbout";
+    heading?: string | null;
+    description?: string | null;
+  } = {};
 
   blocks.forEach(block => {
     if (block) {
@@ -38,6 +43,11 @@ export default async function Home() {
           // totalDonationsBlock = {
           //   ...block,
           // };
+          return <h1>I am total donaitons</h1>;
+        case "ComponentPtaHomePageAbout":
+          aboutUsBlock = {
+            ...block,
+          };
           return <h1>I am total donaitons</h1>;
         //  return <CardCarousel {...block} key={index} />;
         case "ComponentPtaHomePageSlider":
@@ -60,12 +70,16 @@ export default async function Home() {
 
       {/* About Section */}
       <section className="py-20 px-4 bg-white">
-        <div className="container">
+        {/* <div className="container">
           <h2 className="text-3xl font-bold text-center mb-8">About Us</h2>
           <p className="text-lg text-center">
             We are a non-profit organization dedicated to improving our community through various
             initiatives and volunteer programs. Join us in making a positive impact!
           </p>
+        </div> */}
+        <div className="container">
+          <h2 className="text-3xl font-bold text-center mb-8">{aboutUsBlock.heading}</h2>
+          <p className="text-lg text-center">{aboutUsBlock.description}</p>
         </div>
       </section>
 

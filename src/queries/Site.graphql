@@ -48,6 +48,10 @@ query HomePage {
           url
         }
       }
+      ... on ComponentPtaHomePageAbout {
+        heading
+        description
+      }
     }
   }
 }
