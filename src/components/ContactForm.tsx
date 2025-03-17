@@ -1,5 +1,7 @@
 "use client";
 
+import HCaptcha from "@hcaptcha/react-hcaptcha";
+
 // Step 1: Import necessary modules
 import { useMutation, gql } from "@apollo/client";
 import React, { useState } from "react";
@@ -11,6 +13,8 @@ const SUBMIT_CONTACT_FORM = gql`
     createContactFormEntry(data: $input) {
       name
       email
+      message
+      captcha
     }
   }
 `;
@@ -20,6 +24,9 @@ const ContactForm = () => {
   const [email, setEmail] = useState("");
   const [message, setMessage] = useState("");
   const [submitted, setSubmitted] = useState(false);
+
+  const [captcha, setCaptcha] = useState<string | null>("");
+
   // const [returnedName, setReturnedName] = useState("");
   // const [returnedEmail, setReturnedEmail] = useState("");
 
@@ -33,8 +40,36 @@ const ContactForm = () => {
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+
+    // verify captcha straight away
+    if (!captcha) {
+      return alert("Captcha token required");
+    }
+
+    // try {
+    //   const result = await fetch(`http://localhost:1337/contact-forms`, {
+    //     method: "POST",
+    //     body: JSON.stringify({
+    //       name: name,
+    //       email:email,
+    //       message: message,
+    //       captcha: captcha,
+    //     }),
+    //     headers: {
+    //       "Content-Type": "application/json",
+    //     },
+    //   });
+
+    //   if (result) {
+    //     console.log(result);
+    //     alert("Message sent! :D");
+    //   }
+    // } catch (error) {
+    //   console.log(error);
+    // }
+
     try {
-      await createContactFormEntry({ variables: { input: { name, email, message } } });
+      await createContactFormEntry({ variables: { input: { name, email, message, captcha } } });
       // Handle successful submission (e.g., show a success message)
       setSubmitted(true);
     } catch (e) {
@@ -83,11 +118,19 @@ const ContactForm = () => {
             value={message}
             onChange={e => setMessage(e.target.value)}
           ></textarea>
-
+          <br />
+          <HCaptcha
+            sitekey={process.env.NEXT_PUBLIC_REACT_APP_SITEKEY ?? ""}
+            onVerify={setCaptcha}
+            onError={() => setCaptcha(null)}
+            onExpire={() => setCaptcha(null)}
+            theme="light"
+          />
           <button type="submit" className="btn btn-primary" disabled={loading}>
             {loading ? "Submitting..." : "Send Message"}
           </button>
           {error && <p>Error sending form: {error.message}</p>}
+          <br />
         </form>
       </div>
     </div>
