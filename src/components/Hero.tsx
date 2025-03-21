@@ -25,7 +25,10 @@ const Hero = async ({ backgroundImage, title, content }: HeroProps) => {
           <div className="max-w-md">
             <h1 className="mb-5 text-5xl font-bold">{title}</h1>
             <p className="mb-5">{content}</p>
-            <Link className="btn btn-primary" href="/events">
+            <Link
+              className="btn bg-custom-red hover:bg-custom-blue text-white font-bold py-2 px-4 rounded"
+              href="/events"
+            >
               Checkout out our events
             </Link>
           </div>

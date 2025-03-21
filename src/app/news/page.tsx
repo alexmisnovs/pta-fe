@@ -15,7 +15,7 @@ export default async function Page() {
     // },
   });
   const articles = data.articles;
-  console.log(data.articles);
+  // console.log(data.articles);
   // return <h1>articles will go here</h1>;
 
   return (

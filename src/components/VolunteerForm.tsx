@@ -1,45 +1,57 @@
 "use client";
+import HCaptcha from "@hcaptcha/react-hcaptcha";
 
-// Step 1: Import necessary modules
-import { useMutation, gql } from "@apollo/client";
 import React, { useState } from "react";
-// import { CreateVolunteerDocument, CreateVolunteerMutationVariables } from "@/gql/graphql";
 
-// Step 2: Define the GraphQL mutation
-const SUBMIT_VOLUNTEER = gql`
-  mutation SubmitVolunteer($input: VolunteerInput!) {
-    createVolunteer(data: $input) {
-      name
-      email
-    }
-  }
-`;
+interface VolunteerFormProps {
+  className?: string;
+}
 
-const VolunteerForm = () => {
+const VolunteerForm = ({ className }: VolunteerFormProps) => {
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [phoneNumber, setPhoneNumber] = useState("");
   const [yearGroup, setYearGroup] = useState("");
-  const [submitted, setSubmitted] = useState(false);
 
-  const [createVolunteer, { data, loading, error }] = useMutation(SUBMIT_VOLUNTEER, {
-    // onCompleted: data => {
-    //   // console.log(data);
-    //   setReturnedName(data.createVolunteer.name);
-    //   setReturnedEmail(data.createVolunteer.email);
-    // },
-  });
+  const [captcha, setCaptcha] = useState<string | null>("");
+
+  const [submitted, setSubmitted] = useState(false);
+  const [loading, setLoading] = useState<boolean>(false);
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+
+    if (!captcha) {
+      return alert("Captcha token required");
+    }
+
+    setLoading(true);
+    // using fetch doesn't work for some reason..
     try {
-      await createVolunteer({ variables: { input: { name, email, phoneNumber, yearGroup } } });
-      // Handle successful submission (e.g., show a success message)
-      setSubmitted(true);
-      console.log("something happened" + data);
-    } catch (e) {
-      // Handle error (e.g., show an error message)
-      console.log(e);
+      const result = await fetch(`${process.env.NEXT_PUBLIC_STRAPI_API_URL}/api/volunteers`, {
+        method: "POST",
+        body: JSON.stringify({
+          data: {
+            name: name,
+            email: email,
+            phoneNumber: phoneNumber,
+            yearGroup: yearGroup,
+            captcha: captcha,
+          },
+        }),
+        headers: {
+          "Content-Type": "application/json",
+        },
+      });
+
+      if (result) {
+        setSubmitted(true);
+        setLoading(false);
+        // console.log(result);
+      }
+    } catch (error) {
+      // setError(error);
+      console.log(error);
     }
   };
 
@@ -55,48 +67,64 @@ const VolunteerForm = () => {
   }
 
   return (
-    <div className="max-w-lg mx-auto card bg-base-100 shadow-xl">
-      <div className="card-body">
-        <h2 className="card-title text-2xl mb-4">Become a Volunteer</h2>
-        <form onSubmit={handleSubmit} className="space-y-4">
-          <input
-            className="input input-bordered w-full"
-            type="text"
-            value={name}
-            onChange={e => setName(e.target.value)}
-            placeholder="Your Name"
-            required
-          />
-          <input
-            className="input input-bordered w-full"
-            type="email"
-            value={email}
-            onChange={e => setEmail(e.target.value)}
-            placeholder="Your Email"
-            required
-          />
+    <div className={`w-full ${className || ""}`}>
+      <div className="card bg-base-100 shadow-xl">
+        <div className="card-body">
+          <h2 className="card-title text-2xl mb-4">Become a Volunteer</h2>
+          <form onSubmit={handleSubmit} className="space-y-4">
+            <input
+              className="input input-bordered w-full"
+              type="text"
+              value={name}
+              onChange={e => setName(e.target.value)}
+              placeholder="Your Name"
+              required
+            />
+            <input
+              className="input input-bordered w-full"
+              type="email"
+              value={email}
+              onChange={e => setEmail(e.target.value)}
+              placeholder="Your Email"
+              required
+            />
 
-          <input
-            className="input input-bordered w-full"
-            type="text"
-            value={phoneNumber}
-            onChange={e => setPhoneNumber(e.target.value)}
-            placeholder="Your Phone"
-            required
-          />
-          <input
-            className="input input-bordered w-full"
-            type="text"
-            value={yearGroup}
-            onChange={e => setYearGroup(e.target.value)}
-            placeholder="Year group of your child"
-            required
-          />
-          <button type="submit" className="btn btn-primary w-full" disabled={loading}>
-            {loading ? "Submitting..." : "Join Us"}
-          </button>
-          {error && <p>Error submitting form: {error.message}</p>}
-        </form>
+            <input
+              className="input input-bordered w-full"
+              type="text"
+              value={phoneNumber}
+              onChange={e => setPhoneNumber(e.target.value)}
+              placeholder="Your Phone"
+              required
+            />
+            <input
+              className="input input-bordered w-full"
+              type="text"
+              value={yearGroup}
+              onChange={e => setYearGroup(e.target.value)}
+              placeholder="Year group of your child"
+              required
+            />
+            <br />
+            <HCaptcha
+              sitekey={process.env.NEXT_PUBLIC_REACT_APP_SITEKEY ?? ""}
+              onVerify={setCaptcha}
+              onError={() => setCaptcha(null)}
+              onExpire={() => setCaptcha(null)}
+              theme="light"
+            />
+
+            {/* <button type="submit" className="btn btn-primary w-full" > </button> */}
+            <button
+              type="submit"
+              className="btn bg-custom-red hover:bg-custom-blue text-white font-bold py-2 px-4 rounded border-inherit"
+            >
+              {loading ? "Submitting..." : "Join Us"}
+            </button>
+            {/* todo: handle errors properly */}
+            {/* {error && <p>Error submitting form: {error.message}</p>} */}
+          </form>
+        </div>
       </div>
     </div>
   );

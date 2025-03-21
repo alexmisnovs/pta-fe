@@ -52,6 +52,23 @@ query HomePage {
         heading
         description
       }
+      ... on ComponentPtaHomePageVolunteerBlock {
+        content
+      }
+      ... on ComponentPtaFeaturedProject {
+        heading
+        description
+        goalDonations
+        image {
+          url
+          alternativeText
+        }
+        projectLink {
+          link
+          buttonText
+        }
+        currentDonations
+      }
     }
   }
 }

@@ -44,7 +44,9 @@ export default async function Page() {
                 </p>
                 <p className="text-sm text-gray-500 leading-6">{event.description}</p>
                 <div>
-                  <button className="btn btn-primary">Read more</button>
+                  <button className="btn bg-custom-red hover:bg-custom-blue text-white font-bold py-2 px-4 rounded border-inherit">
+                    Read more
+                  </button>
                 </div>
               </div>
             </Link>
