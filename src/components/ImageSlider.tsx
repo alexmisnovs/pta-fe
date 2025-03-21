@@ -22,6 +22,7 @@ const ImageSlider = ({ slides }: ImageSliderProps) => {
   if (!slides) return <h1>No slides yet</h1>;
   return (
     <div className="max-w-6xl mx-auto">
+      <h1 className="text-3xl font-bold text-center mb-8">Gallery</h1>
       <Fade>
         {slides.map(slide => (
           <div className="each-fade" key={slide?.url}>

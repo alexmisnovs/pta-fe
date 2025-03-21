@@ -29,8 +29,23 @@ const Footer = ({ data }: FooterProps) => {
           <Image src={data?.footer?.footerLogo?.url as string} alt="Logo" width={50} height={50} />
         </Link>
         <p>{data?.footer?.copyright}</p>
-        <p>Built with love by Alex Misnovs</p>
       </aside>
+      <div>
+        <p>
+          St Modwen&apos;s School PTA, St Modwen&apos;s Catholic Primary School, Tutbury Road,
+          Burton-on-Trent, Staffordshire, DE13 0AJ
+        </p>
+        <p>
+          Registered with the Charity Commission as
+          <a
+            target="_blank"
+            href="https://register-of-charities.charitycommission.gov.uk/charity-search/-/results/page/1/delta/20/keywords/1017392"
+          >
+            1017392
+          </a>
+        </p>
+        {/* <p>Built with love by Alex Misnovs</p> */}
+      </div>
       <nav className="grid-flow-col gap-4 md:place-self-center md:justify-self-end">
         {/* <a>
           <svg

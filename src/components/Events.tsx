@@ -53,7 +53,11 @@ export default async function Events() {
                   })}
                 </p>
                 <div className="card-actions justify-end">
-                  <Link className="btn btn-primary" key={event.slug} href={`/events/${event.slug}`}>
+                  <Link
+                    className="btn bg-custom-red hover:bg-custom-blue text-white font-bold py-2 px-4 rounded"
+                    key={event.slug}
+                    href={`/events/${event.slug}`}
+                  >
                     Read More
                   </Link>
                 </div>

@@ -3,8 +3,21 @@
 import HCaptcha from "@hcaptcha/react-hcaptcha";
 
 // Step 1: Import necessary modules
-
+import { useMutation, gql } from "@apollo/client";
 import React, { useState } from "react";
+// import { CreateVolunteerDocument, CreateVolunteerMutationVariables } from "@/gql/graphql";
+
+// Step 2: Define the GraphQL mutation
+const SUBMIT_CONTACT_FORM = gql`
+  mutation CreateContactFormEntry($input: ContactFormEntryInput!) {
+    createContactFormEntry(data: $input) {
+      name
+      email
+      message
+      captcha
+    }
+  }
+`;
 
 const ContactForm = () => {
   const [name, setName] = useState("");
@@ -13,7 +26,17 @@ const ContactForm = () => {
   const [submitted, setSubmitted] = useState(false);
 
   const [captcha, setCaptcha] = useState<string | null>("");
-  const [loading, setLoading] = useState<boolean>(false);
+
+  // const [returnedName, setReturnedName] = useState("");
+  // const [returnedEmail, setReturnedEmail] = useState("");
+
+  const [createContactFormEntry, { loading, error }] = useMutation(SUBMIT_CONTACT_FORM, {
+    // onCompleted: data => {
+    //   // console.log(data);
+    //   setReturnedName(data.createContactFormEntry.name);
+    //   setReturnedEmail(data.createContactFormEntry.email);
+    // },
+  });
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -23,33 +46,35 @@ const ContactForm = () => {
       return alert("Captcha token required");
     }
 
-    try {
-      const result = await fetch(
-        `${process.env.NEXT_PUBLIC_STRAPI_API_URL}/api/contact-form-entries`,
-        {
-          method: "POST",
-          body: JSON.stringify({
-            data: {
-              name: name,
-              email: email,
-              message: message,
-              captcha: captcha,
-            },
-          }),
-          headers: {
-            "Content-Type": "application/json",
-          },
-        }
-      );
+    // try {
+    //   const result = await fetch(`http://localhost:1337/contact-forms`, {
+    //     method: "POST",
+    //     body: JSON.stringify({
+    //       name: name,
+    //       email:email,
+    //       message: message,
+    //       captcha: captcha,
+    //     }),
+    //     headers: {
+    //       "Content-Type": "application/json",
+    //     },
+    //   });
 
-      if (result) {
-        setSubmitted(true);
-        setLoading(false);
-        console.log(result);
-      }
-    } catch (error) {
-      // setError(error);
-      console.log(error);
+    //   if (result) {
+    //     console.log(result);
+    //     alert("Message sent! :D");
+    //   }
+    // } catch (error) {
+    //   console.log(error);
+    // }
+
+    try {
+      await createContactFormEntry({ variables: { input: { name, email, message, captcha } } });
+      // Handle successful submission (e.g., show a success message)
+      setSubmitted(true);
+    } catch (e) {
+      // Handle error (e.g., show an error message)
+      console.log(e);
     }
   };
   if (loading) {
@@ -101,14 +126,10 @@ const ContactForm = () => {
             onExpire={() => setCaptcha(null)}
             theme="light"
           />
-          <button
-            type="submit"
-            className="btn bg-custom-red hover:bg-custom-blue text-white font-bold py-2 px-4 rounded border-inherit"
-            disabled={loading}
-          >
+          <button type="submit" className="btn btn-primary" disabled={loading}>
             {loading ? "Submitting..." : "Send Message"}
           </button>
-          {/* {error && <p>Error sending form: {error.message}</p>} */}
+          {error && <p>Error sending form: {error.message}</p>}
           <br />
         </form>
       </div>
