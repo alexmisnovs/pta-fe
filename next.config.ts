@@ -1,7 +1,7 @@
 import type { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
-  output: "export",
+  // output: "export",
   distDir: "build",
   images: {
     unoptimized: true,
@@ -21,6 +21,11 @@ const nextConfig: NextConfig = {
         // pathname: 'arifscloud/image/upload/**',
       },
     ],
+  },
+  logging: {
+    fetches: {
+      fullUrl: true,
+    },
   },
 };
 

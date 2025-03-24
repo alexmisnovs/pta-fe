@@ -100,6 +100,7 @@ const ContactForm = () => {
             onError={() => setCaptcha(null)}
             onExpire={() => setCaptcha(null)}
             theme="light"
+            size="compact"
           />
           <button
             type="submit"
