@@ -29,9 +29,21 @@ export default async function RootLayout({
 }>) {
   const { data = {}, error } = await apolloClient.query({
     query: HeaderDocument,
+    context: {
+      // initialApolloState,
+      fetchOptions: {
+        next: { revalidate: 60 },
+      },
+    },
   });
   const { data: footerData = {}, error: footerError } = await apolloClient.query({
     query: FooterDocument,
+    context: {
+      // initialApolloState,
+      fetchOptions: {
+        next: { revalidate: 60 },
+      },
+    },
   });
 
   // console.log("Data from strapi");

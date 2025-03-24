@@ -112,6 +112,7 @@ const VolunteerForm = ({ className }: VolunteerFormProps) => {
               onError={() => setCaptcha(null)}
               onExpire={() => setCaptcha(null)}
               theme="light"
+              size="compact"
             />
 
             {/* <button type="submit" className="btn btn-primary w-full" > </button> */}

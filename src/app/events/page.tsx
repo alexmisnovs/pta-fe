@@ -7,7 +7,7 @@ export default async function Page() {
     query: EventListDocument,
     context: {
       fetchOptions: {
-        next: { revalidate: 120 },
+        next: { revalidate: 60 },
       },
     },
     // variables: {
