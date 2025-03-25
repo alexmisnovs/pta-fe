@@ -7,6 +7,12 @@ import ReactMarkdown from "react-markdown";
 export async function generateStaticParams() {
   const { data } = await apolloClient.query({
     query: ProjectsDocument,
+    context: {
+      // initialApolloState,
+      fetchOptions: {
+        next: { revalidate: 60 },
+      },
+    },
   });
 
   const projects = data.projects;
@@ -34,7 +40,7 @@ export default async function Page({ params }: { params: Params }) {
     },
     context: {
       fetchOptions: {
-        next: { revalidate: 600 },
+        next: { revalidate: 60 },
       },
     },
   });

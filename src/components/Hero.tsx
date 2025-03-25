@@ -7,6 +7,8 @@ type HeroProps = {
   backgroundImage?: {
     __typename?: "UploadFile";
     url: string;
+    /* eslint-disable  @typescript-eslint/no-explicit-any */
+    formats?: any | null;
   } | null;
 };
 
@@ -38,12 +40,13 @@ type HeroProps = {
 //   );
 // };
 const Hero = async ({ backgroundImage, title, content }: HeroProps) => {
+  // console.log(backgroundImage?.formats);
   return (
     <div className="container">
       <div
         className="hero min-h-[400px] md:h-[500px] overflow-hidden"
         style={{
-          backgroundImage: `url(${backgroundImage?.url})`,
+          backgroundImage: `url(${backgroundImage?.formats?.medium?.url})`,
         }}
       >
         <div className="hero-overlay bg-opacity-60"></div>

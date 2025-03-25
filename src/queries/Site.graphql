@@ -5,6 +5,7 @@ query Articles {
     description
     cover {
       url
+      formats
     }
   }
 }
@@ -15,6 +16,7 @@ query HomePageArticles($sort: [String], $pagination: PaginationArg) {
     description
     slug
     cover {
+      formats
       url
       alternativeText
     }
@@ -23,6 +25,7 @@ query HomePageArticles($sort: [String], $pagination: PaginationArg) {
       name
       avatar {
         url
+        formats
       }
     }
   }
@@ -36,6 +39,7 @@ query HomePage {
         content
         backgroundImage {
           url
+          formats
         }
       }
       ... on ComponentPtaTotalDonations {
@@ -46,6 +50,7 @@ query HomePage {
       ... on ComponentPtaHomePageSlider {
         slides {
           url
+          formats
         }
       }
       ... on ComponentPtaHomePageAbout {
@@ -62,6 +67,7 @@ query HomePage {
         image {
           url
           alternativeText
+          formats
         }
         projectLink {
           link
@@ -149,6 +155,7 @@ query Event($slug: String) {
         file {
           url
           alternativeText
+          formats
         }
       }
     }
@@ -161,6 +168,7 @@ query Article($slug: String) {
     cover {
       alternativeText
       url
+      formats
     }
     title
     description
@@ -172,13 +180,18 @@ query Article($slug: String) {
       ... on ComponentSharedRichText {
         body
       }
-      ... on ComponentSharedRichText {
-        body
+      ... on ComponentSharedMedia {
+        file {
+          alternativeText
+          url
+          formats
+        }
       }
       ... on ComponentSharedSlider {
         files {
           alternativeText
           url
+          formats
         }
       }
     }
@@ -233,5 +246,19 @@ mutation CreateContactFormEntry($data: ContactFormEntryInput!) {
   createContactFormEntry(data: $data) {
     name
     email
+  }
+}
+
+query Global {
+  global {
+    siteName
+    siteDescription
+    defaultSeo {
+      metaDescription
+      metaTitle
+      shareImage {
+        url
+      }
+    }
   }
 }

@@ -2,11 +2,17 @@ import apolloClient from "@/lib/apollo-client";
 import { EventDocument, EventListDocument } from "@/gql/graphql";
 
 import Link from "next/link";
-import ReactMarkdown from "react-markdown";
+import BlockRenderer, { Block } from "@/components/BlockRenderer";
 
 export async function generateStaticParams() {
   const { data } = await apolloClient.query({
     query: EventListDocument,
+    context: {
+      // initialApolloState,
+      fetchOptions: {
+        next: { revalidate: 60 },
+      },
+    },
   });
 
   const events = data.events;
@@ -44,38 +50,11 @@ export default async function Page({ params }: { params: Params }) {
   if (!event) return <h1>Event not found</h1>;
   // console.log(event.blocks);
 
-  // return <h1>Single Event Details going here</h1>;
-  // lets build content now
-  let markdownContent: string | null | undefined = null;
+  const processedBlocks = event?.blocks?.map(block => ({
+    __typename: block?.__typename, // Ensure this exists in response
+    ...block,
+  })) as Block[]; // Type assertion here if needed
 
-  interface ImageFile {
-    __typename?: string;
-    file?: {
-      __typename?: string;
-      url: string;
-      alternativeText?: string | null;
-    } | null;
-  }
-  let imageFile: ImageFile = { file: { url: "" } };
-
-  event?.blocks?.forEach(block => {
-    if (block) {
-      switch (block.__typename) {
-        case "ComponentPtaRichTextMarkdown":
-          markdownContent = block.content;
-
-        case "ComponentSharedMedia":
-          imageFile = {
-            ...block,
-          };
-          return <h1>I am total donaitons</h1>;
-          //  return <CardCarousel {...block} key={index} />;
-          break;
-        default:
-          return <h1>didnt find anything</h1>;
-      }
-    }
-  });
   return (
     <div className="container">
       <div className="text-white relative bg-custom-blue px-14 py-16 -mx-8 -mt-7">
@@ -96,11 +75,7 @@ export default async function Page({ params }: { params: Params }) {
           &laquo; Back to all events
         </Link>
       </div>
-      {markdownContent && <ReactMarkdown className="markdown">{markdownContent}</ReactMarkdown>}
-      {imageFile?.file?.url && (
-        <img className="" src={imageFile.file.url as string} />
-        // <h2>Image will go here</h2>
-      )}
+      <BlockRenderer blocks={processedBlocks ?? []} className="space-y-8" />
       <div>Donations received: {event?.donationReceived}</div>
     </div>
   );

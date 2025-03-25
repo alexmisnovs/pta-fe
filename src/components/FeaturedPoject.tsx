@@ -1,4 +1,5 @@
 import Link from "next/link";
+import Image from "next/image"; // Add this import
 
 type FeaturedPojectProps = {
   __typename?: "ComponentPtaFeaturedProject";
@@ -10,6 +11,8 @@ type FeaturedPojectProps = {
     __typename?: "UploadFile";
     url: string;
     alternativeText?: string | null;
+    /* eslint-disable  @typescript-eslint/no-explicit-any */
+    formats?: any | null;
   } | null;
   projectLink?: {
     __typename?: "ComponentSharedButtonLink";
@@ -22,13 +25,22 @@ const FeaturedProject = async (projectData: FeaturedPojectProps) => {
   const target = projectData.goalDonations || 0;
   const percentage = ((raised / target) * 100).toFixed(0);
 
+  // console.log(projectData.image?.formats);
   return (
     <div className="container flex flex-col md:flex-row gap-8 items-start py-8">
       {/* Image Section - Left Side */}
       <div className="w-full md:w-1/2 h-96 md:h-[500px] relative rounded-xl overflow-hidden">
-        <img
-          src={projectData.image?.url}
+        {/* <img
+          src={projectData.image?.formats?.medium.url}
           alt={projectData.heading || ""}
+          className="w-full h-full object-cover"
+        /> */}
+        <Image
+          src={projectData.image?.formats?.medium.url || projectData?.image?.url}
+          alt={projectData.image?.alternativeText || projectData?.heading || "Project name"}
+          layout="responsive" // Optional: adjust as needed
+          width={500} // Set an appropriate width
+          height={500} // Set an appropriate height
           className="w-full h-full object-cover"
         />
       </div>
