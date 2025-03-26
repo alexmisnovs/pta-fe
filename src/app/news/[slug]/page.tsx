@@ -1,12 +1,17 @@
 import apolloClient from "@/lib/apollo-client";
-import { ArticleDocument, ArticlesDocument } from "@/gql/graphql";
+import { ArticleDocument } from "@/gql/graphql";
+// import { Metadata } from "next";
 
 import Link from "next/link";
-import BlockRenderer, { Block } from "@/components/BlockRenderer";
+import BlockRenderer, { Block } from "@/components/utility/BlockRenderer";
 // import ReactMarkdown from "react-markdown";
 
-export async function generateMetadata({ params }: { params: { slug: string } }) {
-  const { slug } = params;
+export const dynamicParams = true;
+
+type Params = Promise<{ slug: string }>;
+
+export async function generateMetadata({ params }: { params: Params }) {
+  const { slug } = await params;
   const { data, error } = await apolloClient.query({
     query: ArticleDocument,
     variables: {
@@ -33,26 +38,24 @@ export async function generateMetadata({ params }: { params: { slug: string } })
   };
 }
 
-export async function generateStaticParams() {
-  const { data } = await apolloClient.query({
-    query: ArticlesDocument,
-    context: {
-      // initialApolloState,
-      fetchOptions: {
-        next: { revalidate: 60 },
-      },
-    },
-  });
+// export async function generateStaticParams() {
+//   const { data } = await apolloClient.query({
+//     query: ArticlesDocument,
+//     context: {
+//       // initialApolloState,
+//       fetchOptions: {
+//         next: { revalidate: 60 },
+//       },
+//     },
+//   });
 
-  const article = data.articles;
-  return article.map(article => {
-    return {
-      slug: article?.slug,
-    };
-  });
-}
-
-type Params = Promise<{ slug: string }>;
+//   const article = data.articles;
+//   return article.map(article => {
+//     return {
+//       slug: article?.slug,
+//     };
+//   });
+// }
 
 export default async function Page({ params }: { params: Params }) {
   const { slug } = await params;

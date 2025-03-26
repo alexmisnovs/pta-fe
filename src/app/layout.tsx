@@ -1,4 +1,4 @@
-import ApolloWrapper from "@/components/ApolloWrapper";
+import ApolloWrapper from "@/components/utility/ApolloWrapper";
 import apolloClient from "@/lib/apollo-client";
 import { HeaderDocument, FooterDocument, GlobalDocument } from "@/gql/graphql";
 import Navigation from "@/components/Navigation";

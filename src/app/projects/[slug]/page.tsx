@@ -54,34 +54,6 @@ export default async function Page({ params }: { params: Params }) {
   // lets build content now
   const markdownContent: string | null | undefined = project.body;
 
-  // interface ImageFile {
-  //   __typename?: string;
-  //   file?: {
-  //     __typename?: string;
-  //     url: string;
-  //     alternativeText?: string | null;
-  //   } | null;
-  // }
-  // let imageFile: ImageFile = { file: { url: "" } };
-
-  // project?.blocks?.forEach(block => {
-  //   if (block) {
-  //     switch (block.__typename) {
-  //       case "ComponentSharedRichText":
-  //         markdownContent = block.body;
-
-  //       case "ComponentSharedMedia":
-  //         imageFile = {
-  //           ...block,
-  //         };
-  //         return <h1>I am total donaitons</h1>;
-  //         //  return <CardCarousel {...block} key={index} />;
-  //         break;
-  //       default:
-  //         return <h1>didnt find anything</h1>;
-  //     }
-  //   }
-  // });
   return (
     <div className="container">
       <div className="text-white relative bg-custom-blue px-14 py-16 -mx-8 -mt-7">

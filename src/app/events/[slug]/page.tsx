@@ -2,7 +2,7 @@ import apolloClient from "@/lib/apollo-client";
 import { EventDocument, EventListDocument } from "@/gql/graphql";
 
 import Link from "next/link";
-import BlockRenderer, { Block } from "@/components/BlockRenderer";
+import BlockRenderer, { Block } from "@/components/utility/BlockRenderer";
 
 export async function generateStaticParams() {
   const { data } = await apolloClient.query({

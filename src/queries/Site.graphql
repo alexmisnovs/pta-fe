@@ -149,9 +149,11 @@ query Event($slug: String) {
     donationReceived
     blocks {
       ... on ComponentPtaRichTextMarkdown {
+        id
         content
       }
       ... on ComponentSharedMedia {
+        id
         file {
           url
           alternativeText
@@ -174,13 +176,16 @@ query Article($slug: String) {
     description
     blocks {
       ... on ComponentSharedQuote {
+        id
         body
         title
       }
       ... on ComponentSharedRichText {
+        id
         body
       }
       ... on ComponentSharedMedia {
+        id
         file {
           alternativeText
           url
@@ -188,11 +193,23 @@ query Article($slug: String) {
         }
       }
       ... on ComponentSharedSlider {
+        id
         files {
           alternativeText
           url
           formats
         }
+      }
+      ... on ComponentPtaTextWithImage {
+        id
+        heading
+        content
+        file {
+          url
+          alternativeText
+          formats
+        }
+        imageSide
       }
     }
   }
