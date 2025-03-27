@@ -66,6 +66,14 @@ export default async function Events() {
           ) : null
         )}
       </div>
+      <div className="text-center mt-3">
+        <Link
+          href="/events"
+          className="btn bg-custom-blue hover:bg-custom-blue text-white font-bold mt-4 py-2 px-4 rounded"
+        >
+          More Events
+        </Link>
+      </div>
     </div>
   );
 }

@@ -1,9 +1,8 @@
-import ApolloWrapper from "@/components/ApolloWrapper";
+import ApolloWrapper from "@/components/utility/ApolloWrapper";
 import apolloClient from "@/lib/apollo-client";
-import { HeaderDocument, FooterDocument } from "@/gql/graphql";
+import { HeaderDocument, FooterDocument, GlobalDocument } from "@/gql/graphql";
 import Navigation from "@/components/Navigation";
-import Footer from "@/components/Footer";
-import type { Metadata } from "next";
+import Footer from "@/components/shared/Footer";
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 
@@ -17,10 +16,34 @@ const geistMono = Geist_Mono({
   subsets: ["latin"],
 });
 
-export const metadata: Metadata = {
-  title: "SaintModwens Catholic School PTA",
-  description: "SaintModwens Catholic School PTA",
-};
+// export const metadata: Metadata = {
+//   title: "SaintModwens Catholic School PTA",
+//   description: "SaintModwens Catholic School PTA",
+// };
+
+// my version
+export async function generateMetadata() {
+  const { data: globalData = {}, error: globalError } = await apolloClient.query({
+    query: GlobalDocument,
+  });
+
+  if (globalError) return { title: "SaintModwens Catholic School PTA" };
+
+  return {
+    title: {
+      template: `%s | ${globalData.global?.siteName}`,
+      default: globalData.global?.siteName,
+    },
+    description: globalData.global?.siteDescription,
+    openGraph: {
+      images: [globalData.global?.defaultSeo?.shareImage?.url],
+      type: "website",
+      siteName: globalData.global?.siteName,
+      title: globalData.global?.siteName,
+      description: globalData.global?.siteDescription,
+    },
+  };
+}
 
 export default async function RootLayout({
   children,

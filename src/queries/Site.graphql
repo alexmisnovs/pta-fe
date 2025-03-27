@@ -5,6 +5,7 @@ query Articles {
     description
     cover {
       url
+      formats
     }
   }
 }
@@ -14,7 +15,11 @@ query HomePageArticles($sort: [String], $pagination: PaginationArg) {
     title
     description
     slug
+    category {
+      name
+    }
     cover {
+      formats
       url
       alternativeText
     }
@@ -23,6 +28,7 @@ query HomePageArticles($sort: [String], $pagination: PaginationArg) {
       name
       avatar {
         url
+        formats
       }
     }
   }
@@ -31,11 +37,16 @@ query HomePageArticles($sort: [String], $pagination: PaginationArg) {
 query HomePage {
   homePageContent {
     blocks {
+      ... on ComponentPtaTotalDonations {
+        text
+        total
+      }
       ... on ComponentPtaHeroSection {
         title
         content
         backgroundImage {
           url
+          formats
         }
       }
       ... on ComponentPtaTotalDonations {
@@ -46,6 +57,7 @@ query HomePage {
       ... on ComponentPtaHomePageSlider {
         slides {
           url
+          formats
         }
       }
       ... on ComponentPtaHomePageAbout {
@@ -62,6 +74,7 @@ query HomePage {
         image {
           url
           alternativeText
+          formats
         }
         projectLink {
           link
@@ -143,12 +156,15 @@ query Event($slug: String) {
     donationReceived
     blocks {
       ... on ComponentPtaRichTextMarkdown {
+        id
         content
       }
       ... on ComponentSharedMedia {
+        id
         file {
           url
           alternativeText
+          formats
         }
       }
     }
@@ -161,25 +177,46 @@ query Article($slug: String) {
     cover {
       alternativeText
       url
+      formats
     }
     title
     description
     blocks {
       ... on ComponentSharedQuote {
+        id
         body
         title
       }
       ... on ComponentSharedRichText {
+        id
         body
       }
-      ... on ComponentSharedRichText {
-        body
+      ... on ComponentSharedMedia {
+        id
+        file {
+          alternativeText
+          url
+          formats
+        }
       }
       ... on ComponentSharedSlider {
+        id
         files {
           alternativeText
           url
+          formats
         }
+      }
+      ... on ComponentPtaTextWithImage {
+        id
+        heading
+        content
+        file {
+          url
+          alternativeText
+          formats
+        }
+        imageSide
       }
     }
   }
@@ -233,5 +270,19 @@ mutation CreateContactFormEntry($data: ContactFormEntryInput!) {
   createContactFormEntry(data: $data) {
     name
     email
+  }
+}
+
+query Global {
+  global {
+    siteName
+    siteDescription
+    defaultSeo {
+      metaDescription
+      metaTitle
+      shareImage {
+        url
+      }
+    }
   }
 }

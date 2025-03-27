@@ -7,6 +7,12 @@ import ReactMarkdown from "react-markdown";
 export async function generateStaticParams() {
   const { data } = await apolloClient.query({
     query: ProjectsDocument,
+    context: {
+      // initialApolloState,
+      fetchOptions: {
+        next: { revalidate: 60 },
+      },
+    },
   });
 
   const projects = data.projects;
@@ -34,7 +40,7 @@ export default async function Page({ params }: { params: Params }) {
     },
     context: {
       fetchOptions: {
-        next: { revalidate: 600 },
+        next: { revalidate: 60 },
       },
     },
   });
@@ -48,34 +54,6 @@ export default async function Page({ params }: { params: Params }) {
   // lets build content now
   const markdownContent: string | null | undefined = project.body;
 
-  // interface ImageFile {
-  //   __typename?: string;
-  //   file?: {
-  //     __typename?: string;
-  //     url: string;
-  //     alternativeText?: string | null;
-  //   } | null;
-  // }
-  // let imageFile: ImageFile = { file: { url: "" } };
-
-  // project?.blocks?.forEach(block => {
-  //   if (block) {
-  //     switch (block.__typename) {
-  //       case "ComponentSharedRichText":
-  //         markdownContent = block.body;
-
-  //       case "ComponentSharedMedia":
-  //         imageFile = {
-  //           ...block,
-  //         };
-  //         return <h1>I am total donaitons</h1>;
-  //         //  return <CardCarousel {...block} key={index} />;
-  //         break;
-  //       default:
-  //         return <h1>didnt find anything</h1>;
-  //     }
-  //   }
-  // });
   return (
     <div className="container">
       <div className="text-white relative bg-custom-blue px-14 py-16 -mx-8 -mt-7">
@@ -90,7 +68,7 @@ export default async function Page({ params }: { params: Params }) {
 
       <div className="transform -translate-y-1/2">
         <Link
-          href="/news"
+          href="/"
           className="text-sm bg-gray-600 text-gray-400 hover:bg-gray-500 hover:text-gray-300 inline-block rounded-lg py-3 px-5"
         >
           &laquo; Back to all projects

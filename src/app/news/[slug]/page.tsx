@@ -1,28 +1,61 @@
 import apolloClient from "@/lib/apollo-client";
-import { ArticleDocument, ArticlesDocument } from "@/gql/graphql";
+import { ArticleDocument } from "@/gql/graphql";
+// import { Metadata } from "next";
 
 import Link from "next/link";
-import ReactMarkdown from "react-markdown";
+import BlockRenderer, { Block } from "@/components/utility/BlockRenderer";
+// import ReactMarkdown from "react-markdown";
 
-export async function generateStaticParams() {
-  const { data } = await apolloClient.query({
-    query: ArticlesDocument,
+export const dynamicParams = true;
+
+type Params = Promise<{ slug: string }>;
+
+export async function generateMetadata({ params }: { params: Params }) {
+  const { slug } = await params;
+  const { data, error } = await apolloClient.query({
+    query: ArticleDocument,
+    variables: {
+      slug: slug,
+    },
+    context: {
+      fetchOptions: {
+        next: { revalidate: 60 },
+      },
+    },
   });
 
-  const article = data.articles;
-  return article.map(article => {
-    return {
-      slug: article?.slug,
-    };
-  });
+  if (error) return { title: "SaintModwens Catholic School PTA" };
+  const article = data.articles[0];
+  return {
+    title: article?.title,
+    description: article?.description,
+    openGraph: {
+      images: [article?.cover?.url],
+      type: "website",
+      title: article?.title,
+      description: article?.description,
+    },
+  };
 }
 
-// type EventParams = {
-//   params: {
-//     slug: string;
-//   };
-// };
-type Params = Promise<{ slug: string }>;
+// export async function generateStaticParams() {
+//   const { data } = await apolloClient.query({
+//     query: ArticlesDocument,
+//     context: {
+//       // initialApolloState,
+//       fetchOptions: {
+//         next: { revalidate: 60 },
+//       },
+//     },
+//   });
+
+//   const article = data.articles;
+//   return article.map(article => {
+//     return {
+//       slug: article?.slug,
+//     };
+//   });
+// }
 
 export default async function Page({ params }: { params: Params }) {
   const { slug } = await params;
@@ -34,7 +67,7 @@ export default async function Page({ params }: { params: Params }) {
     },
     context: {
       fetchOptions: {
-        next: { revalidate: 600 },
+        next: { revalidate: 60 },
       },
     },
   });
@@ -42,40 +75,13 @@ export default async function Page({ params }: { params: Params }) {
   const article = data.articles[0];
 
   if (!article) return <h1>Article not found</h1>;
-  // console.log(event.blocks);
+  // console.log(article.blocks);
 
-  // return <h1>Single Event Details going here</h1>;
-  // lets build content now
-  let markdownContent: string | null | undefined = null;
+  const processedBlocks = article?.blocks?.map(block => ({
+    __typename: block?.__typename, // Ensure this exists in response
+    ...block,
+  })) as Block[]; // Type assertion here if needed
 
-  interface ImageFile {
-    __typename?: string;
-    file?: {
-      __typename?: string;
-      url: string;
-      alternativeText?: string | null;
-    } | null;
-  }
-  let imageFile: ImageFile = { file: { url: "" } };
-
-  article?.blocks?.forEach(block => {
-    if (block) {
-      switch (block.__typename) {
-        case "ComponentSharedRichText":
-          markdownContent = block.body;
-
-        case "ComponentSharedMedia":
-          imageFile = {
-            ...block,
-          };
-          return <h1>I am total donaitons</h1>;
-          //  return <CardCarousel {...block} key={index} />;
-          break;
-        default:
-          return <h1>didnt find anything</h1>;
-      }
-    }
-  });
   return (
     <div className="container">
       <div className="text-white relative bg-custom-blue px-14 py-16 -mx-8 -mt-7">
@@ -96,11 +102,9 @@ export default async function Page({ params }: { params: Params }) {
           &laquo; Back to all news
         </Link>
       </div>
-      {markdownContent && <ReactMarkdown className="markdown">{markdownContent}</ReactMarkdown>}
-      {imageFile?.file?.url && (
-        <img className="" src={imageFile.file.url as string} />
-        // <h2>Image will go here</h2>
-      )}
+      {/* Render blocks in original order */}
+
+      <BlockRenderer blocks={processedBlocks ?? []} className="space-y-8" />
     </div>
   );
 }

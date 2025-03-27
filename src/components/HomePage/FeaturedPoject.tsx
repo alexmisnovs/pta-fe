@@ -1,4 +1,5 @@
 import Link from "next/link";
+import Image from "next/image"; // Add this import
 
 type FeaturedPojectProps = {
   __typename?: "ComponentPtaFeaturedProject";
@@ -10,6 +11,8 @@ type FeaturedPojectProps = {
     __typename?: "UploadFile";
     url: string;
     alternativeText?: string | null;
+    /* eslint-disable  @typescript-eslint/no-explicit-any */
+    formats?: any | null;
   } | null;
   projectLink?: {
     __typename?: "ComponentSharedButtonLink";
@@ -22,13 +25,22 @@ const FeaturedProject = async (projectData: FeaturedPojectProps) => {
   const target = projectData.goalDonations || 0;
   const percentage = ((raised / target) * 100).toFixed(0);
 
+  // console.log(projectData.image?.formats);
   return (
     <div className="container flex flex-col md:flex-row gap-8 items-start py-8">
       {/* Image Section - Left Side */}
       <div className="w-full md:w-1/2 h-96 md:h-[500px] relative rounded-xl overflow-hidden">
-        <img
-          src={projectData.image?.url}
+        {/* <img
+          src={projectData.image?.formats?.medium.url}
           alt={projectData.heading || ""}
+          className="w-full h-full object-cover"
+        /> */}
+        <Image
+          src={projectData.image?.formats?.medium.url || projectData?.image?.url}
+          alt={projectData.image?.alternativeText || projectData?.heading || "Project name"}
+          layout="responsive" // Optional: adjust as needed
+          width={500} // Set an appropriate width
+          height={500} // Set an appropriate height
           className="w-full h-full object-cover"
         />
       </div>
@@ -37,7 +49,7 @@ const FeaturedProject = async (projectData: FeaturedPojectProps) => {
       <div className="w-full md:w-1/2 flex flex-col gap-6">
         {/* Title and Description */}
         <div className="space-y-4">
-          <h1 className="text-4xl md:text-5xl font-bold text-gray-800">{projectData.heading}</h1>
+          <h1 className="text-3xl font-bold mb-12">{projectData.heading}</h1>
           <p className="text-lg text-gray-600">{projectData.description}</p>
           <Link
             className="inline-block bg-custom-red hover:bg-custom-blue text-white font-bold py-3 px-8 rounded-lg transition-colors"
@@ -66,11 +78,11 @@ const FeaturedProject = async (projectData: FeaturedPojectProps) => {
           <div className="flex justify-between text-base">
             <div>
               <p className="font-semibold text-gray-800">{percentage}% Funded</p>
-              <p className="text-sm text-gray-500 mt-1">Our Goal</p>
+              {/* <p className="text-sm text-gray-500 mt-1">Our Goal</p> */}
             </div>
             <div className="text-right">
               <p className="font-semibold text-gray-800">£{raised.toLocaleString()} Raised</p>
-              <p className="text-sm text-gray-500 mt-1">Target: £{target.toLocaleString()}</p>
+              {/* <p className="text-sm text-gray-500 mt-1">Target: £{target.toLocaleString()}</p> */}
             </div>
           </div>
         </div>
