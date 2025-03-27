@@ -68,7 +68,7 @@ export default async function Page({ params }: { params: Params }) {
 
       <div className="transform -translate-y-1/2">
         <Link
-          href="/news"
+          href="/"
           className="text-sm bg-gray-600 text-gray-400 hover:bg-gray-500 hover:text-gray-300 inline-block rounded-lg py-3 px-5"
         >
           &laquo; Back to all projects

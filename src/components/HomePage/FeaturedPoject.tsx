@@ -49,7 +49,7 @@ const FeaturedProject = async (projectData: FeaturedPojectProps) => {
       <div className="w-full md:w-1/2 flex flex-col gap-6">
         {/* Title and Description */}
         <div className="space-y-4">
-          <h1 className="text-4xl md:text-5xl font-bold text-gray-800">{projectData.heading}</h1>
+          <h1 className="text-3xl font-bold mb-12">{projectData.heading}</h1>
           <p className="text-lg text-gray-600">{projectData.description}</p>
           <Link
             className="inline-block bg-custom-red hover:bg-custom-blue text-white font-bold py-3 px-8 rounded-lg transition-colors"

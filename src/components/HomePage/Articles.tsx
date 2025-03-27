@@ -163,6 +163,14 @@ export default async function Articles() {
               )
           )}
         </div>
+        <div className="text-center">
+          <Link
+            href="/news"
+            className="btn bg-custom-red hover:bg-custom-blue text-white font-bold mt-4 py-2 px-4 rounded"
+          >
+            More News
+          </Link>
+        </div>
       </div>
     </>
   );

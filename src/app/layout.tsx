@@ -2,7 +2,7 @@ import ApolloWrapper from "@/components/utility/ApolloWrapper";
 import apolloClient from "@/lib/apollo-client";
 import { HeaderDocument, FooterDocument, GlobalDocument } from "@/gql/graphql";
 import Navigation from "@/components/Navigation";
-import Footer from "@/components/Footer";
+import Footer from "@/components/shared/Footer";
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 
