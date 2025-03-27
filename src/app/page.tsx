@@ -36,6 +36,11 @@ export default async function Home() {
     description?: string | null;
   } = {};
   let featuredProjectBlock = {};
+  let totalDonationsBlock: {
+    __typename?: "ComponentPtaTotalDonations";
+    text?: string | null;
+    total?: number | null;
+  } = {};
   let volunteerBlock: {
     __typename?: "ComponentPtaHomePageVolunteerBlock";
     content?: string | null;
@@ -48,28 +53,27 @@ export default async function Home() {
           heroBlock = {
             ...block,
           };
-
+          break;
         case "ComponentPtaTotalDonations":
-          // totalDonationsBlock = {
-          //   ...block,
-          // };
-          return <h1>I am total donaitons</h1>;
+          totalDonationsBlock = {
+            ...block,
+          };
+          break;
         case "ComponentPtaHomePageAbout":
           aboutUsBlock = {
             ...block,
           };
-        //  return <CardCarousel {...block} key={index} />;
+          break;
         case "ComponentPtaFeaturedProject":
           featuredProjectBlock = {
             ...block,
           };
-          return;
+          break;
         case "ComponentPtaHomePageVolunteerBlock":
           volunteerBlock = {
             ...block,
           };
-          return;
-        //  return <CardCarousel {...block} key={index} />;
+          break;
         case "ComponentPtaHomePageSlider":
           imageSlider = {
             ...block,
@@ -95,6 +99,27 @@ export default async function Home() {
           <p className="text-lg text-center">{aboutUsBlock.description}</p>
         </div>
       </section>
+      {/* Newsletter */}
+      <section className="pt-5 pb-10 px-4 bg-base">
+        <NewsLetter className="w-full" />
+      </section>
+
+      {/* total donations */}
+      <section className="py-10 px-4 bg-custom-blue">
+        <div className="container">
+          <h2 className="text-3xl font-bold text-white text-center my-8">
+            {totalDonationsBlock.text} :{" "}
+            <span className="text-custom-red">£{totalDonationsBlock.total}</span>
+          </h2>
+        </div>
+      </section>
+      {/* NEWS */}
+      <section className="py-10 px-4 bg-base">
+        <div className="container">
+          <Articles />
+        </div>
+      </section>
+
       {/* Featured Project section */}
       <section className="py-10 bg-base  ">
         <div className="container">
@@ -106,18 +131,6 @@ export default async function Home() {
       {/* Events Section */}
       <section className="py-10 px-4 bg-white">
         <Events />
-      </section>
-
-      {/* Newsletter */}
-      <section className="py-10 px-4 bg-white">
-        <NewsLetter className="w-full" />
-      </section>
-
-      {/* NEWS */}
-      <section className="py-10 px-4 bg-base">
-        <div className="container">
-          <Articles />
-        </div>
       </section>
 
       {/* Carousel */}

@@ -57,68 +57,25 @@ const NewsLetterForm = ({ className }: NewsLetterFormProps) => {
   if (submitted) {
     return (
       <div className="max-w-lg mx-auto card bg-base-100 shadow-xl mt-4">
-        <div className="card-body">
-          Dear {name}, Thank you for signing up as a volunteer. We will get in touch with you soon
-          via {email}
-        </div>
+        <div className="card-body">Dear {name}, thank you for signing up to our newsletter!</div>
       </div>
     );
   }
 
   return (
-    // <div className={`w-full ${className || ""}`}>
-    //   <div className="card bg-base-100 shadow-xl">
-    //     <div className="card-body">
-    //       <h2 className="card-title text-2xl mb-4">Newsletter</h2>
-    //       <p>Signup for our newsletter to stay in the loop of what the PTA are up to.</p>
-    //       <form onSubmit={handleSubmit} className="space-y-4">
-    //         <input
-    //           className="input input-bordered w-full"
-    //           type="text"
-    //           value={name}
-    //           onChange={e => setName(e.target.value)}
-    //           placeholder="Your Name"
-    //           required
-    //         />
-    //         <input
-    //           className="input input-bordered w-full"
-    //           type="email"
-    //           value={email}
-    //           onChange={e => setEmail(e.target.value)}
-    //           placeholder="Your Email"
-    //           required
-    //         />
-
-    //         <br />
-    //         {/* <HCaptcha
-    //           sitekey={process.env.NEXT_PUBLIC_REACT_APP_SITEKEY ?? ""}
-    //           onVerify={setCaptcha}
-    //           onError={() => setCaptcha(null)}
-    //           onExpire={() => setCaptcha(null)}
-    //           theme="light"
-    //           size="compact"
-    //         /> */}
-
-    //         {/* <button type="submit" className="btn btn-primary w-full" > </button> */}
-    //         <button
-    //           type="submit"
-    //           className="btn bg-custom-red hover:bg-custom-blue text-white font-bold py-2 px-4 rounded border-inherit"
-    //         >
-    //           {loading ? "Submitting..." : "Join Us"}
-    //         </button>
-    //         {/* todo: handle errors properly */}
-    //         {/* {error && <p>Error submitting form: {error.message}</p>} */}
-    //       </form>
-    //     </div>
-    //   </div>
-    // </div>
     <div className={`w-full ${className || ""}`}>
-      <div className="card bg-base-100 shadow-xl">
+      {/* <div className="card bg-base-100 shadow-xl"> */}
+      <div className="card bg-base">
         <div className="card-body">
-          <h2 className="card-title text-2xl mb-4">Newsletter</h2>
-          <p>Signup for our newsletter to stay in the loop of what the PTA are up to.</p>
-          <form onSubmit={handleSubmit} className="flex flex-wrap gap-4 items-end">
-            <div className="flex-1 min-w-[200px]">
+          <h2 className="card-title text-3xl mb-4 justify-center">Newsletter</h2>
+          <p className="text-center py-2">
+            Signup for our newsletter to stay in the loop of what the PTA are up to.
+          </p>
+          <form
+            onSubmit={handleSubmit}
+            className="flex flex-col md:flex-row gap-4 items-center justify-center"
+          >
+            <div className="w-full md:w-48">
               <input
                 className="input input-bordered w-full"
                 type="text"
@@ -128,7 +85,7 @@ const NewsLetterForm = ({ className }: NewsLetterFormProps) => {
                 required
               />
             </div>
-            <div className="flex-1 min-w-[200px]">
+            <div className="w-full md:w-64">
               <input
                 className="input input-bordered w-full"
                 type="email"
@@ -138,10 +95,10 @@ const NewsLetterForm = ({ className }: NewsLetterFormProps) => {
                 required
               />
             </div>
-            <div className="flex-none">
+            <div className="w-full md:w-32">
               <button
                 type="submit"
-                className="btn bg-custom-red hover:bg-custom-blue text-white font-bold py-2 px-6 rounded border-inherit w-full"
+                className="btn bg-custom-red hover:bg-custom-blue text-white font-bold w-full py-2 px-4 rounded border-inherit"
               >
                 {loading ? "Submitting..." : "Join Us"}
               </button>

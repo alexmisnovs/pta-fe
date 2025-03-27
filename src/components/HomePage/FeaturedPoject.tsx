@@ -78,11 +78,11 @@ const FeaturedProject = async (projectData: FeaturedPojectProps) => {
           <div className="flex justify-between text-base">
             <div>
               <p className="font-semibold text-gray-800">{percentage}% Funded</p>
-              <p className="text-sm text-gray-500 mt-1">Our Goal</p>
+              {/* <p className="text-sm text-gray-500 mt-1">Our Goal</p> */}
             </div>
             <div className="text-right">
               <p className="font-semibold text-gray-800">£{raised.toLocaleString()} Raised</p>
-              <p className="text-sm text-gray-500 mt-1">Target: £{target.toLocaleString()}</p>
+              {/* <p className="text-sm text-gray-500 mt-1">Target: £{target.toLocaleString()}</p> */}
             </div>
           </div>
         </div>
