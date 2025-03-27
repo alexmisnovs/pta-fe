@@ -57,7 +57,7 @@ const NewsLetterForm = ({ className }: NewsLetterFormProps) => {
   if (submitted) {
     return (
       <div className="max-w-lg mx-auto card bg-base-100 shadow-xl mt-4">
-        <div className="card-body">Dear {name}, thank you for signing up to our newsletter!</div>
+        <div className="card-body">Dear {name}, thank you for signing up for our newsletter!</div>
       </div>
     );
   }
