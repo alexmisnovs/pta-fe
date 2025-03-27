@@ -13,6 +13,7 @@ export default async function Articles() {
     },
     variables: {
       sort: "publishedAt:desc",
+      // sort: "updatedAt:desc",
       pagination: {
         limit: 3,
       },
