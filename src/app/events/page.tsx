@@ -29,7 +29,7 @@ export default async function Page() {
             <Link
               className="group grid grid-cols-[140px_1fr] bg-white shadow rounded-lg overflow-hidden relative hover:bg-gradient-to-r from-white to-amber-50"
               key={event.slug}
-              href={`/news/${event.slug}`}
+              href={`/events/${event.slug}`}
             >
               <div className="relative overflow-hidden">
                 {event.featuredImage?.url && (
@@ -48,6 +48,30 @@ export default async function Page() {
                   {event.heading}
                 </p>
                 <p className="text-sm text-gray-500 leading-6">{event.description}</p>
+              </div>
+              <div className="p-4 flex flex-row items-center justify-between">
+                <div className="flex items-center">
+                  <span className="text-gray-600">
+                    Date:
+                    {new Date(event.dateTime).toLocaleDateString("en-GB", {
+                      day: "2-digit",
+                      month: "2-digit",
+                      year: "numeric",
+                    })}
+                  </span>
+                  <span className="mx-1 underline">
+                    at:
+                    {new Date(event.dateTime).toLocaleTimeString("en-GB", {
+                      hour: "2-digit",
+                      minute: "2-digit",
+                    })}
+                  </span>
+                </div>
+                <div className="ml-3">
+                  <button className="btn bg-custom-red hover:bg-custom-blue text-white font-bold py-2 px-4 rounded border-inherit">
+                    More Details
+                  </button>
+                </div>
               </div>
             </Link>
           );

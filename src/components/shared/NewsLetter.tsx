@@ -57,11 +57,11 @@ const NewsLetterForm = ({ className }: NewsLetterFormProps) => {
         setSubmitted(false);
         setError(new Error(errorMessage));
       }
-    } catch (error) {
+    } catch (error: unknown) {
       setLoading(false);
       setSubmitted(false);
-      setError(new Error("Error submitting form, please try again later"));
-      console.log(error);
+      setError(new Error(`Error submitting form: ${error}`));
+      // console.log(error);
     }
   };
 
