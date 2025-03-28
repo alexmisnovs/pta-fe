@@ -24,7 +24,7 @@ export async function generateMetadata({ params }: { params: Params }) {
     },
   });
 
-  if (error) return { title: "SaintModwens Catholic School PTA" };
+  if (error) return { title: "Events: SaintModwens Catholic School PTA" };
   const article = data.articles[0];
   return {
     title: article?.title,

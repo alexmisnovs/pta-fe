@@ -17,7 +17,7 @@ const VolunteerForm = ({ className }: VolunteerFormProps) => {
 
   const [submitted, setSubmitted] = useState(false);
   const [loading, setLoading] = useState<boolean>(false);
-
+  const [error, setError] = useState<Error | null>(null);
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
@@ -44,10 +44,19 @@ const VolunteerForm = ({ className }: VolunteerFormProps) => {
         },
       });
 
-      if (result) {
+      if (result.ok) {
         setSubmitted(true);
         setLoading(false);
         // console.log(result);
+      } else {
+        const data = await result.json();
+        const errors = data.error.details.errors;
+
+        const errorMessage = errors[0].name + " " + data.error.message + ": " + errors[0].path[0];
+
+        setLoading(false);
+        setSubmitted(false);
+        setError(new Error(errorMessage));
       }
     } catch (error) {
       // setError(error);
@@ -125,6 +134,7 @@ const VolunteerForm = ({ className }: VolunteerFormProps) => {
             {/* todo: handle errors properly */}
             {/* {error && <p>Error submitting form: {error.message}</p>} */}
           </form>
+          {error && <p className="text-red-500 text-center">{error.message}</p>}
         </div>
       </div>
     </div>
