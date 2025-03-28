@@ -1,6 +1,7 @@
 import apolloClient from "@/lib/apollo-client";
 import { HomePageEventsDocument } from "@/gql/graphql";
 import Link from "next/link";
+import Image from "next/image";
 
 export default async function Events() {
   const { data } = await apolloClient.query({
@@ -31,10 +32,12 @@ export default async function Events() {
           event ? (
             <div key={index} className="card bg-base-100 shadow-xl">
               <figure>
-                <img
-                  src={event.featuredImage?.url ?? "default-image.jpg"}
-                  alt={event.heading ?? "Event Image"}
+                <Image
+                  src={event.featuredImage?.formats?.medium?.url ?? "default-image.jpg"}
+                  alt={event.featuredImage?.alternativeText || event.heading || "Event Image"}
                   className="h-48 w-full object-cover"
+                  width={event.featuredImage?.formats?.medium?.width ?? 0}
+                  height={event.featuredImage?.formats?.medium?.height ?? 0}
                 />
               </figure>
               <div className="card-body">

@@ -15,7 +15,7 @@ const NewsLetterForm = ({ className }: NewsLetterFormProps) => {
 
   const [submitted, setSubmitted] = useState(false);
   const [loading, setLoading] = useState<boolean>(false);
-
+  const [error, setError] = useState<Error | null>(null);
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
@@ -42,14 +42,25 @@ const NewsLetterForm = ({ className }: NewsLetterFormProps) => {
           },
         }
       );
-
-      if (result) {
+      // handle response
+      if (result.ok) {
         setSubmitted(true);
         setLoading(false);
         // console.log(result);
+      } else {
+        const data = await result.json();
+        const errors = data.error.details.errors;
+
+        const errorMessage = errors[0].name + " " + data.error.message + ": " + errors[0].path[0];
+
+        setLoading(false);
+        setSubmitted(false);
+        setError(new Error(errorMessage));
       }
     } catch (error) {
-      // setError(error);
+      setLoading(false);
+      setSubmitted(false);
+      setError(new Error("Error submitting form, please try again later"));
       console.log(error);
     }
   };
@@ -104,6 +115,7 @@ const NewsLetterForm = ({ className }: NewsLetterFormProps) => {
               </button>
             </div>
           </form>
+          {error && <p className="text-red-500 text-center">{error.message}</p>}
         </div>
       </div>
     </div>

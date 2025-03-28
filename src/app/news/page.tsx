@@ -1,6 +1,7 @@
 import Link from "next/link";
 import apolloClient from "@/lib/apollo-client";
 import { ArticlesDocument } from "@/gql/graphql";
+import Image from "next/image";
 
 export default async function Page() {
   const { data } = await apolloClient.query({
@@ -33,9 +34,12 @@ export default async function Page() {
             >
               <div className="relative overflow-hidden">
                 {article.cover?.url && (
-                  <img
+                  <Image
                     className="transition duration-300 absolute inset-0 h-full w-full object-cover group-hover:scale-125 group-hover:rotate-12"
                     src={article.cover.url}
+                    alt={article.title || ""}
+                    width={article.cover?.formats?.medium?.width ?? 0}
+                    height={article.cover?.formats?.medium?.height ?? 0}
                   />
                 )}
               </div>

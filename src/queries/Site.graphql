@@ -122,6 +122,8 @@ query EventList {
     isPast
     featuredImage {
       url
+      formats
+      alternativeText
     }
     dateTime
     slug
@@ -135,6 +137,8 @@ query HomePageEvents($sort: [String], $pagination: PaginationArg) {
     isPast
     featuredImage {
       url
+      formats
+      alternativeText
     }
     dateTime
     slug

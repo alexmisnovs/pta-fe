@@ -1,7 +1,7 @@
 import Link from "next/link";
 import apolloClient from "@/lib/apollo-client";
 import { EventListDocument } from "@/gql/graphql";
-
+import Image from "next/image";
 export default async function Page() {
   const { data } = await apolloClient.query({
     query: EventListDocument,
@@ -20,22 +20,27 @@ export default async function Page() {
 
   return (
     <div className="container">
-      <h1 className="text-4xl mb-6 font-bold text-gray-700">Our Events</h1>
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-6xl mx-auto">
+      <h1 className="text-4xl mb-6 text-center font-bold text-gray-700">PTA Events</h1>
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 max-w-6xl mx-auto">
         {events.map(event => {
           if (!event) return null;
-          if (!event?.featuredImage) return null;
+          // if (!event?.cover?.url) return null;
           return (
             <Link
-              className="group grid grid-cols-[180px_1fr] bg-white shadow rounded-lg overflow-hidden relative hover:bg-gradient-to-r from-white to-amber-50"
+              className="group grid grid-cols-[140px_1fr] bg-white shadow rounded-lg overflow-hidden relative hover:bg-gradient-to-r from-white to-amber-50"
               key={event.slug}
-              href={`/events/${event.slug}`}
+              href={`/news/${event.slug}`}
             >
               <div className="relative overflow-hidden">
-                <img
-                  className="transition duration-300 absolute inset-0 h-full w-full object-cover group-hover:scale-125 group-hover:rotate-12"
-                  src={event.featuredImage.url}
-                />
+                {event.featuredImage?.url && (
+                  <Image
+                    className="transition duration-300 absolute inset-0 h-full w-full object-cover group-hover:scale-125 group-hover:rotate-12"
+                    src={event.featuredImage?.url ?? "default-image.jpg"}
+                    alt={event.heading ?? "Event Image"}
+                    width={event.featuredImage?.formats?.medium?.width ?? 0}
+                    height={event.featuredImage?.formats?.medium?.height ?? 0}
+                  />
+                )}
               </div>
 
               <div className="p-4">
@@ -43,11 +48,6 @@ export default async function Page() {
                   {event.heading}
                 </p>
                 <p className="text-sm text-gray-500 leading-6">{event.description}</p>
-                <div>
-                  <button className="btn bg-custom-red hover:bg-custom-blue text-white font-bold py-2 px-4 rounded border-inherit">
-                    Read more
-                  </button>
-                </div>
               </div>
             </Link>
           );
