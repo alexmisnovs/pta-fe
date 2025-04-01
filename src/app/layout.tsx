@@ -5,6 +5,7 @@ import Navigation from "@/components/Navigation";
 import Footer from "@/components/shared/Footer";
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
+import { Toaster } from "react-hot-toast";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -41,6 +42,10 @@ export async function generateMetadata() {
       siteName: globalData.global?.siteName,
       title: globalData.global?.siteName,
       description: globalData.global?.siteDescription,
+    },
+    // Add this section for color-scheme
+    other: {
+      "color-scheme": "light dark",
     },
   };
 }
@@ -81,6 +86,16 @@ export default async function RootLayout({
         <body
           className={`${geistSans.variable} ${geistMono.variable} antialiased bg-gray-200 min-h-[100dvh] grid grid-rows-[auto_1fr_auto] w-screen`}
         >
+          <Toaster
+            position="bottom-center"
+            toastOptions={{
+              duration: 4000,
+              style: {
+                background: "#333",
+                color: "#fff",
+              },
+            }}
+          />
           <Navigation data={data} />
           {/* <main className="backdrop-blur z-10 max-w-6xl mx-auto bg-white/50 rounded-xl py-7 px-8 m-6 overflow-hidden"> */}
           <main className="backdrop-blur z-10 overflow-hidden bg-white/50 rounded-xl py-7">

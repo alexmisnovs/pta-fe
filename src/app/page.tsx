@@ -7,10 +7,13 @@ import Articles from "@/components/HomePage/Articles";
 import Hero from "@/components/HomePage/Hero";
 import ImageSlider from "@/components/shared/ImageSlider";
 import Events from "@/components/HomePage/Events";
-import VolunteerForm from "@/components/shared/VolunteerForm";
+// import VolunteerForm from "@/components/shared/VolunteerForm";
 import FeaturedProject from "@/components/HomePage/FeaturedPoject";
 import ReactMarkdown from "react-markdown";
 import NewsLetter from "@/components/shared/NewsLetter";
+
+import Image from "next/image";
+import Link from "next/link";
 
 export default async function Home() {
   // we need to get component data from api
@@ -44,6 +47,13 @@ export default async function Home() {
   let volunteerBlock: {
     __typename?: "ComponentPtaHomePageVolunteerBlock";
     content?: string | null;
+    image?: {
+      __typename?: "UploadFile";
+      url: string;
+      alternateText?: string | null;
+      /* eslint-disable  @typescript-eslint/no-explicit-any */
+      formats?: any | null;
+    } | null;
   } = {};
 
   blocks.forEach(block => {
@@ -140,10 +150,29 @@ export default async function Home() {
       {/* Volunteer Form */}
       <section className="py-10 bg-base">
         <div className="container flex flex-col md:flex-row gap-8">
-          <ReactMarkdown className="markdown flex-1 md:order-1">
-            {volunteerBlock.content}
-          </ReactMarkdown>
-          <VolunteerForm className="md:order-2 flex-1" />
+          <div className=" flex-1 md:order-2">
+            <ReactMarkdown className="markdown">{volunteerBlock.content}</ReactMarkdown>
+            <Link href="/volunteer">
+              <button className="btn bg-custom-red hover:bg-custom-blue text-white font-bold py-2 px-4 rounded border-inherit">
+                Signup
+              </button>
+            </Link>
+          </div>
+
+          {/* <Image src={volunteerBlock.image?.formats?.medium.url as string} alt="volunteer" /> */}
+          <div className="md:order-1 flex-1">
+            <Image
+              src={volunteerBlock.image?.formats?.medium?.url || volunteerBlock.image?.url}
+              alt={volunteerBlock.image?.formats?.medium?.alternativeText || "Volunteer image"}
+              width={volunteerBlock.image?.formats?.medium?.width || 350}
+              height={volunteerBlock.image?.formats?.medium?.height || 350}
+              sizes="(max-width: 768px) 100vw, 800px"
+              className="object-cover"
+              quality={80}
+            />
+          </div>
+
+          {/* <VolunteerForm className="md:order-2 flex-1" /> */}
         </div>
       </section>
     </div>

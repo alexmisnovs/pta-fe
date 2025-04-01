@@ -110,7 +110,7 @@ export const Navigation = (data: NavProps) => {
           </div>
           {/* Modified logo section */}
           <div className="flex w-full max-lg:justify-start max-sm:justify-start">
-            <Link href="/" className="btn btn-ghost px-2 gap-2">
+            <Link href="/" className="btn btn-ghost px-1 sm:px-2 gap-1 sm:gap-2 min-h-0 h-auto">
               <Image
                 src={data?.data?.header?.logoImage?.url as string}
                 alt="Logo"
@@ -118,7 +118,9 @@ export const Navigation = (data: NavProps) => {
                 height={40}
                 className="h-8 w-8 sm:h-10 sm:w-10"
               />
-              <div className="text-sm sm:text-xl">{data?.data?.header?.logoText}</div>
+              <div className="text-xs sm:text-xl truncate max-w-[150px] sm:max-w-none">
+                {data?.data?.header?.logoText}
+              </div>
             </Link>
           </div>
         </div>
