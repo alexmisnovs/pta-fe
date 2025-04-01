@@ -58,7 +58,7 @@ export default async function Page({ params }: { params: Params }) {
   return (
     <div className="container">
       <div className="text-white relative bg-custom-blue px-14 py-16 -mx-8 -mt-7">
-        <h2 className="text-6xl font-bold relative z-30">{event.heading}</h2>
+        <h2 className="text-4xl font-bold relative z-30">{event.heading}</h2>
 
         <img
           className="object-cover absolute top-0 bottom-0 left-1/2 right-0 block w-1/2 h-full opacity-50 filter grayscale"
@@ -72,7 +72,7 @@ export default async function Page({ params }: { params: Params }) {
           href="/events"
           className="text-sm bg-custom-red text-white hover:bg-custom-blue hover:text-white inline-block rounded-lg py-3 px-5"
         >
-          &laquo; Back to all events
+          &laquo; Back to events
         </Link>
       </div>
       <BlockRenderer blocks={processedBlocks ?? []} className="space-y-8" />

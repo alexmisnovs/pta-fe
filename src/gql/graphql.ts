@@ -22,6 +22,7 @@ export type Scalars = {
   /** The `JSON` scalar type represents JSON values as specified by [ECMA-404](http://www.ecma-international.org/publications/files/ECMA-ST/ECMA-404.pdf). */
   JSON: { input: any; output: any; }
   ProjectBlocksDynamicZoneInput: { input: any; output: any; }
+  VolunteerPageBlocksDynamicZoneInput: { input: any; output: any; }
 };
 
 export type Article = {
@@ -643,7 +644,7 @@ export type FooterInput = {
   socialLink?: InputMaybe<Array<InputMaybe<ComponentSharedButtonLinkInput>>>;
 };
 
-export type GenericMorph = Article | Author | Category | ComponentPtaDonateButton | ComponentPtaEventComments | ComponentPtaFeaturedProject | ComponentPtaHeroSection | ComponentPtaHomePageAbout | ComponentPtaHomePageSlider | ComponentPtaHomePageVolunteerBlock | ComponentPtaRichTextMarkdown | ComponentPtaTextWithImage | ComponentPtaTotalDonations | ComponentSharedButtonLink | ComponentSharedMedia | ComponentSharedQuote | ComponentSharedRichText | ComponentSharedSeo | ComponentSharedSlider | ContactFormEntry | ContactPage | Event | Footer | Global | Header | HomePageContent | I18NLocale | NewsletterSignup | Product | Project | ReviewWorkflowsWorkflow | ReviewWorkflowsWorkflowStage | UploadFile | UsersPermissionsPermission | UsersPermissionsRole | UsersPermissionsUser | Volunteer | VolunteerJob;
+export type GenericMorph = Article | Author | Category | ComponentPtaDonateButton | ComponentPtaEventComments | ComponentPtaFeaturedProject | ComponentPtaHeroSection | ComponentPtaHomePageAbout | ComponentPtaHomePageSlider | ComponentPtaHomePageVolunteerBlock | ComponentPtaRichTextMarkdown | ComponentPtaTextWithImage | ComponentPtaTotalDonations | ComponentSharedButtonLink | ComponentSharedMedia | ComponentSharedQuote | ComponentSharedRichText | ComponentSharedSeo | ComponentSharedSlider | ContactFormEntry | ContactPage | Event | Footer | Global | Header | HomePageContent | I18NLocale | NewsletterSignup | Product | Project | ReviewWorkflowsWorkflow | ReviewWorkflowsWorkflowStage | UploadFile | UsersPermissionsPermission | UsersPermissionsRole | UsersPermissionsUser | Volunteer | VolunteerJob | VolunteerPage;
 
 export type Global = {
   __typename?: 'Global';
@@ -857,6 +858,7 @@ export type Mutation = {
   deleteUsersPermissionsUser: UsersPermissionsUserEntityResponse;
   deleteVolunteer?: Maybe<DeleteMutationResponse>;
   deleteVolunteerJob?: Maybe<DeleteMutationResponse>;
+  deleteVolunteerPage?: Maybe<DeleteMutationResponse>;
   /** Confirm an email users email address */
   emailConfirmation?: Maybe<UsersPermissionsLoginPayload>;
   /** Request a reset password token */
@@ -888,6 +890,7 @@ export type Mutation = {
   updateUsersPermissionsUser: UsersPermissionsUserEntityResponse;
   updateVolunteer?: Maybe<Volunteer>;
   updateVolunteerJob?: Maybe<VolunteerJob>;
+  updateVolunteerPage?: Maybe<VolunteerPage>;
 };
 
 
@@ -1213,6 +1216,12 @@ export type MutationUpdateVolunteerJobArgs = {
   status?: InputMaybe<PublicationStatus>;
 };
 
+
+export type MutationUpdateVolunteerPageArgs = {
+  data: VolunteerPageInput;
+  status?: InputMaybe<PublicationStatus>;
+};
+
 export type NewsletterSignup = {
   __typename?: 'NewsletterSignup';
   createdAt?: Maybe<Scalars['DateTime']['output']>;
@@ -1220,6 +1229,7 @@ export type NewsletterSignup = {
   email?: Maybe<Scalars['String']['output']>;
   name?: Maybe<Scalars['String']['output']>;
   publishedAt?: Maybe<Scalars['DateTime']['output']>;
+  resendId?: Maybe<Scalars['String']['output']>;
   updatedAt?: Maybe<Scalars['DateTime']['output']>;
 };
 
@@ -1238,6 +1248,7 @@ export type NewsletterSignupFiltersInput = {
   not?: InputMaybe<NewsletterSignupFiltersInput>;
   or?: InputMaybe<Array<InputMaybe<NewsletterSignupFiltersInput>>>;
   publishedAt?: InputMaybe<DateTimeFilterInput>;
+  resendId?: InputMaybe<StringFilterInput>;
   updatedAt?: InputMaybe<DateTimeFilterInput>;
 };
 
@@ -1245,6 +1256,7 @@ export type NewsletterSignupInput = {
   email?: InputMaybe<Scalars['String']['input']>;
   name?: InputMaybe<Scalars['String']['input']>;
   publishedAt?: InputMaybe<Scalars['DateTime']['input']>;
+  resendId?: InputMaybe<Scalars['String']['input']>;
 };
 
 export type Pagination = {
@@ -1442,6 +1454,7 @@ export type Query = {
   volunteerJob?: Maybe<VolunteerJob>;
   volunteerJobs: Array<Maybe<VolunteerJob>>;
   volunteerJobs_connection?: Maybe<VolunteerJobEntityResponseCollection>;
+  volunteerPage?: Maybe<VolunteerPage>;
   volunteers: Array<Maybe<Volunteer>>;
   volunteers_connection?: Maybe<VolunteerEntityResponseCollection>;
 };
@@ -1804,6 +1817,11 @@ export type QueryVolunteerJobs_ConnectionArgs = {
   filters?: InputMaybe<VolunteerJobFiltersInput>;
   pagination?: InputMaybe<PaginationArg>;
   sort?: InputMaybe<Array<InputMaybe<Scalars['String']['input']>>>;
+  status?: InputMaybe<PublicationStatus>;
+};
+
+
+export type QueryVolunteerPageArgs = {
   status?: InputMaybe<PublicationStatus>;
 };
 
@@ -2277,13 +2295,13 @@ export type VolunteerInput = {
 
 export type VolunteerJob = {
   __typename?: 'VolunteerJob';
-  amount_of_volunteers?: Maybe<Scalars['Int']['output']>;
   createdAt?: Maybe<Scalars['DateTime']['output']>;
   documentId: Scalars['ID']['output'];
   event?: Maybe<Event>;
   name?: Maybe<Scalars['String']['output']>;
   publishedAt?: Maybe<Scalars['DateTime']['output']>;
   updatedAt?: Maybe<Scalars['DateTime']['output']>;
+  volunteer?: Maybe<Volunteer>;
 };
 
 export type VolunteerJobEntityResponseCollection = {
@@ -2293,7 +2311,6 @@ export type VolunteerJobEntityResponseCollection = {
 };
 
 export type VolunteerJobFiltersInput = {
-  amount_of_volunteers?: InputMaybe<IntFilterInput>;
   and?: InputMaybe<Array<InputMaybe<VolunteerJobFiltersInput>>>;
   createdAt?: InputMaybe<DateTimeFilterInput>;
   documentId?: InputMaybe<IdFilterInput>;
@@ -2303,18 +2320,37 @@ export type VolunteerJobFiltersInput = {
   or?: InputMaybe<Array<InputMaybe<VolunteerJobFiltersInput>>>;
   publishedAt?: InputMaybe<DateTimeFilterInput>;
   updatedAt?: InputMaybe<DateTimeFilterInput>;
+  volunteer?: InputMaybe<VolunteerFiltersInput>;
 };
 
 export type VolunteerJobInput = {
-  amount_of_volunteers?: InputMaybe<Scalars['Int']['input']>;
   event?: InputMaybe<Scalars['ID']['input']>;
   name?: InputMaybe<Scalars['String']['input']>;
   publishedAt?: InputMaybe<Scalars['DateTime']['input']>;
+  volunteer?: InputMaybe<Scalars['ID']['input']>;
 };
 
 export type VolunteerJobRelationResponseCollection = {
   __typename?: 'VolunteerJobRelationResponseCollection';
   nodes: Array<VolunteerJob>;
+};
+
+export type VolunteerPage = {
+  __typename?: 'VolunteerPage';
+  blocks?: Maybe<Array<Maybe<VolunteerPageBlocksDynamicZone>>>;
+  createdAt?: Maybe<Scalars['DateTime']['output']>;
+  documentId: Scalars['ID']['output'];
+  heading?: Maybe<Scalars['String']['output']>;
+  publishedAt?: Maybe<Scalars['DateTime']['output']>;
+  updatedAt?: Maybe<Scalars['DateTime']['output']>;
+};
+
+export type VolunteerPageBlocksDynamicZone = ComponentPtaHomePageVolunteerBlock | ComponentPtaTextWithImage | ComponentSharedMedia | ComponentSharedRichText | Error;
+
+export type VolunteerPageInput = {
+  blocks?: InputMaybe<Array<Scalars['VolunteerPageBlocksDynamicZoneInput']['input']>>;
+  heading?: InputMaybe<Scalars['String']['input']>;
+  publishedAt?: InputMaybe<Scalars['DateTime']['input']>;
 };
 
 export type ArticlesQueryVariables = Exact<{ [key: string]: never; }>;
@@ -2333,7 +2369,7 @@ export type HomePageArticlesQuery = { __typename?: 'Query', articles: Array<{ __
 export type HomePageQueryVariables = Exact<{ [key: string]: never; }>;
 
 
-export type HomePageQuery = { __typename?: 'Query', homePageContent?: { __typename?: 'HomePageContent', blocks?: Array<{ __typename?: 'ComponentPtaFeaturedProject', heading?: string | null, description?: string | null, goalDonations?: number | null, currentDonations?: number | null, image?: { __typename?: 'UploadFile', url: string, alternativeText?: string | null, formats?: any | null } | null, projectLink?: { __typename?: 'ComponentSharedButtonLink', link?: string | null, buttonText?: string | null } | null } | { __typename?: 'ComponentPtaHeroSection', title?: string | null, content?: string | null, backgroundImage?: { __typename?: 'UploadFile', url: string, formats?: any | null } | null } | { __typename?: 'ComponentPtaHomePageAbout', heading?: string | null, description?: string | null } | { __typename?: 'ComponentPtaHomePageSlider', slides: Array<{ __typename?: 'UploadFile', url: string, formats?: any | null } | null> } | { __typename?: 'ComponentPtaHomePageVolunteerBlock', content?: string | null } | { __typename?: 'ComponentPtaTotalDonations', text?: string | null, total?: number | null, id: string } | { __typename?: 'Error' } | null> | null } | null };
+export type HomePageQuery = { __typename?: 'Query', homePageContent?: { __typename?: 'HomePageContent', blocks?: Array<{ __typename?: 'ComponentPtaFeaturedProject', heading?: string | null, description?: string | null, goalDonations?: number | null, currentDonations?: number | null, image?: { __typename?: 'UploadFile', url: string, alternativeText?: string | null, formats?: any | null } | null, projectLink?: { __typename?: 'ComponentSharedButtonLink', link?: string | null, buttonText?: string | null } | null } | { __typename?: 'ComponentPtaHeroSection', title?: string | null, content?: string | null, backgroundImage?: { __typename?: 'UploadFile', url: string, formats?: any | null } | null } | { __typename?: 'ComponentPtaHomePageAbout', heading?: string | null, description?: string | null } | { __typename?: 'ComponentPtaHomePageSlider', slides: Array<{ __typename?: 'UploadFile', url: string, formats?: any | null } | null> } | { __typename?: 'ComponentPtaHomePageVolunteerBlock', content?: string | null, image?: { __typename?: 'UploadFile', url: string, formats?: any | null, alternativeText?: string | null } | null } | { __typename?: 'ComponentPtaTotalDonations', text?: string | null, total?: number | null, id: string } | { __typename?: 'Error' } | null> | null } | null };
 
 export type HeaderQueryVariables = Exact<{ [key: string]: never; }>;
 
@@ -2408,10 +2444,25 @@ export type GlobalQueryVariables = Exact<{ [key: string]: never; }>;
 
 export type GlobalQuery = { __typename?: 'Query', global?: { __typename?: 'Global', siteName: string, siteDescription: string, defaultSeo?: { __typename?: 'ComponentSharedSeo', metaDescription: string, metaTitle: string, shareImage?: { __typename?: 'UploadFile', url: string } | null } | null } | null };
 
+export type VolunteerJobsQueryVariables = Exact<{ [key: string]: never; }>;
+
+
+export type VolunteerJobsQuery = { __typename?: 'Query', volunteerJobs: Array<{ __typename?: 'VolunteerJob', documentId: string, name?: string | null, event?: { __typename?: 'Event', heading?: string | null, slug?: string | null, description?: string | null, featuredImage?: { __typename?: 'UploadFile', formats?: any | null } | null } | null, volunteer?: { __typename?: 'Volunteer', email?: string | null } | null } | null> };
+
+export type EventsWithVolunteeringJobsQueryVariables = Exact<{ [key: string]: never; }>;
+
+
+export type EventsWithVolunteeringJobsQuery = { __typename?: 'Query', events: Array<{ __typename?: 'Event', documentId: string, heading?: string | null, slug?: string | null, featuredImage?: { __typename?: 'UploadFile', formats?: any | null } | null, volunteer_jobs: Array<{ __typename?: 'VolunteerJob', documentId: string, name?: string | null, volunteer?: { __typename?: 'Volunteer', name?: string | null, email?: string | null } | null } | null> } | null> };
+
+export type VolunteerPageQueryVariables = Exact<{ [key: string]: never; }>;
+
+
+export type VolunteerPageQuery = { __typename?: 'Query', volunteerPage?: { __typename?: 'VolunteerPage', heading?: string | null, blocks?: Array<{ __typename?: 'ComponentPtaHomePageVolunteerBlock' } | { __typename?: 'ComponentPtaTextWithImage', id: string, heading?: string | null, content?: string | null, imageSide?: Enum_Componentptatextwithimage_Imageside | null, file?: { __typename?: 'UploadFile', url: string, alternativeText?: string | null, formats?: any | null } | null } | { __typename?: 'ComponentSharedMedia', id: string, file?: { __typename?: 'UploadFile', formats?: any | null } | null } | { __typename?: 'ComponentSharedRichText', id: string, body?: string | null } | { __typename?: 'Error' } | null> | null } | null };
+
 
 export const ArticlesDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"Articles"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"articles"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"title"}},{"kind":"Field","name":{"kind":"Name","value":"slug"}},{"kind":"Field","name":{"kind":"Name","value":"description"}},{"kind":"Field","name":{"kind":"Name","value":"cover"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"url"}},{"kind":"Field","name":{"kind":"Name","value":"formats"}}]}}]}}]}}]} as unknown as DocumentNode<ArticlesQuery, ArticlesQueryVariables>;
 export const HomePageArticlesDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"HomePageArticles"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"sort"}},"type":{"kind":"ListType","type":{"kind":"NamedType","name":{"kind":"Name","value":"String"}}}},{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"pagination"}},"type":{"kind":"NamedType","name":{"kind":"Name","value":"PaginationArg"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"articles"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"sort"},"value":{"kind":"Variable","name":{"kind":"Name","value":"sort"}}},{"kind":"Argument","name":{"kind":"Name","value":"pagination"},"value":{"kind":"Variable","name":{"kind":"Name","value":"pagination"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"title"}},{"kind":"Field","name":{"kind":"Name","value":"description"}},{"kind":"Field","name":{"kind":"Name","value":"slug"}},{"kind":"Field","name":{"kind":"Name","value":"category"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"name"}}]}},{"kind":"Field","name":{"kind":"Name","value":"cover"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"formats"}},{"kind":"Field","name":{"kind":"Name","value":"url"}},{"kind":"Field","name":{"kind":"Name","value":"alternativeText"}}]}},{"kind":"Field","name":{"kind":"Name","value":"publishedAt"}},{"kind":"Field","name":{"kind":"Name","value":"author"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"name"}},{"kind":"Field","name":{"kind":"Name","value":"avatar"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"url"}},{"kind":"Field","name":{"kind":"Name","value":"formats"}}]}}]}}]}}]}}]} as unknown as DocumentNode<HomePageArticlesQuery, HomePageArticlesQueryVariables>;
-export const HomePageDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"HomePage"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"homePageContent"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"blocks"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"InlineFragment","typeCondition":{"kind":"NamedType","name":{"kind":"Name","value":"ComponentPtaTotalDonations"}},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"text"}},{"kind":"Field","name":{"kind":"Name","value":"total"}}]}},{"kind":"InlineFragment","typeCondition":{"kind":"NamedType","name":{"kind":"Name","value":"ComponentPtaHeroSection"}},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"title"}},{"kind":"Field","name":{"kind":"Name","value":"content"}},{"kind":"Field","name":{"kind":"Name","value":"backgroundImage"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"url"}},{"kind":"Field","name":{"kind":"Name","value":"formats"}}]}}]}},{"kind":"InlineFragment","typeCondition":{"kind":"NamedType","name":{"kind":"Name","value":"ComponentPtaTotalDonations"}},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"text"}},{"kind":"Field","name":{"kind":"Name","value":"total"}}]}},{"kind":"InlineFragment","typeCondition":{"kind":"NamedType","name":{"kind":"Name","value":"ComponentPtaHomePageSlider"}},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"slides"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"url"}},{"kind":"Field","name":{"kind":"Name","value":"formats"}}]}}]}},{"kind":"InlineFragment","typeCondition":{"kind":"NamedType","name":{"kind":"Name","value":"ComponentPtaHomePageAbout"}},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"heading"}},{"kind":"Field","name":{"kind":"Name","value":"description"}}]}},{"kind":"InlineFragment","typeCondition":{"kind":"NamedType","name":{"kind":"Name","value":"ComponentPtaHomePageVolunteerBlock"}},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"content"}}]}},{"kind":"InlineFragment","typeCondition":{"kind":"NamedType","name":{"kind":"Name","value":"ComponentPtaFeaturedProject"}},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"heading"}},{"kind":"Field","name":{"kind":"Name","value":"description"}},{"kind":"Field","name":{"kind":"Name","value":"goalDonations"}},{"kind":"Field","name":{"kind":"Name","value":"image"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"url"}},{"kind":"Field","name":{"kind":"Name","value":"alternativeText"}},{"kind":"Field","name":{"kind":"Name","value":"formats"}}]}},{"kind":"Field","name":{"kind":"Name","value":"projectLink"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"link"}},{"kind":"Field","name":{"kind":"Name","value":"buttonText"}}]}},{"kind":"Field","name":{"kind":"Name","value":"currentDonations"}}]}}]}}]}}]}}]} as unknown as DocumentNode<HomePageQuery, HomePageQueryVariables>;
+export const HomePageDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"HomePage"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"homePageContent"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"blocks"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"InlineFragment","typeCondition":{"kind":"NamedType","name":{"kind":"Name","value":"ComponentPtaTotalDonations"}},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"text"}},{"kind":"Field","name":{"kind":"Name","value":"total"}}]}},{"kind":"InlineFragment","typeCondition":{"kind":"NamedType","name":{"kind":"Name","value":"ComponentPtaHeroSection"}},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"title"}},{"kind":"Field","name":{"kind":"Name","value":"content"}},{"kind":"Field","name":{"kind":"Name","value":"backgroundImage"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"url"}},{"kind":"Field","name":{"kind":"Name","value":"formats"}}]}}]}},{"kind":"InlineFragment","typeCondition":{"kind":"NamedType","name":{"kind":"Name","value":"ComponentPtaTotalDonations"}},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"text"}},{"kind":"Field","name":{"kind":"Name","value":"total"}}]}},{"kind":"InlineFragment","typeCondition":{"kind":"NamedType","name":{"kind":"Name","value":"ComponentPtaHomePageSlider"}},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"slides"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"url"}},{"kind":"Field","name":{"kind":"Name","value":"formats"}}]}}]}},{"kind":"InlineFragment","typeCondition":{"kind":"NamedType","name":{"kind":"Name","value":"ComponentPtaHomePageAbout"}},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"heading"}},{"kind":"Field","name":{"kind":"Name","value":"description"}}]}},{"kind":"InlineFragment","typeCondition":{"kind":"NamedType","name":{"kind":"Name","value":"ComponentPtaHomePageVolunteerBlock"}},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"content"}},{"kind":"Field","name":{"kind":"Name","value":"image"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"url"}},{"kind":"Field","name":{"kind":"Name","value":"formats"}},{"kind":"Field","name":{"kind":"Name","value":"alternativeText"}}]}}]}},{"kind":"InlineFragment","typeCondition":{"kind":"NamedType","name":{"kind":"Name","value":"ComponentPtaFeaturedProject"}},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"heading"}},{"kind":"Field","name":{"kind":"Name","value":"description"}},{"kind":"Field","name":{"kind":"Name","value":"goalDonations"}},{"kind":"Field","name":{"kind":"Name","value":"image"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"url"}},{"kind":"Field","name":{"kind":"Name","value":"alternativeText"}},{"kind":"Field","name":{"kind":"Name","value":"formats"}}]}},{"kind":"Field","name":{"kind":"Name","value":"projectLink"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"link"}},{"kind":"Field","name":{"kind":"Name","value":"buttonText"}}]}},{"kind":"Field","name":{"kind":"Name","value":"currentDonations"}}]}}]}}]}}]}}]} as unknown as DocumentNode<HomePageQuery, HomePageQueryVariables>;
 export const HeaderDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"Header"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"header"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"logoText"}},{"kind":"Field","name":{"kind":"Name","value":"donateButtonLink"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"link"}}]}},{"kind":"Field","name":{"kind":"Name","value":"menuLink"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"buttonText"}},{"kind":"Field","name":{"kind":"Name","value":"link"}}]}},{"kind":"Field","name":{"kind":"Name","value":"logoImage"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"url"}},{"kind":"Field","name":{"kind":"Name","value":"formats"}}]}}]}}]}}]} as unknown as DocumentNode<HeaderQuery, HeaderQueryVariables>;
 export const FooterDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"Footer"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"footer"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"footerLogo"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"alternativeText"}},{"kind":"Field","name":{"kind":"Name","value":"url"}}]}},{"kind":"Field","name":{"kind":"Name","value":"copyright"}},{"kind":"Field","name":{"kind":"Name","value":"socialLink"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"buttonText"}},{"kind":"Field","name":{"kind":"Name","value":"link"}}]}}]}}]}}]} as unknown as DocumentNode<FooterQuery, FooterQueryVariables>;
 export const EventListDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"EventList"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"events"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"heading"}},{"kind":"Field","name":{"kind":"Name","value":"isPast"}},{"kind":"Field","name":{"kind":"Name","value":"featuredImage"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"url"}},{"kind":"Field","name":{"kind":"Name","value":"formats"}},{"kind":"Field","name":{"kind":"Name","value":"alternativeText"}}]}},{"kind":"Field","name":{"kind":"Name","value":"dateTime"}},{"kind":"Field","name":{"kind":"Name","value":"slug"}},{"kind":"Field","name":{"kind":"Name","value":"description"}}]}}]}}]} as unknown as DocumentNode<EventListQuery, EventListQueryVariables>;
@@ -2424,3 +2475,6 @@ export const ProjectDocument = {"kind":"Document","definitions":[{"kind":"Operat
 export const ContactPageDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"ContactPage"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"contactPage"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"heading"}},{"kind":"Field","name":{"kind":"Name","value":"description"}},{"kind":"Field","name":{"kind":"Name","value":"content"}}]}}]}}]} as unknown as DocumentNode<ContactPageQuery, ContactPageQueryVariables>;
 export const CreateContactFormEntryDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"mutation","name":{"kind":"Name","value":"CreateContactFormEntry"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"data"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"ContactFormEntryInput"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"createContactFormEntry"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"data"},"value":{"kind":"Variable","name":{"kind":"Name","value":"data"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"name"}},{"kind":"Field","name":{"kind":"Name","value":"email"}}]}}]}}]} as unknown as DocumentNode<CreateContactFormEntryMutation, CreateContactFormEntryMutationVariables>;
 export const GlobalDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"Global"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"global"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"siteName"}},{"kind":"Field","name":{"kind":"Name","value":"siteDescription"}},{"kind":"Field","name":{"kind":"Name","value":"defaultSeo"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"metaDescription"}},{"kind":"Field","name":{"kind":"Name","value":"metaTitle"}},{"kind":"Field","name":{"kind":"Name","value":"shareImage"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"url"}}]}}]}}]}}]}}]} as unknown as DocumentNode<GlobalQuery, GlobalQueryVariables>;
+export const VolunteerJobsDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"VolunteerJobs"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"volunteerJobs"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"documentId"}},{"kind":"Field","name":{"kind":"Name","value":"name"}},{"kind":"Field","name":{"kind":"Name","value":"event"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"heading"}},{"kind":"Field","name":{"kind":"Name","value":"slug"}},{"kind":"Field","name":{"kind":"Name","value":"featuredImage"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"formats"}}]}},{"kind":"Field","name":{"kind":"Name","value":"description"}}]}},{"kind":"Field","name":{"kind":"Name","value":"volunteer"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"email"}}]}}]}}]}}]} as unknown as DocumentNode<VolunteerJobsQuery, VolunteerJobsQueryVariables>;
+export const EventsWithVolunteeringJobsDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"EventsWithVolunteeringJobs"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"events"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"documentId"}},{"kind":"Field","name":{"kind":"Name","value":"featuredImage"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"formats"}}]}},{"kind":"Field","name":{"kind":"Name","value":"heading"}},{"kind":"Field","name":{"kind":"Name","value":"slug"}},{"kind":"Field","name":{"kind":"Name","value":"volunteer_jobs"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"documentId"}},{"kind":"Field","name":{"kind":"Name","value":"name"}},{"kind":"Field","name":{"kind":"Name","value":"volunteer"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"name"}},{"kind":"Field","name":{"kind":"Name","value":"email"}}]}}]}}]}}]}}]} as unknown as DocumentNode<EventsWithVolunteeringJobsQuery, EventsWithVolunteeringJobsQueryVariables>;
+export const VolunteerPageDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"VolunteerPage"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"volunteerPage"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"blocks"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"InlineFragment","typeCondition":{"kind":"NamedType","name":{"kind":"Name","value":"ComponentSharedRichText"}},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"body"}}]}},{"kind":"InlineFragment","typeCondition":{"kind":"NamedType","name":{"kind":"Name","value":"ComponentSharedMedia"}},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"file"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"formats"}}]}}]}},{"kind":"InlineFragment","typeCondition":{"kind":"NamedType","name":{"kind":"Name","value":"ComponentPtaTextWithImage"}},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"heading"}},{"kind":"Field","name":{"kind":"Name","value":"content"}},{"kind":"Field","name":{"kind":"Name","value":"file"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"url"}},{"kind":"Field","name":{"kind":"Name","value":"alternativeText"}},{"kind":"Field","name":{"kind":"Name","value":"formats"}}]}},{"kind":"Field","name":{"kind":"Name","value":"imageSide"}}]}}]}},{"kind":"Field","name":{"kind":"Name","value":"heading"}}]}}]}}]} as unknown as DocumentNode<VolunteerPageQuery, VolunteerPageQueryVariables>;

@@ -66,6 +66,11 @@ query HomePage {
       }
       ... on ComponentPtaHomePageVolunteerBlock {
         content
+        image {
+          url
+          formats
+          alternativeText
+        }
       }
       ... on ComponentPtaFeaturedProject {
         heading
@@ -288,5 +293,72 @@ query Global {
         url
       }
     }
+  }
+}
+
+query VolunteerJobs {
+  volunteerJobs {
+    documentId
+    name
+
+    event {
+      heading
+      slug
+      featuredImage {
+        formats
+      }
+      description
+    }
+    volunteer {
+      email
+    }
+  }
+}
+
+query EventsWithVolunteeringJobs {
+  events {
+    documentId
+    featuredImage {
+      formats
+    }
+    heading
+    slug
+    volunteer_jobs {
+      documentId
+      name
+      volunteer {
+        name
+        email
+      }
+    }
+  }
+}
+
+query VolunteerPage {
+  volunteerPage {
+    blocks {
+      ... on ComponentSharedRichText {
+        id
+        body
+      }
+      ... on ComponentSharedMedia {
+        id
+        file {
+          formats
+        }
+      }
+      ... on ComponentPtaTextWithImage {
+        id
+        heading
+        content
+        file {
+          url
+          alternativeText
+          formats
+        }
+        imageSide
+      }
+    }
+    heading
   }
 }
