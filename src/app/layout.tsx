@@ -55,12 +55,15 @@ export default async function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+  const { data: globalData = {}, error: globalError } = await apolloClient.query({
+    query: GlobalDocument,
+  });
   const { data = {}, error } = await apolloClient.query({
     query: HeaderDocument,
     context: {
       // initialApolloState,
       fetchOptions: {
-        next: { revalidate: 60 },
+        next: { revalidate: 10 },
       },
     },
   });
@@ -69,7 +72,7 @@ export default async function RootLayout({
     context: {
       // initialApolloState,
       fetchOptions: {
-        next: { revalidate: 60 },
+        next: { revalidate: 10 },
       },
     },
   });
@@ -79,7 +82,7 @@ export default async function RootLayout({
   // if (loading) return <p>Loading...</p>;
   if (error) return <p>Error: {error.message}</p>;
   if (footerError) return <p>Error: {footerError.message}</p>;
-
+  if (globalError) return <p>Error: {globalError.message}</p>;
   return (
     <html lang="en">
       <ApolloWrapper>
@@ -98,10 +101,10 @@ export default async function RootLayout({
           />
           <Navigation data={data} />
           {/* <main className="backdrop-blur z-10 max-w-6xl mx-auto bg-white/50 rounded-xl py-7 px-8 m-6 overflow-hidden"> */}
-          <main className="backdrop-blur z-10 overflow-hidden bg-white/50 rounded-xl py-7">
+          <main className="backdrop-blur z-10 overflow-hidden bg-base rounded-xl mb-10">
             {children}
           </main>
-          <Footer data={footerData} />
+          <Footer data={footerData} siteName={globalData.global?.siteName} />
         </body>
       </ApolloWrapper>
     </html>

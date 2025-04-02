@@ -121,7 +121,7 @@ const BlockRenderer = ({ blocks, className }: BlockRendererProps) => {
 
             return (
               <div key={key}>
-                <h2 className="text-3xl font-bold text-center mb-8">
+                <h2 className="text-3xl font-bold text-center mb-8 pt-6">
                   {textWithImageBlock.heading}
                 </h2>
                 <div className="my-6 overflow-hidden">

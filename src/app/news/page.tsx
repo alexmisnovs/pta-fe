@@ -21,7 +21,7 @@ export default async function Page() {
 
   return (
     <div className="container">
-      <h1 className="text-4xl mb-6 font-bold text-gray-700">PTA News</h1>
+      <h1 className="text-4xl mb-6 text-center font-bold text-gray-700 pt-6">PTA News</h1>
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 max-w-6xl mx-auto">
         {articles.map(article => {
           if (!article) return null;

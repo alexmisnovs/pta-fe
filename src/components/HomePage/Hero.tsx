@@ -52,10 +52,10 @@ const Hero = async ({ backgroundImage, title, content }: HeroProps) => {
         <div className="hero-overlay bg-opacity-60"></div>
         <div className="hero-content text-neutral-content text-center">
           <div className="max-w-md px-4">
-            <h1 className="mb-5 text-4xl md:text-5xl font-bold">{title}</h1>
+            <h1 className="mb-5 text-3xl md:text-5xl font-bold">{title}</h1>
             <p className="mb-5 text-sm md:text-base">{content}</p>
             <Link
-              className="btn bg-custom-red hover:bg-custom-blue text-white font-bold py-3 px-6 rounded-lg text-sm md:text-base md:py-2 md:px-4"
+              className="btn bg-custom-red hover:bg-custom-blue text-white font-bold py-3 px-6 rounded-lg text-sm md:text-base md:py-2 md:px-4 border-0"
               href="/events"
             >
               Checkout out our events

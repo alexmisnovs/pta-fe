@@ -43,6 +43,14 @@ export default async function Home() {
     __typename?: "ComponentPtaTotalDonations";
     text?: string | null;
     total?: number | null;
+    donationLink?:
+      | {
+          __typename?: "ComponentSharedButtonLink" | undefined;
+          link?: string | null | undefined;
+          buttonText?: string | null | undefined;
+        }
+      | null
+      | undefined;
   } = {};
   let volunteerBlock: {
     __typename?: "ComponentPtaHomePageVolunteerBlock";
@@ -121,13 +129,21 @@ export default async function Home() {
             {totalDonationsBlock.text} :{" "}
             <span className="text-custom-red">£{totalDonationsBlock.total}</span>
           </h2>
+          <div className="flex justify-center">
+            <a
+              target="_blank"
+              rel="noopener noreferrer"
+              href={totalDonationsBlock.donationLink?.link ?? "/"}
+              className="flex 1 btn btn-md bg-custom-red hover:bg-gray text-white font-bold rounded px-4 border-0"
+            >
+              {totalDonationsBlock.donationLink?.buttonText ?? "Donate"}
+            </a>
+          </div>
         </div>
       </section>
       {/* NEWS */}
-      <section className="py-10 px-4 bg-base">
-        <div className="container">
-          <Articles />
-        </div>
+      <section className="py-10 px-8 bg-white">
+        <Articles />
       </section>
 
       {/* Featured Project section */}
@@ -144,35 +160,33 @@ export default async function Home() {
       </section>
 
       {/* Carousel */}
-      <section className="py-10 px-4 bg-white">
+      <section className="py-10 px-4 bg-base">
         <ImageSlider {...imageSlider} />
       </section>
       {/* Volunteer Form */}
-      <section className="py-10 bg-base">
-        <div className="container flex flex-col md:flex-row gap-8">
-          <div className=" flex-1 md:order-2">
-            <ReactMarkdown className="markdown">{volunteerBlock.content}</ReactMarkdown>
+      <section className="py-10 bg-white">
+        <div className="container flex flex-col md:flex-row items-center gap-8 md:gap-12">
+          <div className="flex-1 md:order-2 max-w-xl">
+            {/* <h2 className="text-3xl font-bold mb-6">WHY VOLUNTEER?</h2> */}
+            <ReactMarkdown className="markdown prose">{volunteerBlock.content}</ReactMarkdown>
             <Link href="/volunteer">
-              <button className="btn bg-custom-red hover:bg-custom-blue text-white font-bold py-2 px-4 rounded border-inherit">
+              <button className="btn bg-custom-red hover:bg-custom-blue text-white font-bold py-2 px-4 rounded border-0 mt-4">
                 Signup
               </button>
             </Link>
           </div>
 
-          {/* <Image src={volunteerBlock.image?.formats?.medium.url as string} alt="volunteer" /> */}
-          <div className="md:order-1 flex-1">
+          <div className="md:order-1 flex-1 flex justify-end">
             <Image
               src={volunteerBlock.image?.formats?.medium?.url || volunteerBlock.image?.url}
               alt={volunteerBlock.image?.formats?.medium?.alternativeText || "Volunteer image"}
-              width={volunteerBlock.image?.formats?.medium?.width || 350}
-              height={volunteerBlock.image?.formats?.medium?.height || 350}
+              width={450}
+              height={450}
               sizes="(max-width: 768px) 100vw, 800px"
-              className="object-cover"
+              className="object-cover rounded-lg"
               quality={80}
             />
           </div>
-
-          {/* <VolunteerForm className="md:order-2 flex-1" /> */}
         </div>
       </section>
     </div>

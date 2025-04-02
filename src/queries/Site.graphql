@@ -53,6 +53,10 @@ query HomePage {
         id
         text
         total
+        donationLink {
+          link
+          buttonText
+        }
       }
       ... on ComponentPtaHomePageSlider {
         slides {
@@ -360,5 +364,22 @@ query VolunteerPage {
       }
     }
     heading
+  }
+}
+
+query Products {
+  products {
+    name
+    description
+    buyButtonLink {
+      link
+      featured
+    }
+    createdAt
+    price
+    image {
+      formats
+      alternativeText
+    }
   }
 }
