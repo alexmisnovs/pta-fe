@@ -29,7 +29,7 @@ const FeaturedProject = async (projectData: FeaturedPojectProps) => {
   return (
     <div className="container flex flex-col md:flex-row gap-8 items-start py-8">
       {/* Image Section - Left Side */}
-      <div className="w-full md:w-1/2 h-96 md:h-[500px] relative rounded-xl overflow-hidden">
+      <div className="w-full md:w-1/2 h-69 md:h-[500px] relative rounded-xl overflow-hidden">
         {/* <img
           src={projectData.image?.formats?.medium.url}
           alt={projectData.heading || ""}

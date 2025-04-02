@@ -303,14 +303,14 @@ const JobForm = ({ events, onSubmitSuccess, onVolunteerSearchSuccess }: JobFormP
         <>
           <div className="card bg-base-100 shadow-xl">
             <div className="card-body">
-              <h2 className="text-3xl font-bold text-center mb-8">Sign in</h2>
+              <h2 className="text-3xl font-bold text-center mb-8">Volunteer Sign in</h2>
               <form onSubmit={handleVolunteerSearch} className="space-y-4">
                 <input
                   className="input input-bordered w-full"
                   type="email"
                   value={email}
                   onChange={e => setEmail(e.target.value)}
-                  placeholder="Email used to signup"
+                  placeholder="Email"
                   required
                 />
 

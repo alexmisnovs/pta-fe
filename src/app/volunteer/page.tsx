@@ -28,32 +28,33 @@ export default async function Page() {
 
   // console.log(processedBlocks);
   return (
-    <div className="container">
-      {/* <h1 className="text-4xl mb-6 text-center font-bold text-gray-700">Volunteers</h1> */}
+    <>
+      <section className="bg-white">
+        <div className="container">
+          {/* <h1 className="text-4xl mb-6 text-center font-bold text-gray-700">Volunteers</h1> */}
 
-      {processedBlocks && processedBlocks.length > 0 ? (
-        <>
-          <BlockRenderer blocks={processedBlocks} className="space-y-8" />
-        </>
-      ) : (
-        <div>No blocks to display</div>
-      )}
-
-      <section>
-        <div className="flex flex-col md:flex-row gap-8">
-          {/* only display if not volunteerId present in localstorage */}
-          {/* <div className="flex-1">
-            <VolunteerForm />
-          </div> */}
-          <div className="flex-1">
-            <VolunteerJobs />
-          </div>
+          {processedBlocks && processedBlocks.length > 0 ? (
+            <>
+              <BlockRenderer blocks={processedBlocks} className="space-y-8" />
+            </>
+          ) : (
+            <div>No blocks to display</div>
+          )}
         </div>
       </section>
-
-      <section></section>
-
-      <section></section>
-    </div>
+      <div>
+        <section className="px-4 bg-white">
+          <div className="flex flex-col md:flex-row gap-8">
+            {/* only display if not volunteerId present in localstorage */}
+            {/* <div className="flex-1">
+            <VolunteerForm />
+          </div> */}
+            <div className="flex-1">
+              <VolunteerJobs />
+            </div>
+          </div>
+        </section>
+      </div>
+    </>
   );
 }

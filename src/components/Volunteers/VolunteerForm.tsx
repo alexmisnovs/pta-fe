@@ -79,7 +79,7 @@ const VolunteerForm = ({ className }: VolunteerFormProps) => {
     <div className={`w-full ${className || ""}`}>
       <div className="card bg-base-100 shadow-xl">
         <div className="card-body">
-          <h2 className="text-3xl font-bold text-center mb-8">Signup</h2>{" "}
+          <h2 className="text-3xl font-bold text-center mb-8">Volunteer Signup</h2>{" "}
           <form onSubmit={handleSubmit} className="space-y-4">
             <input
               className="input input-bordered w-full"
@@ -129,7 +129,7 @@ const VolunteerForm = ({ className }: VolunteerFormProps) => {
               type="submit"
               className="btn bg-custom-red hover:bg-custom-blue text-white font-bold py-2 px-4 rounded border-inherit"
             >
-              {loading ? "Submitting..." : "Sign Up"}
+              {loading ? "Signing up..." : "Sign Up"}
             </button>
             {/* todo: handle errors properly */}
             {/* {error && <p>Error submitting form: {error.message}</p>} */}
