@@ -24,53 +24,57 @@ export default async function Page() {
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 max-w-6xl mx-auto">
         {events.map(event => {
           if (!event) return null;
-          // if (!event?.cover?.url) return null;
           return (
             <Link
-              className="group grid grid-cols-[140px_1fr] bg-white shadow rounded-lg overflow-hidden relative hover:bg-gradient-to-r from-white to-amber-50"
+              className="group flex flex-col bg-white shadow rounded-lg overflow-hidden relative hover:bg-gradient-to-r from-white to-amber-50"
               key={event.slug}
               href={`/events/${event.slug}`}
             >
-              <div className="relative overflow-hidden">
+              <div className="relative overflow-hidden h-[200px]">
                 {event.featuredImage?.url && (
                   <Image
-                    className="transition duration-300 absolute inset-0 h-full w-full object-cover group-hover:scale-125 group-hover:rotate-12"
+                    className="transition duration-300 object-cover group-hover:scale-125 group-hover:rotate-12"
                     src={event.featuredImage?.url ?? "default-image.jpg"}
                     alt={event.heading ?? "Event Image"}
-                    width={event.featuredImage?.formats?.medium?.width ?? 0}
-                    height={event.featuredImage?.formats?.medium?.height ?? 0}
+                    fill
+                    sizes="(max-width: 768px) 100vw, 33vw"
+                    priority={false}
                   />
                 )}
               </div>
 
-              <div className="p-4">
-                <p className="text-xl text-gray-600 font-bold group-hover:text-gray-700">
-                  {event.heading}
-                </p>
-                <p className="text-sm text-gray-500 leading-6">{event.description}</p>
-              </div>
-              <div className="p-4 flex flex-row items-center justify-between">
-                <div className="flex items-center">
-                  <span className="text-gray-600">
-                    Date:
-                    {new Date(event.dateTime).toLocaleDateString("en-GB", {
-                      day: "2-digit",
-                      month: "2-digit",
-                      year: "numeric",
-                    })}
-                  </span>
-                  <span className="mx-1 underline">
-                    at:
-                    {new Date(event.dateTime).toLocaleTimeString("en-GB", {
-                      hour: "2-digit",
-                      minute: "2-digit",
-                    })}
-                  </span>
+              <div className="p-6 flex flex-col flex-grow">
+                <div className="flex justify-between items-center text-sm text-gray-500 mb-3">
+                  <span>Event</span>
+                  <div className="text-right">
+                    <div>
+                      {new Date(event.dateTime).toLocaleDateString("en-GB", {
+                        weekday: "long",
+                        day: "numeric",
+                        month: "long",
+                      })}
+                    </div>
+                    <div>
+                      {new Date(event.dateTime).toLocaleTimeString("en-GB", {
+                        hour: "2-digit",
+                        minute: "2-digit",
+                      })}
+                    </div>
+                  </div>
                 </div>
-                <div className="ml-3">
-                  <button className="btn bg-custom-red hover:bg-custom-blue text-white font-bold py-2 px-4 rounded border-inherit">
-                    More Details
-                  </button>
+
+                <h3 className="text-xl text-gray-600 font-bold group-hover:text-gray-700 mb-2">
+                  {event.heading}
+                </h3>
+                <p className="text-sm text-gray-500 leading-6 mb-4">{event.description}</p>
+
+                <div className="mt-auto flex flex-col">
+                  <span className="text-sm text-gray-500 mb-3">Location: Saint Modwens School</span>
+                  <div className="flex justify-center">
+                    <button className="btn bg-custom-red hover:bg-custom-blue text-white font-bold py-2 px-4 rounded border-0">
+                      More Details
+                    </button>
+                  </div>
                 </div>
               </div>
             </Link>

@@ -30,18 +30,13 @@ const FeaturedProject = async (projectData: FeaturedPojectProps) => {
     <div className="container flex flex-col md:flex-row gap-8 items-start py-8">
       {/* Image Section - Left Side */}
       <div className="w-full md:w-1/2 h-69 md:h-[500px] relative rounded-xl overflow-hidden">
-        {/* <img
-          src={projectData.image?.formats?.medium.url}
-          alt={projectData.heading || ""}
-          className="w-full h-full object-cover"
-        /> */}
         <Image
           src={projectData.image?.formats?.medium.url || projectData?.image?.url}
           alt={projectData.image?.alternativeText || projectData?.heading || "Project name"}
-          layout="responsive" // Optional: adjust as needed
-          width={500} // Set an appropriate width
-          height={500} // Set an appropriate height
+          width={800}
+          height={800}
           className="w-full h-full object-cover"
+          sizes="(max-width: 768px) 100vw, 50vw"
         />
       </div>
 

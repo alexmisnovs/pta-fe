@@ -142,14 +142,14 @@ export default async function Home() {
         </div>
       </section>
       {/* NEWS */}
-      <section className="py-10 px-8 bg-white">
+      <section className="py-10 px-4 md:px-8 bg-white">
         <Articles />
       </section>
 
       {/* Featured Project section */}
       <section className="py-10 bg-base  ">
         <div className="container">
-          <h2 className="text-3xl font-bold text-center mb-12">CURRENT PROJECTS</h2>
+          <h2 className="text-3xl font-bold text-center mb-1">CURRENT PROJECTS</h2>
           <FeaturedProject {...featuredProjectBlock} />
         </div>
       </section>
@@ -182,8 +182,9 @@ export default async function Home() {
               alt={volunteerBlock.image?.formats?.medium?.alternativeText || "Volunteer image"}
               width={450}
               height={450}
-              sizes="(max-width: 768px) 100vw, 800px"
-              className="object-cover rounded-lg"
+              className="object-cover rounded-lg w-full max-w-[450px] h-[450px]"
+              priority={false}
+              sizes="(max-width: 768px) 100vw, 450px"
               quality={80}
             />
           </div>

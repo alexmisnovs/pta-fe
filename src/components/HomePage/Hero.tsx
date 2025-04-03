@@ -1,4 +1,6 @@
+"use client";
 import Link from "next/link";
+import Image from "next/image";
 
 type HeroProps = {
   __typename?: "ComponentPtaHeroSection";
@@ -12,44 +14,22 @@ type HeroProps = {
   } | null;
 };
 
-// const Hero = async ({ backgroundImage, title, content }: HeroProps) => {
-//   // console.log(content);
-//   return (
-//     <div className="container">
-//       <div
-//         className="hero h-96 md:h-[500px]  overflow-hidden"
-//         style={{
-//           backgroundImage: "url(" + (backgroundImage?.url as string) + ")",
-//         }}
-//       >
-//         <div className="hero-overlay bg-opacity-60"></div>
-//         <div className="hero-content text-neutral-content text-center">
-//           <div className="max-w-md">
-//             <h1 className="mb-5 text-5xl font-bold">{title}</h1>
-//             <p className="mb-5">{content}</p>
-//             <Link
-//               className="btn bg-custom-red hover:bg-custom-blue text-white font-bold py-2 px-4 rounded"
-//               href="/events"
-//             >
-//               Checkout out our events
-//             </Link>
-//           </div>
-//         </div>
-//       </div>
-//     </div>
-//   );
-// };
-const Hero = async ({ backgroundImage, title, content }: HeroProps) => {
-  // console.log(backgroundImage?.formats);
+const Hero = ({ backgroundImage, title, content }: HeroProps) => {
   return (
-    <div className="container">
-      <div
-        className="hero min-h-[400px] md:h-[500px] overflow-hidden"
-        style={{
-          backgroundImage: `url(${backgroundImage?.formats?.medium?.url})`,
-        }}
-      >
-        <div className="hero-overlay bg-opacity-60"></div>
+    <div className="w-full relative">
+      <div className="absolute inset-0 z-0">
+        <Image
+          src={backgroundImage?.formats?.medium?.url || ""}
+          alt="Hero background"
+          fill
+          priority
+          className="object-cover"
+          sizes="100vw"
+          quality={85}
+        />
+        <div className="absolute inset-0 bg-black/60"></div>
+      </div>
+      <div className="relative z-10 min-h-[400px] md:h-[500px] flex items-center justify-center">
         <div className="hero-content text-neutral-content text-center">
           <div className="max-w-md px-4">
             <h1 className="mb-5 text-3xl md:text-5xl font-bold">{title}</h1>

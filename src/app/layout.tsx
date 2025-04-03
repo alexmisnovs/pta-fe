@@ -101,9 +101,7 @@ export default async function RootLayout({
           />
           <Navigation data={data} />
           {/* <main className="backdrop-blur z-10 max-w-6xl mx-auto bg-white/50 rounded-xl py-7 px-8 m-6 overflow-hidden"> */}
-          <main className="backdrop-blur z-10 overflow-hidden bg-base rounded-xl mb-10">
-            {children}
-          </main>
+          <main className="backdrop-blur z-10 overflow-hidden bg-base  mb-10">{children}</main>
           <Footer data={footerData} siteName={globalData.global?.siteName} />
         </body>
       </ApolloWrapper>

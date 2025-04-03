@@ -19,7 +19,7 @@ export async function generateMetadata({ params }: { params: Params }) {
     },
     context: {
       fetchOptions: {
-        next: { revalidate: 60 },
+        next: { revalidate: 10 },
       },
     },
   });

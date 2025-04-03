@@ -15,7 +15,7 @@ const VolunteerJobs = () => {
   const { loading, error, data, refetch } = useQuery(EventsWithVolunteeringJobsDocument);
 
   const events = data?.events;
-  console.log(events);
+  // console.log(events);
 
   // return;
   useEffect(() => {
@@ -25,7 +25,7 @@ const VolunteerJobs = () => {
       setVolunteerId(storedVolunteerId);
     }
   }, []);
-  console.log(volunteerId);
+  // console.log(volunteerId);
   if (loading) {
     return "Loading...";
   }
@@ -34,9 +34,9 @@ const VolunteerJobs = () => {
 
   return (
     <>
-      <div className="card bg-base-100 shadow-xl">
-        <div className="card-body">
-          <h2 className="text-3xl font-bold text-center mb-8">Current Volunteering Jobs</h2>
+      <div className=" bg-base-100">
+        <div className="container">
+          <h2 className="text-3xl font-bold text-center my-8">Current Volunteering Jobs</h2>
           {/* make column layout */}
           <div className="flex flex-wrap -mx-4">
             {events?.map(event => (
