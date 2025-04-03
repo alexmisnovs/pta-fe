@@ -77,7 +77,7 @@ const VolunteerForm = ({ className }: VolunteerFormProps) => {
 
   return (
     <div className={`w-full ${className || ""}`}>
-      <div className="card bg-base-100 shadow-xl">
+      <div className="card bg-base-100">
         <div className="card-body">
           <h2 className="text-3xl font-bold text-center mb-8">Volunteer Signup</h2>{" "}
           <form onSubmit={handleSubmit} className="space-y-4">

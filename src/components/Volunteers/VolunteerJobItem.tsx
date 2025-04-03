@@ -30,7 +30,7 @@ const VolunteerEventJobItem = (event: EventJobItemParams) => {
 
   return (
     <div className="w-full md:w-1/2 lg:w-1/3 p-4">
-      <div className="card bg-base-100 shadow-xl h-full">
+      <div className="card bg-base-100 h-full">
         <figure className="relative w-[150px] h-[150px] mx-auto mt-4">
           <Image
             src={thumbnailUrl}

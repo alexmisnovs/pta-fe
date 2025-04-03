@@ -249,7 +249,7 @@ const JobForm = ({ events, onSubmitSuccess, onVolunteerSearchSuccess }: JobFormP
   return (
     <>
       {localStorage.getItem("volunteerId") ? (
-        <div className="card bg-base-100 shadow-xl">
+        <div className="card bg-base-100 ">
           <div className="card-body">
             <p>Welcome back {volunteerName}</p>
             <p>Jobs you applied to help with:</p>
@@ -301,7 +301,7 @@ const JobForm = ({ events, onSubmitSuccess, onVolunteerSearchSuccess }: JobFormP
         </div>
       ) : (
         <>
-          <div className="card bg-base-100 shadow-xl">
+          <div className="card bg-base-100 ">
             <div className="card-body">
               <h2 className="text-3xl font-bold text-center mb-8">Volunteer Sign in</h2>
               <form onSubmit={handleVolunteerSearch} className="space-y-4">
@@ -332,7 +332,7 @@ const JobForm = ({ events, onSubmitSuccess, onVolunteerSearchSuccess }: JobFormP
 
       {volunteerId && (
         <>
-          <div className="card bg-base-100 shadow-xl mt-10">
+          <div className="card bg-base-100 mt-10">
             <div className="card-body">
               <h3>Select Event and apply for event form</h3>
               <form key={formKey} onSubmit={handleSubmit} className="space-y-4">
