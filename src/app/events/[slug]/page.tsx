@@ -10,7 +10,7 @@ export async function generateStaticParams() {
     context: {
       // initialApolloState,
       fetchOptions: {
-        next: { revalidate: 60 },
+        next: { revalidate: 10 },
       },
     },
   });
@@ -40,7 +40,7 @@ export default async function Page({ params }: { params: Params }) {
     },
     context: {
       fetchOptions: {
-        next: { revalidate: 60 },
+        next: { revalidate: 10 },
       },
     },
   });
@@ -48,7 +48,7 @@ export default async function Page({ params }: { params: Params }) {
   const event = data.events[0];
 
   if (!event) return <h1>Event not found</h1>;
-  // console.log(event.blocks);
+  console.log(event);
 
   const processedBlocks = event?.blocks?.map(block => ({
     __typename: block?.__typename, // Ensure this exists in response

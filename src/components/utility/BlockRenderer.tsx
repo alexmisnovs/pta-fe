@@ -10,6 +10,7 @@ type BlockType =
   | "ComponentSharedSlider"
   | "ComponentPtaRichTextMarkdown"
   | "ComponentPtaTextWithImage"
+  | "ComponentPtaEventComments"
   | "Error";
 
 // Base block type with required __typename
@@ -22,6 +23,12 @@ type BaseBlock = {
 type RichTextBlock = BaseBlock & {
   __typename: "ComponentSharedRichText";
   body?: string;
+};
+type PtaEventComments = BaseBlock & {
+  __typename: "ComponentPtaEventComments";
+  content?: string;
+  heading?: string;
+  amountRaised?: number;
 };
 
 type RichTextMarkdownBlock = BaseBlock & {
@@ -79,6 +86,7 @@ export type Block =
   | SliderBlock
   | RichTextMarkdownBlock
   | TextWithImageBlock
+  | PtaEventComments
   | ErrorBlock;
 
 type BlockRendererProps = {
@@ -112,6 +120,20 @@ const BlockRenderer = ({ blocks, className }: BlockRendererProps) => {
               <ReactMarkdown key={key} className="markdown my-4">
                 {(block as RichTextMarkdownBlock).content || ""}
               </ReactMarkdown>
+            );
+          case "ComponentPtaEventComments":
+            const ptaEventCommentsBlock = block as PtaEventComments;
+            if (!ptaEventCommentsBlock.content) return null;
+            return (
+              <>
+                <h2>{ptaEventCommentsBlock.heading}</h2>
+                <ReactMarkdown key={key} className="markdown my-4">
+                  {(block as RichTextMarkdownBlock).content || ""}
+                </ReactMarkdown>
+                <div>
+                  <h3>Amount raised: {ptaEventCommentsBlock.amountRaised}</h3>
+                </div>
+              </>
             );
 
           case "ComponentPtaTextWithImage":

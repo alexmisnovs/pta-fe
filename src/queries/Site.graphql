@@ -187,6 +187,23 @@ query Event($slug: String) {
           formats
         }
       }
+      ... on ComponentPtaTextWithImage {
+        id
+        heading
+        content
+        file {
+          url
+          alternativeText
+          formats
+        }
+        imageSide
+      }
+      ... on ComponentPtaEventComments {
+        id
+        content
+        amountRaised
+        heading
+      }
     }
     description
   }
