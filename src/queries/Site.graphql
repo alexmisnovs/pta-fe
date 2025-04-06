@@ -297,9 +297,14 @@ query Project($slug: String) {
 
 query ContactPage {
   contactPage {
-    heading
     description
-    content
+    address
+    email
+    heading
+    map {
+      alternativeText
+      formats
+    }
   }
 }
 

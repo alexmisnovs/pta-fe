@@ -19,7 +19,7 @@ export default async function Page() {
   // return <h1>Events will go here</h1>;
 
   return (
-    <div className="container">
+    <div className="container mb-10">
       <h1 className="text-4xl mb-6 text-center font-bold text-gray-700 pt-6">PTA Events</h1>
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 max-w-6xl mx-auto">
         {events.map(event => {

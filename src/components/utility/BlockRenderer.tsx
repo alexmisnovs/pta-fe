@@ -98,7 +98,7 @@ const BlockRenderer = ({ blocks, className }: BlockRendererProps) => {
   if (!blocks?.length) return null;
 
   return (
-    <div className={className}>
+    <div key={1} className={className}>
       {blocks.map((block, index) => {
         if (!block) return null;
         const key = block.id
@@ -125,7 +125,7 @@ const BlockRenderer = ({ blocks, className }: BlockRendererProps) => {
             const ptaEventCommentsBlock = block as PtaEventComments;
             if (!ptaEventCommentsBlock.content) return null;
             return (
-              <>
+              <div key={key}>
                 <h2>{ptaEventCommentsBlock.heading}</h2>
                 <ReactMarkdown key={key} className="markdown my-4">
                   {(block as RichTextMarkdownBlock).content || ""}
@@ -133,7 +133,7 @@ const BlockRenderer = ({ blocks, className }: BlockRendererProps) => {
                 <div>
                   <h3>Amount raised: {ptaEventCommentsBlock.amountRaised}</h3>
                 </div>
-              </>
+              </div>
             );
 
           case "ComponentPtaTextWithImage":
