@@ -57,7 +57,7 @@ const ContactForm = () => {
   }
   if (submitted) {
     return (
-      <div className="mx-auto card bg-base-100 shadow-xl mt-4 w-xl">
+      <div className="mx-auto bg-base-100  mt-4 w-xl">
         <div className="card-body">
           Dear {name}, thank you for contacting us. We will get back to you soon to your email{" "}
           {email}
@@ -67,8 +67,8 @@ const ContactForm = () => {
   }
 
   return (
-    <div className="mx-auto card bg-base-100 shadow-xl mt-4 w-xl">
-      <div className="card-body">
+    <div className="mx-auto mt-4 w-xl">
+      <div className=" pb-10">
         <form onSubmit={handleSubmit} className="space-y-4">
           <input
             className="input input-bordered w-full"

@@ -38,25 +38,6 @@ export async function generateMetadata({ params }: { params: Params }) {
   };
 }
 
-// export async function generateStaticParams() {
-//   const { data } = await apolloClient.query({
-//     query: ArticlesDocument,
-//     context: {
-//       // initialApolloState,
-//       fetchOptions: {
-//         next: { revalidate: 60 },
-//       },
-//     },
-//   });
-
-//   const article = data.articles;
-//   return article.map(article => {
-//     return {
-//       slug: article?.slug,
-//     };
-//   });
-// }
-
 export default async function Page({ params }: { params: Params }) {
   const { slug } = await params;
 
@@ -83,7 +64,7 @@ export default async function Page({ params }: { params: Params }) {
   })) as Block[]; // Type assertion here if needed
 
   return (
-    <div className="container">
+    <div className="bg-white px-8 pb-10">
       <div className="text-white relative bg-custom-blue px-14 py-16 -mx-8 -mt-7">
         <h2 className="text-3xl font-bold relative z-30">{article.title}</h2>
 
