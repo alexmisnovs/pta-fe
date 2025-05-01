@@ -2,6 +2,7 @@
 
 import Link from "next/link";
 import Image from "next/image";
+import { useState } from "react";
 
 import MenuLinks, { type MenuLink } from "./MenuLinks";
 import MobileMenuLinks from "./MobileMenuLinks";
@@ -28,12 +29,27 @@ type NavProps = {
 };
 
 export const Navigation = (data: NavProps) => {
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
+
+  const toggleMenu = () => {
+    setIsMenuOpen(!isMenuOpen);
+  };
+
+  const closeMobileMenu = () => {
+    setIsMenuOpen(false);
+  };
+
   return (
     <div className="sticky top-0 z-30 w-full">
       <div className="navbar bg-base-100 shadow-lg">
         <div className="navbar-start">
           <div className="dropdown">
-            <div tabIndex={0} role="button" className="btn btn-ghost lg:hidden">
+            <div
+              tabIndex={0}
+              role="button"
+              className="btn btn-ghost lg:hidden"
+              onClick={toggleMenu}
+            >
               <svg
                 xmlns="http://www.w3.org/2000/svg"
                 className="h-5 w-5"
@@ -50,7 +66,12 @@ export const Navigation = (data: NavProps) => {
               </svg>
             </div>
 
-            <MobileMenuLinks links={data?.data?.header?.menuLink as MenuLink[]} />
+            {isMenuOpen && (
+              <MobileMenuLinks
+                links={data?.data?.header?.menuLink as MenuLink[]}
+                onLinkClick={closeMobileMenu}
+              />
+            )}
           </div>
           {/* Modified logo section */}
           <div className="flex w-full max-lg:justify-start max-sm:justify-start">
