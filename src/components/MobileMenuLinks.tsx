@@ -1,34 +1,23 @@
 import Link from "next/link";
-import { usePathname } from "next/navigation";
+import { MenuLink } from "./MenuLinks";
 
-type MenuLink = {
-  buttonText: string;
-  link: string;
-};
-
-type LinksProps = {
+type MobileMenuLinksProps = {
   links: MenuLink[];
+  onLinkClick: () => void;
 };
 
-export default function MobileMenuLinks({ links }: LinksProps) {
-  const pathname = usePathname();
-
-  const isActive = (path: string) => {
-    return pathname === path ? "active" : "";
-  };
-
+const MobileMenuLinks = ({ links, onLinkClick }: MobileMenuLinksProps) => {
   return (
-    <ul
-      tabIndex={0}
-      className="menu menu-sm dropdown-content bg-base-100 rounded-box z-[1] mt-3 w-52 p-2 shadow"
-    >
-      {links?.map(link => (
-        <li key={link.buttonText}>
-          <Link href={link.link} className={isActive(link.link)}>
-            {link.buttonText}
+    <ul className="menu menu-sm dropdown-content mt-3 z-[1] p-2 shadow bg-base-100 rounded-box w-52 absolute">
+      {links?.map((link, index) => (
+        <li key={index}>
+          <Link href={link?.link || "#"} onClick={onLinkClick}>
+            {link?.buttonText}
           </Link>
         </li>
       ))}
     </ul>
   );
-}
+};
+
+export default MobileMenuLinks;

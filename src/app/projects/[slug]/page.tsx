@@ -55,7 +55,7 @@ export default async function Page({ params }: { params: Params }) {
   const markdownContent: string | null | undefined = project.body;
 
   return (
-    <div className="container">
+    <div className="bg-white px-8 pb-10">
       <div className="text-white relative bg-custom-blue px-14 py-16 -mx-8 -mt-7">
         <h2 className="text-6xl font-bold relative z-30">{project.heading}</h2>
 
@@ -69,16 +69,18 @@ export default async function Page({ params }: { params: Params }) {
       <div className="transform -translate-y-1/2">
         <Link
           href="/"
-          className="text-sm bg-gray-600 text-gray-400 hover:bg-gray-500 hover:text-gray-300 inline-block rounded-lg py-3 px-5"
+          className="text-sm bg-custom-red text-white hover:bg-custom-blue hover:text-white inline-block rounded-lg py-3 px-5"
         >
-          &laquo; Back to all projects
+          &laquo; Back to projects
         </Link>
       </div>
-      {markdownContent && <ReactMarkdown className="markdown">{markdownContent}</ReactMarkdown>}
-      {/* {imageFile?.file?.url && (
+      <div className="container">
+        {markdownContent && <ReactMarkdown className="markdown">{markdownContent}</ReactMarkdown>}
+        {/* {imageFile?.file?.url && (
         <img className="" src={imageFile.file.url as string} />
         // <h2>Image will go here</h2>
       )} */}
+      </div>
     </div>
   );
 }
