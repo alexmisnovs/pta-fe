@@ -1,20 +1,9 @@
-"use client";
 import Link from "next/link";
 import Image from "next/image";
 
-type HeroProps = {
-  __typename?: "ComponentPtaHeroSection";
-  title?: string | null;
-  content?: string | null;
-  backgroundImage?: {
-    __typename?: "UploadFile";
-    url: string;
-    /* eslint-disable  @typescript-eslint/no-explicit-any */
-    formats?: any | null;
-  } | null;
-};
+import { HeroSectionBlock } from "@/types/blocks";
 
-const Hero = ({ backgroundImage, title, content }: HeroProps) => {
+const Hero = ({ backgroundImage, title, content }: HeroSectionBlock) => {
   return (
     <div className="w-full relative">
       <div className="absolute inset-0 z-0">
@@ -31,7 +20,7 @@ const Hero = ({ backgroundImage, title, content }: HeroProps) => {
       </div>
       <div className="relative z-10 min-h-[400px] md:h-[500px] flex items-center justify-center">
         <div className="hero-content text-neutral-content text-center">
-          <div className="max-w-md px-4">
+          <div className="md:w-3xl max-w-3xl px-4">
             <h1 className="mb-5 text-3xl md:text-5xl font-bold">{title}</h1>
             <p className="mb-5 text-sm md:text-base">{content}</p>
             <Link
