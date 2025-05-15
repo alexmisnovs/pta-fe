@@ -99,6 +99,26 @@ query HomePage {
         }
         currentDonations
       }
+
+      ... on ComponentPtaRichTextMarkdown {
+        id
+        content
+      }
+      ... on ComponentPtaTextWithImage {
+        id
+        heading
+        content
+        file {
+          url
+          alternativeText
+          formats
+        }
+        imageSide
+      }
+      ... on ComponentPtaHeading {
+        id
+        heading
+      }
     }
   }
 }

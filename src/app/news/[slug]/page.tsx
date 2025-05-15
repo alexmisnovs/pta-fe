@@ -64,7 +64,7 @@ export default async function Page({ params }: { params: Params }) {
   })) as Block[]; // Type assertion here if needed
 
   return (
-    <div className="bg-white px-8 pb-10">
+    <div className=" bg-white px-8 pb-10">
       <div className="text-white relative bg-custom-blue px-14 py-16 -mx-8 -mt-7">
         <h2 className="text-3xl font-bold relative z-30">{article.title}</h2>
 
@@ -84,8 +84,9 @@ export default async function Page({ params }: { params: Params }) {
         </Link>
       </div>
       {/* Render blocks in original order */}
-
-      <BlockRenderer blocks={processedBlocks ?? []} className="space-y-8" />
+      <div className="container">
+        <BlockRenderer blocks={processedBlocks ?? []} className="space-y-8" />
+      </div>
     </div>
   );
 }

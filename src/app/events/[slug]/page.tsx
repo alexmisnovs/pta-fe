@@ -75,9 +75,10 @@ export default async function Page({ params }: { params: Params }) {
           &laquo; Back to events
         </Link>
       </div>
-
-      <BlockRenderer blocks={processedBlocks ?? []} className="space-y-8 " />
-      <div>Donations received: {event?.donationReceived}</div>
+      <div className="container">
+        <BlockRenderer blocks={processedBlocks ?? []} className="space-y-8 " />
+        <div>Donations received: {event?.donationReceived}</div>
+      </div>
     </div>
   );
 }
