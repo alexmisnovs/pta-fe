@@ -3,6 +3,7 @@ import { ArticleDocument } from "@/gql/graphql";
 // import { Metadata } from "next";
 
 import Link from "next/link";
+import Image from "next/image";
 import BlockRenderer, { Block } from "@/components/utility/BlockRenderer";
 // import ReactMarkdown from "react-markdown";
 
@@ -64,13 +65,16 @@ export default async function Page({ params }: { params: Params }) {
   })) as Block[]; // Type assertion here if needed
 
   return (
-    <div className="bg-white px-8 pb-10">
+    <div className=" bg-white px-8 pb-10">
       <div className="text-white relative bg-custom-blue px-14 py-16 -mx-8 -mt-7">
         <h2 className="text-3xl font-bold relative z-30">{article.title}</h2>
 
-        <img
+        <Image
           className="object-cover absolute top-0 bottom-0 left-1/2 right-0 block w-1/2 h-full opacity-50 filter grayscale"
           src={article?.cover?.url as string}
+          alt={article.title || "Article cover image"}
+          fill
+          priority
         />
         <div className="absolute z-20 w-80 bg-gradient-to-r from-custom-blue to-transparent h-full top-0 bottom-0 left-1/2"></div>
       </div>
@@ -84,8 +88,9 @@ export default async function Page({ params }: { params: Params }) {
         </Link>
       </div>
       {/* Render blocks in original order */}
-
-      <BlockRenderer blocks={processedBlocks ?? []} className="space-y-8" />
+      <div className="container">
+        <BlockRenderer blocks={processedBlocks ?? []} className="space-y-8" />
+      </div>
     </div>
   );
 }

@@ -18,6 +18,9 @@ export default {
       },
     },
     extend: {
+      fontSize: {
+        base: "1.25rem", // Example: Change the base font size
+      },
       colors: {
         background: "var(--background)",
         foreground: "var(--foreground)",

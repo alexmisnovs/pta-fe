@@ -72,6 +72,8 @@ query HomePage {
         }
       }
       ... on ComponentPtaHomePageAbout {
+        id
+        content
         heading
         description
       }
@@ -97,6 +99,27 @@ query HomePage {
           buttonText
         }
         currentDonations
+      }
+
+      ... on ComponentPtaRichTextMarkdown {
+        id
+        content
+        heading
+      }
+      ... on ComponentPtaTextWithImage {
+        id
+        heading
+        content
+        file {
+          url
+          alternativeText
+          formats
+        }
+        imageSide
+      }
+      ... on ComponentPtaHeading {
+        id
+        heading
       }
     }
   }

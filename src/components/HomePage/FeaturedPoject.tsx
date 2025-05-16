@@ -1,83 +1,69 @@
 import Link from "next/link";
 import Image from "next/image"; // Add this import
+import { FeaturedProjectBlock } from "@/types/blocks";
 
-type FeaturedPojectProps = {
-  __typename?: "ComponentPtaFeaturedProject";
-  heading?: string | null;
-  description?: string | null;
-  goalDonations?: number | null;
-  currentDonations?: number | null;
-  image?: {
-    __typename?: "UploadFile";
-    url: string;
-    alternativeText?: string | null;
-    /* eslint-disable  @typescript-eslint/no-explicit-any */
-    formats?: any | null;
-  } | null;
-  projectLink?: {
-    __typename?: "ComponentSharedButtonLink";
-    link?: string | null;
-    buttonText?: string | null;
-  } | null;
-};
-const FeaturedProject = async (projectData: FeaturedPojectProps) => {
+const FeaturedProject = async (projectData: FeaturedProjectBlock) => {
   const raised = projectData.currentDonations || 0;
   const target = projectData.goalDonations || 0;
   const percentage = ((raised / target) * 100).toFixed(0);
 
   // console.log(projectData.image?.formats);
   return (
-    <div className="container flex flex-col md:flex-row gap-8 items-start py-8">
-      {/* Image Section - Left Side */}
-      <div className="w-full md:w-1/2 h-69 md:h-[500px] relative rounded-xl overflow-hidden">
-        <Image
-          src={projectData.image?.formats?.medium.url || projectData?.image?.url}
-          alt={projectData.image?.alternativeText || projectData?.heading || "Project name"}
-          width={800}
-          height={800}
-          className="w-full h-full object-cover"
-          sizes="(max-width: 768px) 100vw, 50vw"
-        />
-      </div>
+    <div className="container">
+      <h2 className="text-3xl font-bold text-center mb-1">CURRENT PROJECTS</h2>
 
-      {/* Content Section - Right Side */}
-      <div className="w-full md:w-1/2 flex flex-col gap-6">
-        {/* Title and Description */}
-        <div className="space-y-4">
-          <h1 className="text-3xl font-bold mb-12">{projectData.heading}</h1>
-          <p className="text-lg text-gray-600">{projectData.description}</p>
-          <Link
-            className="inline-block bg-custom-red hover:bg-custom-blue text-white font-bold py-3 px-8 rounded-lg transition-colors"
-            href={projectData.projectLink?.link || "/projects"}
-          >
-            {projectData.projectLink?.buttonText || "More details"}
-          </Link>
+      <div className="container flex flex-col md:flex-row gap-8 items-start py-8">
+        {/* Image Section - Left Side */}
+        <div className="w-full md:w-1/2 h-69 md:h-[500px] relative rounded-xl overflow-hidden">
+          <Image
+            src={projectData.image?.formats?.medium.url || projectData?.image?.url}
+            alt={projectData.image?.alternativeText || projectData?.heading || "Project name"}
+            width={800}
+            height={800}
+            className="w-full h-full object-cover"
+            sizes="(max-width: 768px) 100vw, 50vw"
+          />
         </div>
 
-        {/* Donation Data */}
-        <div className="bg-white p-6 rounded-xl shadow-lg">
-          <h3 className="text-2xl font-bold text-gray-800 mb-6">Current Total</h3>
-
-          <div className="flex justify-between items-center mb-4">
-            <span className="text-3xl font-bold text-green-600">£{raised.toLocaleString()}</span>
-            <span className="text-xl text-gray-500">£{target.toLocaleString()}</span>
+        {/* Content Section - Right Side */}
+        <div className="w-full md:w-1/2 flex flex-col gap-6">
+          {/* Title and Description */}
+          <div className="space-y-4">
+            <h1 className="text-3xl font-bold mb-12">{projectData.heading}</h1>
+            <p className="text-lg text-gray-600">{projectData.description}</p>
+            <Link
+              className="inline-block bg-custom-red hover:bg-custom-blue text-white font-bold py-3 px-8 rounded-lg transition-colors"
+              href={projectData.projectLink?.link || "/projects"}
+            >
+              {projectData.projectLink?.buttonText || "More details"}
+            </Link>
           </div>
 
-          <div className="w-full bg-gray-200 rounded-full h-3 mb-6">
-            <div
-              className="bg-green-500 h-3 rounded-full transition-all duration-300"
-              style={{ width: `${percentage}%` }}
-            />
-          </div>
+          {/* Donation Data */}
+          <div className="bg-white p-6 rounded-xl shadow-lg">
+            <h3 className="text-2xl font-bold text-gray-800 mb-6">Current Total</h3>
 
-          <div className="flex justify-between text-base">
-            <div>
-              <p className="font-semibold text-gray-800">{percentage}% Funded</p>
-              {/* <p className="text-sm text-gray-500 mt-1">Our Goal</p> */}
+            <div className="flex justify-between items-center mb-4">
+              <span className="text-3xl font-bold text-green-600">£{raised.toLocaleString()}</span>
+              <span className="text-xl text-gray-500">£{target.toLocaleString()}</span>
             </div>
-            <div className="text-right">
-              <p className="font-semibold text-gray-800">£{raised.toLocaleString()} Raised</p>
-              {/* <p className="text-sm text-gray-500 mt-1">Target: £{target.toLocaleString()}</p> */}
+
+            <div className="w-full bg-gray-200 rounded-full h-3 mb-6">
+              <div
+                className="bg-green-500 h-3 rounded-full transition-all duration-300"
+                style={{ width: `${percentage}%` }}
+              />
+            </div>
+
+            <div className="flex justify-between text-base">
+              <div>
+                <p className="font-semibold text-gray-800">{percentage}% Funded</p>
+                {/* <p className="text-sm text-gray-500 mt-1">Our Goal</p> */}
+              </div>
+              <div className="text-right">
+                <p className="font-semibold text-gray-800">£{raised.toLocaleString()} Raised</p>
+                {/* <p className="text-sm text-gray-500 mt-1">Target: £{target.toLocaleString()}</p> */}
+              </div>
             </div>
           </div>
         </div>
