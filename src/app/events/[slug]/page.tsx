@@ -2,6 +2,7 @@ import apolloClient from "@/lib/apollo-client";
 import { EventDocument, EventListDocument } from "@/gql/graphql";
 
 import Link from "next/link";
+import Image from "next/image";
 import BlockRenderer, { Block } from "@/components/utility/BlockRenderer";
 
 export async function generateStaticParams() {
@@ -60,9 +61,12 @@ export default async function Page({ params }: { params: Params }) {
       <div className="text-white relative bg-custom-blue px-14 py-16 -mx-8 -mt-7">
         <h2 className="text-4xl font-bold relative z-30">{event.heading}</h2>
 
-        <img
+        <Image
           className="object-cover absolute top-0 bottom-0 left-1/2 right-0 block w-1/2 h-full opacity-50 filter grayscale"
           src={event?.featuredImage?.url as string}
+          alt={event?.heading || "Event featured image"}
+          fill
+          priority
         />
         <div className="absolute z-20 w-80 bg-gradient-to-r from-custom-blue to-transparent h-full top-0 bottom-0 left-1/2"></div>
       </div>
