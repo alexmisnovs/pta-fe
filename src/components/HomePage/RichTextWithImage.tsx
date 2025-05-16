@@ -1,42 +1,45 @@
-interface RichTextWithImageProps {
-  heading?: string;
-  content?: string;
-  image?: {
-    url: string;
-    alt: string;
-  };
-  imagePosition?: "left" | "right";
-}
+import ReactMarkdown from "react-markdown";
+import Image from "next/image";
+import { RichTextWithImageType } from "@/types/blocks";
 
-const RichTextWithImage: React.FC<RichTextWithImageProps> = ({
-  heading,
-  content,
-  image,
-  imagePosition = "left",
-}) => {
+const RichText = ({ content, file, heading, imageSide }: RichTextWithImageType) => {
+  if (!file?.url) return null;
+  const side = imageSide || "left";
+
   return (
-    <section className="py-12 px-4">
-      <div className="container mx-auto">
-        <div
-          className={`flex flex-col md:flex-row items-center gap-8 ${
-            imagePosition === "right" ? "md:flex-row-reverse" : ""
-          }`}
+    <div className="container">
+      <h2 className="text-3xl font-bold text-center mb-8 pt-6">{heading}</h2>
+      <div className="my-6 overflow-hidden">
+        {/* Image with conditional floating and responsive sizing */}
+        <figure
+          className={`
+                      w-full mx-auto mb-4 
+                      md:w-[45%] md:max-w-lg 
+                      ${
+                        side === "right"
+                          ? "md:float-right md:ml-8 md:mb-4"
+                          : "md:float-left md:mr-8 md:mb-4"
+                      }
+                    `}
         >
-          {image && (
-            <div className="w-full md:w-1/2">
-              <img src={image.url} alt={image.alt} className="w-full h-auto rounded-lg shadow-lg" />
-            </div>
-          )}
-          <div className="w-full md:w-1/2">
-            {heading && <h2 className="text-3xl font-bold mb-4">{heading}</h2>}
-            {content && (
-              <div className="prose max-w-none" dangerouslySetInnerHTML={{ __html: content }} />
-            )}
+          <div className="relative aspect-video">
+            <Image
+              src={file.formats?.medium?.url || file.url}
+              alt={file.alternativeText || ""}
+              width={file.formats?.medium?.width || 0}
+              height={file.formats?.medium?.height || 0}
+              sizes="(max-width: 768px) 100vw, 800px"
+              className="object-cover"
+              quality={80}
+            />
           </div>
-        </div>
+        </figure>
+
+        {/* Text content that wraps around image */}
+        <ReactMarkdown className="markdown prose max-w-none">{content || ""}</ReactMarkdown>
       </div>
-    </section>
+    </div>
   );
 };
 
-export default RichTextWithImage;
+export default RichText;

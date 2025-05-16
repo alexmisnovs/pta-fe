@@ -103,6 +103,7 @@ query HomePage {
       ... on ComponentPtaRichTextMarkdown {
         id
         content
+        heading
       }
       ... on ComponentPtaTextWithImage {
         id

@@ -75,3 +75,18 @@ export type FeaturedProjectBlock = Partial<
     { __typename?: "ComponentPtaFeaturedProject" }
   >
 >;
+
+// export type RichTextMarkdown = Partial<ComponentPtaRichTextMarkdown>;
+export type RichTextMarkdown = Partial<
+  Extract<
+    NonNullable<NonNullable<NonNullable<HomePageQuery["homePageContent"]>["blocks"]>[number]>,
+    { __typename?: "ComponentPtaRichTextMarkdown" }
+  >
+>;
+
+export type RichTextWithImageType = Partial<
+  Extract<
+    NonNullable<NonNullable<NonNullable<HomePageQuery["homePageContent"]>["blocks"]>[number]>,
+    { __typename?: "ComponentPtaTextWithImage" }
+  >
+>;
