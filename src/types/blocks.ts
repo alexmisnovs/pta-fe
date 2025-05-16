@@ -69,6 +69,17 @@ export type ImageSliderBlock = Partial<
   >
 >;
 
+/**
+ * Represents the Featured Project Block type extracted from the HomePageQuery.
+ * This type uses TypeScript's Extract and Partial utility types to get the specific ComponentPtaFeaturedProject
+ * from the blocks array in the homePageContent, making all properties optional.
+ *
+ * @typedef {Object} FeaturedProjectBlock
+ * @property {string} [__typename] - Optional typename property that matches "ComponentPtaFeaturedProject"
+ * @property {string} [title] - Optional title of the featured project
+ * @property {string} [description] - Optional description of the featured project
+ * @property {Object} [image] - Optional image associated with the featured project
+ */
 export type FeaturedProjectBlock = Partial<
   Extract<
     NonNullable<NonNullable<NonNullable<HomePageQuery["homePageContent"]>["blocks"]>[number]>,
@@ -77,6 +88,16 @@ export type FeaturedProjectBlock = Partial<
 >;
 
 // export type RichTextMarkdown = Partial<ComponentPtaRichTextMarkdown>;
+/**
+ * Represents the Rich Text Markdown Block type extracted from the HomePageQuery.
+ * This type uses TypeScript's Extract and Partial utility types to get the specific ComponentPtaRichTextMarkdown
+ * from the blocks array in the homePageContent, making all properties optional.
+ *
+ * @typedef {Object} RichTextMarkdown
+ * @property {string} [__typename] - Optional typename property that matches "ComponentPtaRichTextMarkdown"
+ * @property {string} [content] - Optional markdown content to be rendered
+ * @property {string} [title] - Optional title for the rich text section
+ */
 export type RichTextMarkdown = Partial<
   Extract<
     NonNullable<NonNullable<NonNullable<HomePageQuery["homePageContent"]>["blocks"]>[number]>,
@@ -84,6 +105,18 @@ export type RichTextMarkdown = Partial<
   >
 >;
 
+/**
+ * Represents the Rich Text With Image Block type extracted from the HomePageQuery.
+ * This type uses TypeScript's Extract and Partial utility types to get the specific ComponentPtaTextWithImage
+ * from the blocks array in the homePageContent, making all properties optional.
+ *
+ * @typedef {Object} RichTextWithImageType
+ * @property {string} [__typename] - Optional typename property that matches "ComponentPtaTextWithImage"
+ * @property {string} [content] - Optional text content to be displayed alongside the image
+ * @property {string} [title] - Optional title for the section
+ * @property {Object} [file] - Optional image file to be displayed with the text
+ * @property {boolean} [imageOnLeft] - Optional flag indicating if the image should be positioned on the left
+ */
 export type RichTextWithImageType = Partial<
   Extract<
     NonNullable<NonNullable<NonNullable<HomePageQuery["homePageContent"]>["blocks"]>[number]>,
