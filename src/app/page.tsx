@@ -26,7 +26,6 @@ import {
   type RichTextWithImageType,
 } from "@/types/blocks";
 import ArticlesLoading from "@/components/loading/ArticlesLoading";
-import EventsLoading from "@/components/loading/EventsLoading";
 
 export default async function HomePage() {
   // we need to get component data from api
@@ -35,7 +34,7 @@ export default async function HomePage() {
     context: {
       // initialApolloState,
       fetchOptions: {
-        next: { revalidate: 0 },
+        next: { revalidate: 60 },
       },
     },
   });
@@ -122,20 +121,7 @@ export default async function HomePage() {
         </section>
       )}
       {/* News - with Suspense */}
-      <Suspense
-        fallback={
-          <div className="py-10 px-4 md:px-8 bg-white">
-            <div className="container mx-auto">
-              <h2 className="text-2xl font-bold mb-6">Latest News</h2>
-              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                {[1, 2, 3].map(i => (
-                  <div key={i} className="bg-white rounded-lg shadow-md h-64 animate-pulse"></div>
-                ))}
-              </div>
-            </div>
-          </div>
-        }
-      >
+      <Suspense fallback={<ArticlesLoading />}>
         <section className="py-10 px-4 md:px-8 bg-white">
           <Articles />
         </section>
@@ -145,23 +131,7 @@ export default async function HomePage() {
         <FeaturedProject {...featuredProjectBlock} />
       </section>
       {/* Events Section - with Suspense */}
-      <Suspense
-        fallback={
-          <div className="py-10 px-4 bg-white">
-            <div className="container mx-auto">
-              <h2 className="text-2xl font-bold mb-6">Upcoming Events</h2>
-              <div className="space-y-4">
-                {[1, 2].map(i => (
-                  <div
-                    key={i}
-                    className="bg-white rounded-lg shadow-md p-4 h-32 animate-pulse"
-                  ></div>
-                ))}
-              </div>
-            </div>
-          </div>
-        }
-      >
+      <Suspense fallback={<ArticlesLoading />}>
         <section className="py-10 px-4 bg-white">
           <Events />
         </section>
@@ -179,8 +149,6 @@ export default async function HomePage() {
           <RichText {...richText} />
         </section>
       )}
-      <ArticlesLoading />
-      <EventsLoading />
     </div>
   );
 }
