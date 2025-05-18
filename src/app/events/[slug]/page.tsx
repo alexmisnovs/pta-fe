@@ -49,7 +49,7 @@ export default async function Page({ params }: { params: Params }) {
   const event = data.events[0];
 
   if (!event) return <h1>Event not found</h1>;
-  console.log(event);
+  // console.log(event);
 
   const processedBlocks = event?.blocks?.map(block => ({
     __typename: block?.__typename, // Ensure this exists in response

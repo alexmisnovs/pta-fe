@@ -31,13 +31,14 @@ type PtaEventComments = BaseBlock & {
   heading?: string;
   amountRaised?: number;
   slider?: {
-    slides: {
-      __typename?: "UploadFile";
-      url: string;
-      alternativeText?: string | null;
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
-      formats?: any;
-    };
+    slides?:
+      | ({
+          __typename?: "UploadFile";
+          url: string;
+          // eslint-disable-next-line @typescript-eslint/no-explicit-any
+          formats?: any | null;
+        } | null)[]
+      | undefined;
   };
 };
 
@@ -134,7 +135,6 @@ const BlockRenderer = ({ blocks, className }: BlockRendererProps) => {
           case "ComponentPtaEventComments":
             const ptaEventCommentsBlock = block as PtaEventComments;
             if (!ptaEventCommentsBlock.content) return null;
-            console.log(ptaEventCommentsBlock);
             return (
               <div key={key}>
                 <h2 className="text-xl">{ptaEventCommentsBlock.heading}</h2>
@@ -145,7 +145,10 @@ const BlockRenderer = ({ blocks, className }: BlockRendererProps) => {
                 {/* Add slider if present */}
                 {ptaEventCommentsBlock.slider && (
                   <div className="my-8">
-                    <ImageSlider slides={[ptaEventCommentsBlock.slider.slides]} />
+                    <ImageSlider
+                      slides={ptaEventCommentsBlock.slider.slides}
+                      heading="Event Gallery"
+                    />
                   </div>
                 )}
 

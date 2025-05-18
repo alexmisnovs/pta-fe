@@ -138,7 +138,7 @@ export default async function HomePage() {
       </Suspense>
       {/* Carousel */}
       <section className="py-10 px-4 bg-base">
-        <ImageSlider slides={imageSlider.slides || []} />
+        <ImageSlider slides={imageSlider.slides || []} heading="Gallery" />
       </section>
       {/* Volunteer Block */}
       <section className="py-10 bg-white">
