@@ -21,9 +21,11 @@ export type HeroSectionBlock = Extract<
  * @typedef {Object} AboutSectionBlock
  * @property {string} [__typename] - Optional typename property that matches "ComponentPtaHomePageAbout"
  */
-export type AboutSectionBlock = Extract<
-  NonNullable<NonNullable<NonNullable<HomePageQuery["homePageContent"]>["blocks"]>[number]>,
-  { __typename?: "ComponentPtaHomePageAbout" }
+export type AboutSectionBlock = Partial<
+  Extract<
+    NonNullable<NonNullable<NonNullable<HomePageQuery["homePageContent"]>["blocks"]>[number]>,
+    { __typename?: "ComponentPtaHomePageAbout" }
+  >
 >;
 
 /**

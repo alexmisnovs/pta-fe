@@ -7,7 +7,7 @@ const AboutUs = ({ heading, description, content }: AboutSectionBlock) => {
   return (
     <div className="container">
       <h2 className="text-3xl font-bold text-center mb-8">{heading}</h2>
-      <p className="text-lg text-center">{description}</p>
+      <p className="markdown prose">{description}</p>
       <ReactMarkdown className="markdown prose">{content}</ReactMarkdown>
     </div>
   );

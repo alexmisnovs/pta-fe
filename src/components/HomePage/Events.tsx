@@ -28,10 +28,19 @@ export default async function Events() {
     <div>
       <h2 className="text-3xl font-bold text-center mb-12">Upcoming Events</h2>
       <div className="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-6xl mx-auto">
-        {data?.events?.map((event, index) =>
-          event ? (
-            <div key={index} className="card bg-base-100 shadow-xl">
-              <figure>
+        {data?.events?.map((event, index) => {
+          if (!event) return null;
+          
+          // Check if event is in the past
+          const eventDate = new Date(event.dateTime);
+          const isPastEvent = eventDate < new Date();
+          
+          return (
+            <div 
+              key={index} 
+              className={`card shadow-xl ${isPastEvent ? 'bg-gray-200 opacity-75' : 'bg-base-100'}`}
+            >
+              <figure className={isPastEvent ? 'grayscale' : ''}>
                 <Image
                   src={event.featuredImage?.formats?.medium?.url ?? "default-image.jpg"}
                   alt={event.featuredImage?.alternativeText || event.heading || "Event Image"}
@@ -41,9 +50,14 @@ export default async function Events() {
                 />
               </figure>
               <div className="card-body">
-                <h3 className="card-title">{event.heading ?? "Default Title"}</h3>
-                <p>{event.description ?? "No description available."}</p>
-                <p>
+                <h3 className={`card-title ${isPastEvent ? 'text-gray-600' : ''}`}>
+                  {event.heading ?? "Default Title"}
+                  {isPastEvent && <span className="text-sm font-normal text-gray-500 ml-2">(Past)</span>}
+                </h3>
+                <p className={isPastEvent ? 'text-gray-500' : ''}>
+                  {event.description ?? "No description available."}
+                </p>
+                <p className={isPastEvent ? 'text-gray-500' : ''}>
                   {new Date(event.dateTime).toLocaleTimeString("en-GB", {
                     hour: "2-digit",
                     minute: "2-digit",
@@ -57,17 +71,19 @@ export default async function Events() {
                 </p>
                 <div className="card-actions justify-end">
                   <Link
-                    className="btn bg-custom-red hover:bg-custom-blue text-white font-bold py-2 px-4 rounded"
+                    className={`btn ${isPastEvent 
+                      ? 'bg-gray-400 hover:bg-gray-500' 
+                      : 'bg-custom-red hover:bg-custom-blue'} text-white font-bold py-2 px-4 rounded`}
                     key={event.slug}
                     href={`/events/${event.slug}`}
                   >
-                    Read More
+                    {isPastEvent ? 'View Details' : 'Read More'}
                   </Link>
                 </div>
               </div>
             </div>
-          ) : null
-        )}
+          );
+        })}
       </div>
       <div className="text-center mt-3">
         <Link

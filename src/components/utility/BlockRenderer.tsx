@@ -1,6 +1,7 @@
 // components/BlockRenderer.tsx
 import Image from "next/image";
 import ReactMarkdown from "react-markdown";
+import ImageSlider from "@/components/shared/ImageSlider"; // Add this import
 
 // Define all possible block types from your GraphQL schema
 type BlockType =
@@ -29,6 +30,15 @@ type PtaEventComments = BaseBlock & {
   content?: string;
   heading?: string;
   amountRaised?: number;
+  slider?: {
+    slides: {
+      __typename?: "UploadFile";
+      url: string;
+      alternativeText?: string | null;
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      formats?: any;
+    };
+  };
 };
 
 type RichTextMarkdownBlock = BaseBlock & {
@@ -124,12 +134,21 @@ const BlockRenderer = ({ blocks, className }: BlockRendererProps) => {
           case "ComponentPtaEventComments":
             const ptaEventCommentsBlock = block as PtaEventComments;
             if (!ptaEventCommentsBlock.content) return null;
+            console.log(ptaEventCommentsBlock);
             return (
               <div key={key}>
-                <h2>{ptaEventCommentsBlock.heading}</h2>
+                <h2 className="text-xl">{ptaEventCommentsBlock.heading}</h2>
                 <ReactMarkdown key={key} className="markdown my-4">
                   {(block as RichTextMarkdownBlock).content || ""}
                 </ReactMarkdown>
+
+                {/* Add slider if present */}
+                {ptaEventCommentsBlock.slider && (
+                  <div className="my-8">
+                    <ImageSlider slides={[ptaEventCommentsBlock.slider.slides]} />
+                  </div>
+                )}
+
                 <div>
                   <h3>Amount raised: {ptaEventCommentsBlock.amountRaised}</h3>
                 </div>

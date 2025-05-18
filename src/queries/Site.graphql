@@ -226,6 +226,13 @@ query Event($slug: String) {
         content
         amountRaised
         heading
+        slider {
+          slides {
+            url
+            alternativeText
+            formats
+          }
+        }
       }
     }
     description
@@ -261,7 +268,7 @@ query Article($slug: String) {
       }
       ... on ComponentSharedSlider {
         id
-        files {
+        slides {
           alternativeText
           url
           formats
