@@ -41,7 +41,7 @@ export default async function Page({ params }: { params: Params }) {
     },
     context: {
       fetchOptions: {
-        next: { revalidate: 10 },
+        next: { revalidate: 0 },
       },
     },
   });
@@ -79,9 +79,33 @@ export default async function Page({ params }: { params: Params }) {
           &laquo; Back to events
         </Link>
       </div>
+
+      {/* Event Date Display */}
+      {event.dateTime && (
+        <div className="mb-8 text-center">
+          <div className="inline-block bg-gray-100 rounded-lg px-6 py-3 border border-gray-200">
+            <p className="text-lg font-semibold text-gray-700">
+              <span className="mr-2">📅</span>
+              {new Date(event.dateTime).toLocaleDateString("en-GB", {
+                weekday: "long",
+                year: "numeric",
+                month: "long",
+                day: "numeric",
+              })}
+              <span className="mx-2">|</span>
+              <span className="text-custom-blue">
+                {new Date(event.dateTime).toLocaleTimeString("en-GB", {
+                  hour: "2-digit",
+                  minute: "2-digit",
+                })}
+              </span>
+            </p>
+          </div>
+        </div>
+      )}
+
       <div className="container">
         <BlockRenderer blocks={processedBlocks ?? []} className="space-y-8 " />
-        <div>Donations received: {event?.donationReceived}</div>
       </div>
     </div>
   );

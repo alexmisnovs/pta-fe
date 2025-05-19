@@ -136,8 +136,10 @@ const BlockRenderer = ({ blocks, className }: BlockRendererProps) => {
             const ptaEventCommentsBlock = block as PtaEventComments;
             if (!ptaEventCommentsBlock.content) return null;
             return (
-              <div key={key}>
-                <h2 className="text-xl">{ptaEventCommentsBlock.heading}</h2>
+              <div key={key} className="border-2 border-gray-200 rounded-lg p-6 my-8 shadow-md">
+                <h2 className="text-3xl font-bold text-center mb-8">
+                  {ptaEventCommentsBlock.heading}
+                </h2>
                 <ReactMarkdown key={key} className="markdown my-4">
                   {(block as RichTextMarkdownBlock).content || ""}
                 </ReactMarkdown>
@@ -146,15 +148,22 @@ const BlockRenderer = ({ blocks, className }: BlockRendererProps) => {
                 {ptaEventCommentsBlock.slider && (
                   <div className="my-8">
                     <ImageSlider
-                      slides={ptaEventCommentsBlock.slider.slides}
+                      slides={ptaEventCommentsBlock.slider.slides || []}
                       heading="Event Gallery"
                     />
                   </div>
                 )}
 
-                <div>
-                  <h3>Amount raised: {ptaEventCommentsBlock.amountRaised}</h3>
-                </div>
+                {ptaEventCommentsBlock.amountRaised && (
+                  <div className="flex justify-center my-8">
+                    <div className="bg-green-100 border-2 border-green-500 rounded-lg px-6 py-4 text-center max-w-md">
+                      <h3 className="text-xl font-bold text-green-700 mb-1">Amount Raised</h3>
+                      <p className="text-3xl font-bold text-green-600">
+                        £{ptaEventCommentsBlock.amountRaised.toLocaleString()}
+                      </p>
+                    </div>
+                  </div>
+                )}
               </div>
             );
 
