@@ -1,5 +1,5 @@
-query Articles {
-  articles {
+query Articles($filters: ArticleFiltersInput) {
+  articles(filters: $filters) {
     title
     slug
     description
