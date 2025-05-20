@@ -5,8 +5,8 @@ import { VolunteerPageDocument } from "@/gql/graphql";
 
 // import VolunteerForm from "@/components/Volunteers/VolunteerForm";
 import VolunteerJobs from "@/components/Volunteers/VolunteerJobs";
-
-import BlockRenderer, { Block } from "@/components/utility/BlockRenderer";
+import { Block } from "@/types/blocks";
+import BlockRenderer from "@/components/utility/BlockRenderer";
 
 export default async function Page() {
   // keeo this for page content what doesn't change often
