@@ -11,7 +11,7 @@ import NewsLetter from "@/components/shared/NewsLetter";
 import TotalDonations from "@/components/HomePage/TotalDonations";
 import AboutUs from "@/components/HomePage/AboutUs";
 import Volunteer from "@/components/HomePage/Volunteer";
-import RichText from "@/components/HomePage/RichText";
+import RichText from "@/components/blocks/RichText";
 import RichTextWithImage from "@/components/HomePage/RichTextWithImage";
 import { Suspense } from "react";
 
@@ -20,7 +20,7 @@ import {
   type AboutSectionBlock,
   type TotalDonationsBlock,
   type VolunteerSectionBlock,
-  type ImageSliderBlock,
+  type ImageSliderHomePageBlock,
   type FeaturedProjectBlock,
   type RichTextMarkdown,
   type RichTextWithImageType,
@@ -43,7 +43,7 @@ export default async function HomePage() {
   let richText: RichTextMarkdown = {};
   let richTextWithImage: RichTextWithImageType = {};
   let heroBlock: HeroSectionBlock = {};
-  let imageSlider: ImageSliderBlock = {};
+  let imageSlider: ImageSliderHomePageBlock = {};
   let aboutUsBlock: AboutSectionBlock = {};
   let featuredProjectBlock: FeaturedProjectBlock = {};
   let totalDonationsBlock: TotalDonationsBlock = {};
@@ -138,7 +138,7 @@ export default async function HomePage() {
       </Suspense>
       {/* Carousel */}
       <section className="py-10 px-4 bg-base">
-        <ImageSlider {...imageSlider} />
+        <ImageSlider slides={imageSlider.slides || []} heading="Gallery" />
       </section>
       {/* Volunteer Block */}
       <section className="py-10 bg-white">
@@ -152,46 +152,3 @@ export default async function HomePage() {
     </div>
   );
 }
-
-// // new version with blockRender, however, it wont display properly events and news,
-// // because they are not technically blocks
-// // app/page.tsx
-// import apolloClient from "@/lib/apollo-client";
-// import { HomePageDocument } from "@/gql/graphql";
-// import HomePageBlockRenderer from "@/components/utility/HomePageBlockRender";
-// import NewsLetter from "@/components/shared/NewsLetter";
-// import Articles from "@/components/HomePage/Articles";
-// import Events from "@/components/HomePage/Events";
-
-// export default async function HomePage() {
-//   // we need to get component data from api
-//   const { data = {} } = await apolloClient.query({
-//     query: HomePageDocument,
-//     context: {
-//       fetchOptions: {
-//         next: { revalidate: 60 },
-//       },
-//     },
-//   });
-
-//   const blocks = data?.homePageContent?.blocks || [];
-
-//   return (
-//     <>
-//       <HomePageBlockRenderer blocks={blocks.filter(block => block !== null)} />
-
-//       {/* Additional sections that aren't part of the CMS blocks */}
-//       <section className="pt-5 pb-10 px-4 bg-base">
-//         <NewsLetter className="w-full" />
-//       </section>
-
-//       <section className="py-10 px-4 md:px-8 bg-white">
-//         <Articles />
-//       </section>
-
-//       <section className="py-10 px-4 bg-white">
-//         <Events />
-//       </section>
-//     </>
-//   );
-// }

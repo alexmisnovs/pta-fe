@@ -3,7 +3,8 @@ import { EventDocument, EventListDocument } from "@/gql/graphql";
 
 import Link from "next/link";
 import Image from "next/image";
-import BlockRenderer, { Block } from "@/components/utility/BlockRenderer";
+import BlockRenderer from "@/components/utility/BlockRenderer";
+import { Block } from "@/types/blocks";
 
 export async function generateStaticParams() {
   const { data } = await apolloClient.query({
@@ -41,7 +42,7 @@ export default async function Page({ params }: { params: Params }) {
     },
     context: {
       fetchOptions: {
-        next: { revalidate: 10 },
+        next: { revalidate: 0 },
       },
     },
   });
@@ -49,7 +50,7 @@ export default async function Page({ params }: { params: Params }) {
   const event = data.events[0];
 
   if (!event) return <h1>Event not found</h1>;
-  console.log(event);
+  // console.log(event);
 
   const processedBlocks = event?.blocks?.map(block => ({
     __typename: block?.__typename, // Ensure this exists in response
@@ -79,9 +80,33 @@ export default async function Page({ params }: { params: Params }) {
           &laquo; Back to events
         </Link>
       </div>
+
+      {/* Event Date Display */}
+      {event.dateTime && (
+        <div className="mb-8 text-center">
+          <div className="inline-block bg-gray-100 rounded-lg px-6 py-3 border border-gray-200">
+            <p className="text-lg font-semibold text-gray-700">
+              <span className="mr-2">📅</span>
+              {new Date(event.dateTime).toLocaleDateString("en-GB", {
+                weekday: "long",
+                year: "numeric",
+                month: "long",
+                day: "numeric",
+              })}
+              <span className="mx-2">|</span>
+              <span className="text-custom-blue">
+                {new Date(event.dateTime).toLocaleTimeString("en-GB", {
+                  hour: "2-digit",
+                  minute: "2-digit",
+                })}
+              </span>
+            </p>
+          </div>
+        </div>
+      )}
+
       <div className="container">
         <BlockRenderer blocks={processedBlocks ?? []} className="space-y-8 " />
-        <div>Donations received: {event?.donationReceived}</div>
       </div>
     </div>
   );

@@ -1,5 +1,5 @@
-query Articles {
-  articles {
+query Articles($filters: ArticleFiltersInput) {
+  articles(filters: $filters) {
     title
     slug
     description
@@ -202,6 +202,10 @@ query Event($slug: String) {
         id
         content
       }
+      ... on ComponentSharedRichText {
+        id
+        content
+      }
       ... on ComponentSharedMedia {
         id
         file {
@@ -226,6 +230,21 @@ query Event($slug: String) {
         content
         amountRaised
         heading
+        slider {
+          slides {
+            url
+            alternativeText
+            formats
+          }
+        }
+      }
+      ... on ComponentSharedSlider {
+        slides {
+          alternativeText
+          url
+          formats
+        }
+        id
       }
     }
     description
@@ -247,6 +266,10 @@ query Article($slug: String) {
         body
         title
       }
+      ... on ComponentPtaRichTextMarkdown {
+        id
+        content
+      }
       ... on ComponentSharedRichText {
         id
         body
@@ -260,12 +283,12 @@ query Article($slug: String) {
         }
       }
       ... on ComponentSharedSlider {
-        id
-        files {
+        slides {
           alternativeText
           url
           formats
         }
+        id
       }
       ... on ComponentPtaTextWithImage {
         id

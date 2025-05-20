@@ -4,7 +4,8 @@ import { ArticleDocument } from "@/gql/graphql";
 
 import Link from "next/link";
 import Image from "next/image";
-import BlockRenderer, { Block } from "@/components/utility/BlockRenderer";
+import BlockRenderer from "@/components/utility/BlockRenderer";
+import { Block } from "@/types/blocks";
 // import ReactMarkdown from "react-markdown";
 
 export const dynamicParams = true;
