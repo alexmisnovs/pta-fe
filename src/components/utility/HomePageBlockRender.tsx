@@ -14,7 +14,7 @@ import {
   type AboutSectionBlock,
   type TotalDonationsBlock,
   type VolunteerSectionBlock,
-  type ImageSliderBlock,
+  type ImageSliderHomePageBlock,
   type FeaturedProjectBlock,
 } from "@/types/blocks";
 
@@ -85,7 +85,7 @@ const HomePageBlockRenderer: React.FC<HomePageBlockRendererProps> = ({ blocks })
   // Process blocks to extract typed components
   let richText = {};
   let heroBlock: HeroSectionBlock = {};
-  let imageSlider: ImageSliderBlock = {};
+  let imageSlider: ImageSliderHomePageBlock = {};
   let aboutUsBlock: AboutSectionBlock = {};
   let featuredProjectBlock: FeaturedProjectBlock = {};
   let totalDonationsBlock: TotalDonationsBlock = {};
