@@ -3,7 +3,11 @@ import apolloClient from "@/lib/apollo-client";
 import { ArticlesDocument } from "@/gql/graphql";
 import Image from "next/image";
 
-export default async function Page({ searchParams }: { searchParams: { category?: string } }) {
+export default async function Page({ searchParams }: { searchParams: Promise<{ category?: string }> }) {
+  // Await searchParams before accessing its properties
+  const resolvedParams = await searchParams;
+  const category = resolvedParams.category;
+
   const { data } = await apolloClient.query({
     query: ArticlesDocument,
     context: {
@@ -11,12 +15,12 @@ export default async function Page({ searchParams }: { searchParams: { category?
         next: { revalidate: 10 },
       },
     },
-    variables: searchParams.category
+    variables: category
       ? {
           filters: {
             category: {
               name: {
-                eq: searchParams.category,
+                eq: category,
               },
             },
           },
@@ -55,24 +59,24 @@ export default async function Page({ searchParams }: { searchParams: { category?
         <Link
           href="/news"
           className={`px-4 py-2 rounded-full text-sm font-medium ${
-            !searchParams.category
+            !category
               ? "bg-custom-blue text-white"
               : "bg-gray-200 text-gray-700 hover:bg-gray-300"
           }`}
         >
           All Categories
         </Link>
-        {categories.map(category => (
+        {categories.map(cat => (
           <Link
-            key={category}
-            href={`/news?category=${encodeURIComponent(category)}`}
+            key={cat}
+            href={`/news?category=${encodeURIComponent(cat)}`}
             className={`px-4 py-2 rounded-full text-sm font-medium ${
-              searchParams.category === category
+              category === cat
                 ? "bg-custom-blue text-white"
                 : "bg-gray-200 text-gray-700 hover:bg-gray-300"
             }`}
           >
-            {category}
+            {cat}
           </Link>
         ))}
       </div>

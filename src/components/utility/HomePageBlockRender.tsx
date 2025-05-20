@@ -7,7 +7,7 @@ import TotalDonations from "@/components/HomePage/TotalDonations";
 import ImageSlider from "@/components/shared/ImageSlider";
 import Volunteer from "@/components/HomePage/Volunteer";
 import FeaturedProject from "@/components/HomePage/FeaturedPoject";
-import RichText from "@/components/HomePage/RichText";
+import RichText from "@/components/blocks/RichText";
 
 import {
   type HeroSectionBlock,

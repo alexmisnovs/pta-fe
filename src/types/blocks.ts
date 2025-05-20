@@ -64,7 +64,7 @@ export type VolunteerSectionBlock = Extract<
  * @typedef {Object} ImageSliderBlock
  * @property {string} [__typename] - Optional typename property that matches "ComponentPtaHomePageSlider"
  */
-export type ImageSliderBlock = Partial<
+export type ImageSliderHomePageBlock = Partial<
   Extract<
     NonNullable<NonNullable<NonNullable<HomePageQuery["homePageContent"]>["blocks"]>[number]>,
     { __typename?: "ComponentPtaHomePageSlider" }
@@ -125,3 +125,135 @@ export type RichTextWithImageType = Partial<
     { __typename?: "ComponentPtaTextWithImage" }
   >
 >;
+
+export type EventComments = {
+  id?: string;
+  __typename?: "ComponentPtaEventComments";
+  content?: string;
+  heading?: string;
+  amountRaised?: number;
+  slider?: {
+    slides?:
+      | ({
+          __typename?: "UploadFile";
+          url: string;
+          // eslint-disable-next-line @typescript-eslint/no-explicit-any
+          formats?: any | null;
+        } | null)[]
+      | undefined;
+  };
+};
+
+// New types from BlockRenderer.tsx
+
+/**
+ * Define all possible block types from the GraphQL schema
+ */
+export type BlockType =
+  | "ComponentSharedRichText"
+  | "ComponentSharedMedia"
+  | "ComponentSharedQuote"
+  | "ComponentSharedSlider"
+  | "ComponentPtaRichTextMarkdown"
+  | "ComponentPtaTextWithImage"
+  | "ComponentPtaEventComments"
+  | "Error";
+
+/**
+ * Base block type with required __typename
+ */
+export type BaseBlock = {
+  __typename?: BlockType;
+  id?: string;
+};
+
+/**
+ * Specific block types
+ */
+export type RichTextBlock = BaseBlock & {
+  __typename: "ComponentSharedRichText";
+  body?: string;
+};
+
+export type PtaEventCommentsBlock = BaseBlock & {
+  __typename: "ComponentPtaEventComments";
+  content?: string;
+  heading?: string;
+  amountRaised?: number;
+  slider?: {
+    slides?:
+      | ({
+          __typename?: "UploadFile";
+          url: string;
+          // eslint-disable-next-line @typescript-eslint/no-explicit-any
+          formats?: any | null;
+        } | null)[]
+      | undefined;
+  };
+};
+
+export type RichTextMarkdownBlock = BaseBlock & {
+  __typename: "ComponentPtaRichTextMarkdown";
+  content?: string;
+};
+
+export type TextWithImageBlock = BaseBlock & {
+  __typename: "ComponentPtaTextWithImage";
+  heading?: string;
+  content?: string;
+  file?: {
+    url: string;
+    alternativeText?: string | null;
+    width?: number;
+    height?: number;
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    formats?: any;
+  } | null;
+  imageSide?: "left" | "right";
+};
+
+export type MediaBlock = BaseBlock & {
+  __typename: "ComponentSharedMedia";
+  file?: {
+    url: string;
+    alternativeText?: string | null;
+    width?: number;
+    height?: number;
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    formats?: any;
+  } | null;
+};
+
+export type QuoteBlock = BaseBlock & {
+  __typename: "ComponentSharedQuote";
+  // Add quote-specific fields
+};
+
+export type SliderBlock = BaseBlock & {
+  __typename: "ComponentSharedSlider";
+  slides?: ({
+    __typename?: "UploadFile";
+    url: string;
+    alternativeText?: string | null;
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    formats?: any;
+  } | null)[];
+};
+
+export type ErrorBlock = BaseBlock & {
+  __typename: "Error";
+  // Add error-specific fields
+};
+
+/**
+ * Union type for all possible blocks
+ */
+export type Block =
+  | RichTextBlock
+  | MediaBlock
+  | QuoteBlock
+  | SliderBlock
+  | RichTextMarkdownBlock
+  | TextWithImageBlock
+  | PtaEventCommentsBlock
+  | ErrorBlock;

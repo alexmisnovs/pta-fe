@@ -1,8 +1,8 @@
 import ReactMarkdown from "react-markdown";
 import Image from "next/image";
-import { RichTextWithImageType } from "@/types/blocks";
+import { type RichTextWithImageType } from "@/types/blocks";
 
-const RichTextWithImage = ({ content, file, heading, imageSide }: RichTextWithImageType) => {
+const TextWithImage = ({ content, file, heading, imageSide }: RichTextWithImageType) => {
   if (!file?.url) return null;
   const side = imageSide || "left";
 
@@ -42,4 +42,4 @@ const RichTextWithImage = ({ content, file, heading, imageSide }: RichTextWithIm
   );
 };
 
-export default RichTextWithImage;
+export default TextWithImage;
