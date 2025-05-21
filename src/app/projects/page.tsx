@@ -1,4 +1,5 @@
 import Link from "next/link";
+import Image from "next/image"; // Add this import
 import apolloClient from "@/lib/apollo-client";
 import { ProjectsDocument } from "@/gql/graphql";
 
@@ -32,9 +33,14 @@ export default async function Page() {
               href={`/projects/${project.slug}`}
             >
               <div className="relative overflow-hidden">
-                <img
-                  className="transition duration-300 absolute inset-0 h-full w-full object-cover group-hover:scale-125 group-hover:rotate-12"
+                <Image
+                  className="transition duration-300 group-hover:scale-125 group-hover:rotate-12"
                   src={project.coverImage.url}
+                  alt={project.heading || "Project image"}
+                  fill
+                  sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+                  style={{ objectFit: "cover" }}
+                  priority={false}
                 />
               </div>
 
