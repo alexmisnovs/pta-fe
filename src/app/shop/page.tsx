@@ -7,7 +7,7 @@ export default async function Page() {
     query: ProductsDocument,
     context: {
       fetchOptions: {
-        next: { revalidate: 10 },
+        next: { revalidate: 60 },
       },
     },
   });

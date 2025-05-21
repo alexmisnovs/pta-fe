@@ -7,7 +7,7 @@ export default async function Page() {
     query: ProjectsDocument,
     context: {
       fetchOptions: {
-        next: { revalidate: 600 },
+        next: { revalidate: 60 },
       },
     },
     // variables: {

@@ -12,7 +12,7 @@ export async function generateStaticParams() {
     context: {
       // initialApolloState,
       fetchOptions: {
-        next: { revalidate: 10 },
+        next: { revalidate: 60 },
       },
     },
   });
@@ -42,7 +42,7 @@ export default async function Page({ params }: { params: Params }) {
     },
     context: {
       fetchOptions: {
-        next: { revalidate: 0 },
+        next: { revalidate: 60 },
       },
     },
   });
