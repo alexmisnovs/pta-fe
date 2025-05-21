@@ -14,7 +14,7 @@ export default async function Page() {
     query: VolunteerPageDocument,
     context: {
       fetchOptions: {
-        next: { revalidate: 5 },
+        next: { revalidate: 60 },
       },
     },
   });

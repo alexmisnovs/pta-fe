@@ -21,7 +21,7 @@ export async function generateMetadata({ params }: { params: Params }) {
     },
     context: {
       fetchOptions: {
-        next: { revalidate: 10 },
+        next: { revalidate: 60 },
       },
     },
   });
