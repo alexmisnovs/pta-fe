@@ -2,10 +2,9 @@
 
 import Link from "next/link";
 import Image from "next/image";
-import { useState } from "react";
-
+import { useState, useEffect } from "react";
+import dynamic from "next/dynamic";
 import MenuLinks, { type MenuLink } from "./MenuLinks";
-import MobileMenuLinks from "./MobileMenuLinks";
 // Return a list of `params` to populate the [data] dynamic segment
 type NavProps = {
   data: {
@@ -30,14 +29,61 @@ type NavProps = {
 
 export const Navigation = (data: NavProps) => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const [isMounted, setIsMounted] = useState(false);
 
-  const toggleMenu = () => {
+  // Close menu when clicking outside
+  useEffect(() => {
+    if (isMenuOpen) {
+      const handleClickOutside = () => {
+        setIsMenuOpen(false);
+      };
+
+      // Add a slight delay to avoid immediate closure
+      setTimeout(() => {
+        document.addEventListener("click", handleClickOutside);
+      }, 30);
+
+      return () => {
+        document.removeEventListener("click", handleClickOutside);
+      };
+    }
+  }, [isMenuOpen]);
+
+  useEffect(() => {
+    setIsMounted(true);
+  }, []);
+
+  // Return a simplified placeholder during server rendering
+  if (!isMounted) {
+    return (
+      <div className="sticky top-0 z-30 w-full">
+        <div className="navbar bg-base-100 shadow-lg">
+          {/* Simplified navbar for initial render */}
+          <div className="navbar-start">
+            <div className="flex w-full max-lg:justify-start max-sm:justify-start">
+              <div className="btn btn-ghost px-1 sm:px-2 gap-3 sm:gap-2 min-h-0 h-auto">
+                <div className="h-8 w-8 sm:h-10 sm:w-10"></div>
+                <div className="text-l sm:text-xl truncate sm:max-w-none">
+                  {data?.data?.header?.logoText}
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    );
+  }
+
+  const toggleMenu = (e: React.MouseEvent | React.TouchEvent) => {
+    e.stopPropagation(); // Prevent event bubbling
     setIsMenuOpen(!isMenuOpen);
   };
 
   const closeMobileMenu = () => {
     setIsMenuOpen(false);
   };
+
+  const DynamicMobileMenu = dynamic(() => import("./MobileMenuLinks"), { ssr: false });
 
   return (
     <div className="sticky top-0 z-30 w-full">
@@ -49,6 +95,8 @@ export const Navigation = (data: NavProps) => {
               role="button"
               className="btn btn-ghost lg:hidden"
               onClick={toggleMenu}
+              onTouchEnd={toggleMenu}
+              suppressHydrationWarning
             >
               <svg
                 xmlns="http://www.w3.org/2000/svg"
@@ -67,10 +115,12 @@ export const Navigation = (data: NavProps) => {
             </div>
 
             {isMenuOpen && (
-              <MobileMenuLinks
-                links={data?.data?.header?.menuLink as MenuLink[]}
-                onLinkClick={closeMobileMenu}
-              />
+              <div onClick={e => e.stopPropagation()} suppressHydrationWarning>
+                <DynamicMobileMenu
+                  links={data?.data?.header?.menuLink as MenuLink[]}
+                  onLinkClick={closeMobileMenu}
+                />
+              </div>
             )}
           </div>
           {/* Modified logo section */}
