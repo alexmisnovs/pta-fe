@@ -2,6 +2,26 @@
 
 // import { Hero, Heading, CardCarousel } from "@/components/blocks";
 
+export function getStrapiURL() {
+  const url = process.env.NEXT_PUBLIC_STRAPI_API_URL ||
+    process.env.NEXT_PUBLIC_STRAPI_GRAPHQL_URL?.replace("/graphql", "") ||
+    "http://localhost:1337";
+  return url.endsWith("/") ? url.slice(0, -1) : url;
+}
+
+export function getStrapiMedia(url: string | null | undefined) {
+  if (url == null) {
+    return null;
+  }
+
+  if (url.startsWith("http") || url.startsWith("//")) {
+    return url;
+  }
+
+  const urlWithSlash = url.startsWith("/") ? url : `/${url}`;
+  return `${getStrapiURL()}${urlWithSlash}`;
+}
+
 // export function blockRenderer(block: Block, index: number) {
 //   switch (block.__typename) {
 //     case "ComponentPtaHeroSection":

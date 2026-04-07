@@ -7,7 +7,7 @@ const TextWithImage = ({ content, file, heading, imageSide }: RichTextWithImageT
   const side = imageSide || "left";
 
   return (
-    <div className="container">
+    <div>
       <h2 className="text-3xl font-bold text-center mb-8 pt-6">{heading}</h2>
       <div className="my-6 overflow-hidden">
         {/* Image with conditional floating and responsive sizing */}

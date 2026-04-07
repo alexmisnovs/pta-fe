@@ -1,5 +1,6 @@
 import Image from "next/image";
 import Link from "next/link";
+import { getStrapiMedia } from "@/lib/utils";
 
 type FooterProps = {
   data: {
@@ -36,7 +37,7 @@ const Footer = ({ data, siteName }: FooterProps) => {
             <div className="flex items-center gap-2">
               <Link href="/" className="btn btn-ghost px-0">
                 <Image
-                  src={data?.footer?.footerLogo?.url as string}
+                  src={getStrapiMedia(data?.footer?.footerLogo?.url) as string}
                   alt="Logo"
                   width={50}
                   height={50}
