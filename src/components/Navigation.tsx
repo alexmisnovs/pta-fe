@@ -5,6 +5,7 @@ import Image from "next/image";
 import { useState, useEffect } from "react";
 import dynamic from "next/dynamic";
 import MenuLinks, { type MenuLink } from "./MenuLinks";
+import { getStrapiMedia } from "@/lib/utils";
 // Return a list of `params` to populate the [data] dynamic segment
 type NavProps = {
   data: {
@@ -127,7 +128,7 @@ export const Navigation = (data: NavProps) => {
           <div className="flex w-full max-lg:justify-start max-sm:justify-start">
             <Link href="/" className="btn btn-ghost px-1 sm:px-2 gap-3 sm:gap-2 min-h-0 h-auto">
               <Image
-                src={data?.data?.header?.logoImage?.url as string}
+                src={getStrapiMedia(data?.data?.header?.logoImage?.url) as string}
                 alt="Logo"
                 width={50}
                 height={50}

@@ -14,7 +14,7 @@
     "@apollo/experimental-nextjs-app-support": "^0.11.10",
     "@hcaptcha/react-hcaptcha": "^1.12.0",
     "@netlify/plugin-nextjs": "^5.9.4",
-    "daisyui": "^4.12.23",
+    "daisyui": "^4.12.24",
     "graphql": "^16.10.0",
     "next": "15.1.6",
     "react": "^19.0.0",
